@@ -358,12 +358,6 @@ For other providers (Vercel, Cloudflare Pages, GitHub Pages), use the static `ou
 
 **Parteek Garg**
 
-[![GitHub](https://img.shields.io/badge/GitHub-parteek1907-181717?style=flat-square&logo=github)](https://github.com/parteek1907)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-parteek1907-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/parteek1907/)
-[![LeetCode](https://img.shields.io/badge/LeetCode-parteek1907-FFA116?style=flat-square&logo=leetcode&logoColor=white)](https://leetcode.com/parteek1907)
-
----
-
 ## 📄 License
 
 This project is provided for personal portfolio use. Feel free to reference the code for learning, but please don't copy the design or content directly.
