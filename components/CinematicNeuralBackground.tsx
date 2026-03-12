@@ -28,6 +28,22 @@ interface CinematicNeuralBackgroundProps {
 
 export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = false }: CinematicNeuralBackgroundProps) {
     const [isMobile, setIsMobile] = useState(false);
+    const [shouldSkip] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        if (sessionStorage.getItem('skipHeroAnimation') === '1') {
+            sessionStorage.removeItem('skipHeroAnimation');
+            return true;
+        }
+        return false;
+    });
+
+    const effectiveSkip = skipIntro || shouldSkip;
+
+    useEffect(() => {
+        if (effectiveSkip && onLoadComplete) {
+            onLoadComplete();
+        }
+    }, [effectiveSkip, onLoadComplete]);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -64,7 +80,7 @@ export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = 
                         onLoadComplete={onLoadComplete}
                         config={config}
                         isMobile={isMobile}
-                        skipIntro={skipIntro}
+                        skipIntro={effectiveSkip}
                     />
                 </group>
 

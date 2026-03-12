@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Github } from "lucide-react";
 import Link from "next/link";
@@ -12,10 +13,11 @@ const fadeUp = (delay: number) => ({
 });
 
 export default function ProjectDetail({ project }: { project: FeaturedProject }) {
+    useEffect(() => {
+        sessionStorage.setItem('skipHeroAnimation', '1');
+    }, []);
     return (
         <main className="min-h-screen bg-black text-white">
-            <div className="h-1" style={{ background: project.gradient }} />
-
             <div className="max-w-3xl mx-auto px-6 py-16">
                 <motion.div {...fadeUp(0)}>
                     <Link

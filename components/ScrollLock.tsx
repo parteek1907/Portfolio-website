@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useLoading } from "@/components/LoadingContext";
 
 export default function ScrollLock() {
     const { isLoading } = useLoading();
+    const pathname = usePathname();
+    const isHome = pathname === "/";
 
     useEffect(() => {
-        if (isLoading) {
+        if (isHome && isLoading) {
             document.body.style.overflow = "hidden";
             window.scrollTo(0, 0);
         } else {
@@ -17,7 +20,7 @@ export default function ScrollLock() {
         return () => {
             document.body.style.overflow = "unset";
         };
-    }, [isLoading]);
+    }, [isLoading, isHome]);
 
     return null;
 }
