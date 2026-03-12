@@ -1,17 +1,15 @@
 "use client";
 
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Github, Instagram, Linkedin, Twitter, Sun, Moon } from "lucide-react";
+import { Github, Instagram, Linkedin } from "lucide-react";
 import { socialLinks } from "@/lib/data";
 import { useState } from "react";
-import Image from "next/image";
-import { useTheme } from "./ThemeProvider";
+import { SiLeetcode } from "react-icons/si";
 
 export default function SocialPill() {
     const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
     const [isVisible, setIsVisible] = useState(false);
     const { scrollY } = useScroll();
-    const { theme, toggleTheme } = useTheme();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         if (typeof window === "undefined") return;
@@ -27,7 +25,7 @@ export default function SocialPill() {
         { name: "LinkedIn", icon: Linkedin, href: socialLinks.linkedin },
         { name: "X", isX: true, href: socialLinks.twitter },
         { name: "Instagram", icon: Instagram, href: socialLinks.instagram },
-        { name: "LeetCode", isLeetCode: true, href: socialLinks.leetcode },
+        { name: "LeetCode", icon: SiLeetcode, href: socialLinks.leetcode },
     ];
 
     return (
@@ -74,16 +72,6 @@ export default function SocialPill() {
                                     <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                     </svg>
-                                ) : item.isLeetCode ? (
-                                    <div className="w-5 h-5 relative opacity-70 group-hover:opacity-100 transition-opacity">
-                                        <Image
-                                            src="/leetcode.png"
-                                            alt="LeetCode"
-                                            width={20}
-                                            height={20}
-                                            className="object-contain"
-                                        />
-                                    </div>
                                 ) : (
                                     <></>
                                 )}

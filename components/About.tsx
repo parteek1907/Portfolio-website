@@ -5,7 +5,7 @@ import { aboutMe } from "@/lib/data";
 
 export default function About() {
     return (
-        <section id="about" className="py-20 bg-black text-white px-6">
+        <section id="about" className="pt-20 pb-10 bg-black text-white px-6">
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

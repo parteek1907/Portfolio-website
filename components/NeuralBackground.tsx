@@ -30,18 +30,18 @@ export default function NeuralBackground() {
     let particles: Particle[] = [];
     let spherePoints: SpherePoint[] = [];
     let animationFrameId: number;
-    let mouse = { x: 0, y: 0 };
+    const mouse = { x: 0, y: 0 };
     let rotation = 0;
 
     // Configuration
-    const particleCount = 60;
-    const connectionDistance = 150;
-    const mouseInfluenceRadius = 300;
+    const particleCount = 180;
+    const connectionDistance = 250;
+    const mouseInfluenceRadius = 400;
     const baseColor = "100, 150, 255"; // Soft blue-ish white
 
     // Sphere Config
     const sphereRadius = 200;
-    const spherePointCount = 40; // Low count for cleaner look
+    const spherePointCount = 80; // Low count for cleaner look
     const sphereRotationSpeed = 0.002;
 
     const resize = () => {
@@ -53,15 +53,15 @@ export default function NeuralBackground() {
 
     const initParticles = () => {
       particles = [];
-      const count = window.innerWidth < 768 ? particleCount / 2 : particleCount;
+      const count = window.innerWidth < 768 ? 90 : window.innerWidth < 1024 ? 130 : particleCount;
 
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          size: Math.random() * 2 + 1,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
+          size: Math.random() * 3 + 1.5,
         });
       }
     };
@@ -104,6 +104,7 @@ export default function NeuralBackground() {
         const dx = mouse.x - p.x;
         const dy = mouse.y - p.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
+        const isNearMouse = distance < mouseInfluenceRadius;
 
         if (distance < mouseInfluenceRadius) {
           const forceDirectionX = dx / distance;
@@ -119,7 +120,7 @@ export default function NeuralBackground() {
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
         ctx.beginPath();
-        ctx.fillStyle = `rgba(${baseColor}, 0.2)`;
+        ctx.fillStyle = `rgba(${baseColor}, 0.5)`;
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
 
@@ -127,7 +128,8 @@ export default function NeuralBackground() {
           const p2 = particles[j];
           const dist = Math.sqrt((p.x - p2.x) ** 2 + (p.y - p2.y) ** 2);
           if (dist < connectionDistance) {
-            const opacity = Math.max(0, 1 - dist / connectionDistance) * 0.15;
+            const opacityMultiplier = isNearMouse ? 1.5 : 1;
+            const opacity = Math.max(0, 1 - dist / connectionDistance) * 0.4 * opacityMultiplier;
             drawLine(p.x, p.y, p2.x, p2.y, opacity);
           }
         }
@@ -141,14 +143,14 @@ export default function NeuralBackground() {
       // Rotate and Project Points
       const projectedPoints = spherePoints.map(p => {
         // Rotation (Y axis then X axis slightly)
-        let x = p.x * Math.cos(rotation) - p.z * Math.sin(rotation);
+        const x = p.x * Math.cos(rotation) - p.z * Math.sin(rotation);
         let z = p.x * Math.sin(rotation) + p.z * Math.cos(rotation);
         let y = p.y;
 
         // Slight X rotation for tilt
         const tilt = 0.5;
-        let yNew = y * Math.cos(tilt) - z * Math.sin(tilt);
-        let zNew = y * Math.sin(tilt) + z * Math.cos(tilt);
+        const yNew = y * Math.cos(tilt) - z * Math.sin(tilt);
+        const zNew = y * Math.sin(tilt) + z * Math.cos(tilt);
         y = yNew;
         z = zNew;
 
@@ -179,8 +181,8 @@ export default function NeuralBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < 60 * p.scale) {
-            // Increased connection alpha multiplier from 0.08 to 0.25
-            const connAlpha = (1 - dist / (60 * p.scale)) * 0.25;
+            // Increased connection alpha multiplier
+            const connAlpha = (1 - dist / (60 * p.scale)) * 0.45;
             drawLine(p.x, p.y, p2.x, p2.y, connAlpha);
           }
         }

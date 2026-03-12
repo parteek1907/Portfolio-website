@@ -23,9 +23,10 @@ const MOBILE_CONFIG = {
 
 interface CinematicNeuralBackgroundProps {
     onLoadComplete?: () => void;
+    skipIntro?: boolean;
 }
 
-export default function CinematicNeuralBackground({ onLoadComplete }: CinematicNeuralBackgroundProps) {
+export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = false }: CinematicNeuralBackgroundProps) {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -63,6 +64,7 @@ export default function CinematicNeuralBackground({ onLoadComplete }: CinematicN
                         onLoadComplete={onLoadComplete}
                         config={config}
                         isMobile={isMobile}
+                        skipIntro={skipIntro}
                     />
                 </group>
 
@@ -79,18 +81,20 @@ export default function CinematicNeuralBackground({ onLoadComplete }: CinematicN
 function NeuralScene({
     onLoadComplete,
     config,
-    isMobile
+    isMobile,
+    skipIntro
 }: {
     onLoadComplete?: () => void,
     config: typeof DESKTOP_CONFIG,
-    isMobile: boolean
+    isMobile: boolean,
+    skipIntro?: boolean
 }) {
     const meshRef = useRef<THREE.Points>(null);
     const linesRef = useRef<THREE.LineSegments>(null);
     const { } = useThree();
 
     // Phase: 0=Intro, 1=FormSphere, 2=HoldSphere, 3=DissolveToNetwork, 4=NetworkLoop
-    const [phase, setPhase] = useState(0);
+    const [phase, setPhase] = useState(skipIntro ? 4 : 0);
     const startTime = useRef(Date.now());
 
     // Generate targets based on dynamic config
@@ -118,42 +122,43 @@ function NeuralScene({
                 Math.sin(theta) * radius * config.sphereRadius
             );
 
-            // 3. Network Target (Side bias)
-            // Fix for desktop visibility:
-            // Desktop visible width at z=0 is approx ~24 units.
-            // Text clears approx 13 units.
-            // spreadX=38 ensures coverage from ~6.5 to ~19.
-            // centerX=6.5 ensures text is clear but background starts immediately after.
-            const spreadX = 38;
-            const spreadY = 40;
-            const centerX = isMobile ? 4 : 6.5;
-
-            const activeSide = Math.random() > 0.5 ? 1 : -1;
-            const randomX = (centerX + Math.random() * (spreadX / 2 - centerX)) * activeSide;
+            // 3. Network Target (Uniform 3D scatter)
+            const scatterRadius = isMobile ? 20 : 35;
+            // Generate a random point in a sphere for uniform scattering
+            const uScatter = Math.random();
+            const vScatter = Math.random();
+            const thetaScatter = 2 * Math.PI * uScatter;
+            const phiScatter = Math.acos(2 * vScatter - 1);
+            const rScatter = scatterRadius * Math.cbrt(Math.random()); // Cubic root for uniform volume distribution
 
             const networkPos = new THREE.Vector3(
-                randomX,
-                (Math.random() - 0.5) * spreadY,
-                (Math.random() - 0.5) * 10
+                rScatter * Math.sin(phiScatter) * Math.cos(thetaScatter),
+                rScatter * Math.sin(phiScatter) * Math.sin(thetaScatter),
+                rScatter * Math.cos(phiScatter)
             );
 
-            // Velocity
-            const v = new THREE.Vector3(
-                (Math.random() - 0.5) * 0.01,
-                (Math.random() - 0.5) * 0.01,
-                (Math.random() - 0.5) * 0.005
+            // Velocity for infinite subtle float
+            const speed = 0.02; // Base drift speed
+            const velocity = new THREE.Vector3(
+                (Math.random() - 0.5) * speed,
+                (Math.random() - 0.5) * speed,
+                (Math.random() - 0.5) * (speed * 0.5)
             );
+
+            // Unique random stagger delay per particle (0 to 1) for the network scattering
+            const staggerDelay = Math.random();
 
             temp.push({
-                current: initialPos.clone(),
+                current: skipIntro ? networkPos.clone() : initialPos.clone(),
                 initial: initialPos,
                 sphere: spherePos,
                 network: networkPos,
-                velocity: v
+                velocity: velocity,
+                staggerDelay: staggerDelay
             });
         }
         return { particles: temp };
-    }, [config.particleCount, config.sphereRadius, isMobile]);
+    }, [config.particleCount, config.sphereRadius, isMobile, skipIntro]);
 
     // Buffers
     const lineGeometry = useMemo(() => {
@@ -195,6 +200,17 @@ function NeuralScene({
             // Network phase
             thresh = config.connectionDist;
         }
+
+        // During the dissolve to network phase (3), gradually increase threshold
+        // so lines fade in
+        if (phase === 3) {
+            const elapsedSincePhase3 = Date.now() - (startTime.current + 4000);
+            const progress = Math.min(1, Math.max(0, elapsedSincePhase3 / 2000));
+            // Start with tight sphere threshold, interpolate to wide network threshold
+            const sphereThresh = isMobile ? 1.0 : 1.2;
+            thresh = sphereThresh + (config.connectionDist - sphereThresh) * (progress * progress); // Ease-in
+        }
+
         const threshSq = thresh * thresh;
 
         for (let i = 0; i < config.particleCount; i++) {
@@ -256,15 +272,37 @@ function NeuralScene({
         else if (phase === 2 && elapsed > 4000) {
             setPhase(3);
             if (onLoadComplete) onLoadComplete();
-        } else if (phase === 3 && elapsed > 6000) setPhase(4);
+        } else if (phase === 3 && elapsed > 6500) setPhase(4); // Extended dissolve window slightly
 
         const positions = meshRef.current.geometry.attributes.position.array as Float32Array;
 
         particles.forEach((p, i) => {
-            if (phase === 1) p.current.lerp(p.sphere, 0.03);
-            else if (phase === 2) p.current.lerp(p.sphere, 0.1);
-            else if (phase === 3) p.current.lerp(p.network, 0.02);
-            else if (phase === 4) {
+            if (phase === 1) {
+                p.current.lerp(p.sphere, 0.03);
+            } else if (phase === 2) {
+                p.current.lerp(p.sphere, 0.1);
+            } else if (phase === 3) {
+                // Calculate progress of phase 3 from 0 to 1
+                const phase3Elapsed = Math.max(0, elapsed - 4000);
+                const phase3Total = 2500;
+                let phaseProgress = phase3Elapsed / phase3Total;
+
+                // Apply individual stagger delay to this particle
+                // Particle starts moving ONLY after progress > its stagger threshold
+                // Normalize the remaining progress from 0 to 1
+                let adjustedProgress = 0;
+                const staggerThreshold = p.staggerDelay * 0.5; // Up to halfway into the animation
+
+                if (phaseProgress > staggerThreshold) {
+                    adjustedProgress = (phaseProgress - staggerThreshold) / (1 - staggerThreshold);
+                    // Ease-out cubic: faster start, slow finish
+                    const easeOut = 1 - Math.pow(1 - adjustedProgress, 3);
+                    // Calculate intended position
+                    const targetPos = new THREE.Vector3().copy(p.sphere).lerp(p.network, easeOut);
+                    // Directly move toward it
+                    p.current.lerp(targetPos, 0.15); // Smooth pursuit
+                }
+            } else if (phase === 4) {
                 p.current.add(p.velocity);
                 const bounds = 30; // Increased to 30 to prevent snapping
                 if (p.current.x > bounds) p.current.x = -bounds;
