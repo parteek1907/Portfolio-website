@@ -23,7 +23,6 @@ export default function Projects() {
                     {featuredProjects.map((project, index) => (
                         <ProjectCard
                             key={project.slug}
-                            slug={project.slug}
                             title={project.title}
                             description={project.description}
                             learned={project.learned}

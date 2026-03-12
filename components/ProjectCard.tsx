@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Github } from "lucide-react";
-import Link from "next/link";
+import { Github } from "lucide-react";
 import React from "react";
 
 interface ProjectCardProps {
@@ -14,7 +13,6 @@ interface ProjectCardProps {
     statChips?: string[];
     githubUrl?: string;
     gradient?: string;
-    slug?: string;
     index?: number;
 }
 
@@ -27,7 +25,6 @@ export default function ProjectCard({
     statChips,
     githubUrl,
     gradient = "linear-gradient(to right, #8b5cf6, #c084fc)",
-    slug,
     index = 0
 }: ProjectCardProps) {
     return (
@@ -95,15 +92,6 @@ export default function ProjectCard({
                         </span>
                     ))}
                 </div>
-
-                {slug && (
-                    <Link
-                        href={`/projects/${slug}`}
-                        className="mt-4 inline-flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
-                    >
-                        View Details <ArrowRight size={14} />
-                    </Link>
-                )}
             </div>
 
             {/* Subtle internal gradient overlay. Keep pointer-events-none so it doesn't block clicks. */}
