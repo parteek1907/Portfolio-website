@@ -1,4 +1,4 @@
-# 🌐 Parteek Garg — Developer Portfolio
+# 🌐 Parteek Garg-Portfolio
 
 <div align="center">
 
@@ -146,7 +146,7 @@ Visibility:
 
 **Typewriter Badge** — Cycles through 4 phrases with character-level add (60ms) and delete (35ms) animation, 1800ms hold between phrases, and a blinking cursor at 500ms intervals.
 
-**Character-by-Character Hero Animation** — "Building Practical Systems." animates in with Framer Motion stagger, where "Practical" uses a `from-purple-400 to-purple-600` gradient.
+**Character-by-Character Hero Animation** — "Building Practical Systems" animates in with Framer Motion stagger, where "Practical" uses a `from-purple-400 to-purple-600` gradient.
 
 **Project Detail Pages** — `/projects/[slug]` routes statically generated via `generateStaticParams()` with per-page metadata. Each page shows the full project description, "What I Learned" card, tech stack tags, stat chips, and a GitHub CTA — all with staggered fade-up animations.
 
