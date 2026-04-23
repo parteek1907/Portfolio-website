@@ -14,6 +14,18 @@ export default function CursorEffect() {
 
     const [isTouchDevice, setIsTouchDevice] = useState<boolean | null>(null);
     const [isHovering, setIsHovering] = useState(false);
+    const [isDark, setIsDark] = useState(true);
+
+    // Observe theme changes
+    useEffect(() => {
+        const check = () => {
+            setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
+        };
+        check();
+        const observer = new MutationObserver(check);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
+    }, []);
 
     // Detect touch device
     useEffect(() => {
@@ -140,6 +152,18 @@ export default function CursorEffect() {
 
     const lineAngles = [0, 90, 180, 270];
 
+    // Theme-derived cursor colors
+    const dotColor = isDark ? "#EDEDED" : "#222222";
+    const dotGlow = isDark
+        ? (isHovering ? "0 0 12px rgba(255,255,255,0.9)" : "0 0 8px rgba(255,255,255,0.15)")
+        : (isHovering ? "0 0 12px rgba(0,0,0,0.4)" : "0 0 8px rgba(0,0,0,0.08)");
+    const lineColor = isDark
+        ? (isHovering ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)")
+        : (isHovering ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.12)");
+    const ringBorder = isDark
+        ? (isHovering ? "1px solid rgba(255,255,255,0.7)" : "1px solid rgba(255,255,255,0.15)")
+        : (isHovering ? "1px solid rgba(0,0,0,0.5)" : "1px solid rgba(0,0,0,0.12)");
+
     return (
         <>
             {/* Inner Node */}
@@ -152,10 +176,8 @@ export default function CursorEffect() {
                     width: 10,
                     height: 10,
                     borderRadius: "50%",
-                    background: "#ffffff",
-                    boxShadow: isHovering
-                        ? "0 0 12px rgba(255,255,255,0.9)"
-                        : "0 0 8px rgba(139,92,246,0.9)",
+                    background: dotColor,
+                    boxShadow: dotGlow,
                     pointerEvents: "none",
                     zIndex: 99999,
                     opacity: 0,
@@ -186,9 +208,7 @@ export default function CursorEffect() {
                             left: 0,
                             top: 0,
                             height: 1,
-                            background: isHovering
-                                ? "rgba(255,255,255,0.7)"
-                                : "rgba(139,92,246,0.5)",
+                            background: lineColor,
                             transformOrigin: "left center",
                             transform: `rotate(${angle}deg) translateX(7px)`,
                             animation: `nodeLinesPulse 2s ease-in-out ${i * 0.5}s infinite`,
@@ -210,9 +230,7 @@ export default function CursorEffect() {
                     height: 32,
                     borderRadius: "50%",
                     background: "transparent",
-                    border: isHovering
-                        ? "1px solid rgba(255,255,255,0.7)"
-                        : "1px solid rgba(139,92,246,0.6)",
+                    border: ringBorder,
                     pointerEvents: "none",
                     zIndex: 99998,
                     opacity: 0,

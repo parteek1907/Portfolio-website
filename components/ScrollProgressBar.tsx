@@ -1,38 +1,39 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useSpring, useMotionValueEvent } from "framer-motion";
 
 export default function ScrollProgressBar() {
-    const barRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+    const [theme, setTheme] = useState("dark");
 
     useEffect(() => {
-        const updateProgress = () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            if (barRef.current) {
-                barRef.current.style.width = `${progress}%`;
-            }
+        const check = () => {
+            const t = document.documentElement.getAttribute("data-theme");
+            setTheme(t || "dark");
         };
+        check();
 
-        const onScroll = () => requestAnimationFrame(updateProgress);
-        window.addEventListener("scroll", onScroll, { passive: true });
-        updateProgress();
-
-        return () => window.removeEventListener("scroll", onScroll);
+        const observer = new MutationObserver(check);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
     }, []);
 
     return (
-        <div
-            ref={barRef}
+        <motion.div
             style={{
+                scaleX,
                 position: "fixed",
                 top: 0,
                 left: 0,
+                right: 0,
                 height: 2,
-                width: "0%",
-                background: "linear-gradient(to right, #7c3aed, #8b5cf6, #a78bfa)",
-                boxShadow: "0 0 8px rgba(139, 92, 246, 0.6)",
+                transformOrigin: "0%",
+                background: "var(--color-text-primary)",
+                boxShadow: theme === "dark"
+                    ? "0 0 8px rgba(255, 255, 255, 0.15)"
+                    : "0 0 8px rgba(0, 0, 0, 0.1)",
                 zIndex: 99999,
                 pointerEvents: "none",
             }}

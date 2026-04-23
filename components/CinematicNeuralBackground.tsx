@@ -28,10 +28,10 @@ interface CinematicNeuralBackgroundProps {
 
 export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = false }: CinematicNeuralBackgroundProps) {
     const [isMobile, setIsMobile] = useState(false);
+    const [isDark, setIsDark] = useState(true);
 
     useEffect(() => {
         const checkMobile = () => {
-            // Detect mobile by width
             const width = window.innerWidth;
             setIsMobile(width < 768);
         };
@@ -41,10 +41,20 @@ export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = 
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
+    useEffect(() => {
+        const check = () => {
+            setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
+        };
+        check();
+        const observer = new MutationObserver(check);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
+    }, []);
+
     const config = isMobile ? MOBILE_CONFIG : DESKTOP_CONFIG;
 
     return (
-        <div className="absolute inset-0 z-0 bg-black pointer-events-none">
+        <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: isDark ? "#1C1C1C" : "#F5F0EB" }}>
             <Canvas
                 camera={{ position: [0, 0, 12], fov: 60 }}
                 dpr={isMobile ? 1 : [1, 2]}
@@ -57,7 +67,7 @@ export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = 
                     depth: false
                 }}
             >
-                <color attach="background" args={["#000000"]} />
+                <color attach="background" args={[isDark ? "#1C1C1C" : "#F5F0EB"]} />
 
                 <group position={[0, isMobile ? 1.5 : 0, 0]}>
                     <NeuralScene
@@ -65,12 +75,12 @@ export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = 
                         config={config}
                         isMobile={isMobile}
                         skipIntro={skipIntro}
+                        isDark={isDark}
                     />
                 </group>
 
-                {/* Reduce effects on mobile */}
                 {!isMobile && (
-                    <fog attach="fog" args={["#050510", 8, 30]} />
+                    <fog attach="fog" args={[isDark ? "#1C1C1C" : "#F5F0EB", 8, 30]} />
                 )}
                 <ambientLight intensity={isMobile ? 0.8 : 0.5} />
             </Canvas>
@@ -82,12 +92,14 @@ function NeuralScene({
     onLoadComplete,
     config,
     isMobile,
-    skipIntro
+    skipIntro,
+    isDark
 }: {
     onLoadComplete?: () => void,
     config: typeof DESKTOP_CONFIG,
     isMobile: boolean,
-    skipIntro?: boolean
+    skipIntro?: boolean,
+    isDark: boolean
 }) {
     const meshRef = useRef<THREE.Points>(null);
     const linesRef = useRef<THREE.LineSegments>(null);
@@ -340,19 +352,19 @@ function NeuralScene({
             <points ref={meshRef} geometry={pointGeometry}>
                 <pointsMaterial
                     transparent
-                    color="#8b5cf6"
-                    size={isMobile ? 0.06 : 0.08} // Smaller dots on mobile
+                    color={isDark ? "#EDEDED" : "#1A1A1A"}
+                    size={isMobile ? 0.06 : 0.08}
                     sizeAttenuation={true}
-                    opacity={0.9}
-                    blending={THREE.AdditiveBlending}
+                    opacity={isDark ? 0.9 : 0.12}
+                    blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending}
                 />
             </points>
             <lineSegments ref={linesRef} geometry={lineGeometry}>
                 <lineBasicMaterial
-                    color="#6366f1"
+                    color={isDark ? "#A0A0A0" : "#1A1A1A"}
                     transparent
-                    opacity={isMobile ? 0.2 : 0.15} // Slightly brighter lines on mobile
-                    blending={THREE.AdditiveBlending}
+                    opacity={isMobile ? 0.2 : 0.15}
+                    blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending}
                     depthWrite={false}
                 />
             </lineSegments>
