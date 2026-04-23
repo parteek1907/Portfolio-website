@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import { Send, CheckCircle, AlertCircle, Copy, Check } from "lucide-react";
 import emailjs from '@emailjs/browser';
 
 export default function Contact() {
@@ -13,6 +13,14 @@ export default function Contact() {
         from_email: '',
         message: ''
     });
+    const [isDark, setIsDark] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopyEmail = () => {
+        navigator.clipboard.writeText("gargparteek1907@gmail.com");
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+    };
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
@@ -27,6 +35,16 @@ export default function Contact() {
             }
         };
     }, [status]);
+
+    useEffect(() => {
+        const checkTheme = () => {
+            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
+        };
+        checkTheme();
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -72,7 +90,14 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="pt-10 pb-20 bg-black text-white px-6 border-t border-white/5">
+        <section
+            id="contact"
+            className="pt-10 pb-20 px-6"
+            style={{
+                borderTop: "1px solid var(--color-border)",
+                background: "var(--color-bg-secondary)",
+            }}
+        >
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -81,38 +106,105 @@ export default function Contact() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in touch</h2>
-                    <p className="text-zinc-400">
+                    <h2 className="text-3xl md:text-4xl section-title mb-4">Get in touch</h2>
+                    <p className="body-copy text-muted" style={{ color: "var(--color-text-secondary)" }}>
                         Have a project in mind or just want to chat? Feel free to send me a message.
                     </p>
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 gap-12">
                     <div className="space-y-6">
-                        <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-800">
+                        <div
+                            className="p-6 rounded-2xl"
+                            style={{
+                                background: "var(--color-surface)",
+                                border: "1px solid var(--color-border)",
+                            }}
+                        >
                             <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
-                            <p className="text-zinc-400 mb-6">I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
-                            <div className="space-y-4 text-zinc-300">
+                            <p className="mb-6 body-copy text-muted" style={{ color: "var(--color-text-secondary)" }}>I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
+                            <div className="space-y-4 body-copy text-muted" style={{ color: "var(--color-text-secondary)" }}>
                                 <p className="flex items-center gap-3">
-                                    <span className="p-2 rounded-lg bg-zinc-800 text-purple-400">
+                                    <span
+                                        className="p-2 rounded-lg"
+                                        style={{
+                                            background: "var(--color-bg-tertiary)",
+                                            color: "var(--color-text-secondary)",
+                                        }}
+                                    >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
                                     </span>
                                     Chandigarh, India
                                 </p>
-                                <a href="mailto:gargparteek1907@gmail.com" className="flex items-center gap-3 hover:text-purple-400 transition-colors">
-                                    <span className="p-2 rounded-lg bg-zinc-800 text-purple-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
-                                    </span>
-                                    gargparteek1907@gmail.com
-                                </a>
+                                <div className="flex items-center gap-1">
+                                    <a
+                                        href="mailto:gargparteek1907@gmail.com"
+                                        className="flex items-center gap-3 transition-colors hover:opacity-80"
+                                        style={{ color: "var(--color-text-secondary)" }}
+                                    >
+                                        <span
+                                            className="p-2 rounded-lg"
+                                            style={{
+                                                background: "var(--color-bg-tertiary)",
+                                                color: "var(--color-text-secondary)",
+                                            }}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                                        </span>
+                                        <span>gargparteek1907@gmail.com</span>
+                                    </a>
+                                    <button
+                                        onClick={handleCopyEmail}
+                                        type="button"
+                                        className="relative flex items-center justify-center p-2 rounded-lg transition-all duration-300 ml-1"
+                                        style={{ color: "var(--color-text-secondary)" }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.background = "var(--color-bg-tertiary)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.background = "transparent";
+                                        }}
+                                        title="Copy email address"
+                                    >
+                                        <AnimatePresence mode="wait" initial={false}>
+                                            {isCopied ? (
+                                                <motion.div
+                                                    key="check"
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0.8 }}
+                                                    transition={{ duration: 0.15 }}
+                                                    className="flex items-center justify-center"
+                                                >
+                                                    <Check size={16} />
+                                                </motion.div>
+                                            ) : (
+                                                <motion.div
+                                                    key="copy"
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0.8 }}
+                                                    transition={{ duration: 0.15 }}
+                                                    className="flex items-center justify-center"
+                                                >
+                                                    <Copy size={16} />
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
+                    <form onSubmit={handleSubmit} className="space-y-4 form-typography" suppressHydrationWarning>
                         <div className="grid md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label htmlFor="name" className="text-sm font-medium text-zinc-400">Name</label>
+                                <label
+                                    htmlFor="name"
+                                    className="text-sm"
+                                    style={{ color: "var(--color-text-secondary)" }}
+                                >Name</label>
                                 <input
                                     type="text"
                                     id="name"
@@ -121,12 +213,27 @@ export default function Contact() {
                                     onChange={handleChange}
                                     required
                                     suppressHydrationWarning
-                                    className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                                    className="w-full px-4 py-3 rounded-lg transition-colors focus:outline-none"
+                                    style={{
+                                        background: "var(--color-surface)",
+                                        border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.12)",
+                                        color: "var(--color-text-primary)",
+                                    }}
+                                    onFocus={(e) => {
+                                        e.currentTarget.style.borderColor = isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.3)";
+                                    }}
+                                    onBlur={(e) => {
+                                        e.currentTarget.style.borderColor = isDark ? "var(--color-border)" : "rgba(0, 0, 0, 0.12)";
+                                    }}
                                     placeholder="Your name"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="email" className="text-sm font-medium text-zinc-400">Email</label>
+                                <label
+                                    htmlFor="email"
+                                    className="text-sm"
+                                    style={{ color: "var(--color-text-secondary)" }}
+                                >Email</label>
                                 <input
                                     type="email"
                                     id="email"
@@ -135,14 +242,29 @@ export default function Contact() {
                                     onChange={handleChange}
                                     required
                                     suppressHydrationWarning
-                                    className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                                    className="w-full px-4 py-3 rounded-lg transition-colors focus:outline-none"
+                                    style={{
+                                        background: "var(--color-surface)",
+                                        border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.12)",
+                                        color: "var(--color-text-primary)",
+                                    }}
+                                    onFocus={(e) => {
+                                        e.currentTarget.style.borderColor = isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.3)";
+                                    }}
+                                    onBlur={(e) => {
+                                        e.currentTarget.style.borderColor = isDark ? "var(--color-border)" : "rgba(0, 0, 0, 0.12)";
+                                    }}
                                     placeholder="Your email"
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
-                            <label htmlFor="message" className="text-sm font-medium text-zinc-400">Message</label>
+                            <label
+                                htmlFor="message"
+                                className="text-sm"
+                                style={{ color: "var(--color-text-secondary)" }}
+                            >Message</label>
                             <textarea
                                 id="message"
                                 name="message"
@@ -151,7 +273,18 @@ export default function Contact() {
                                 required
                                 rows={5}
                                 suppressHydrationWarning
-                                className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                                className="w-full px-4 py-3 rounded-lg transition-colors resize-none focus:outline-none"
+                                style={{
+                                    background: "var(--color-surface)",
+                                    border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.12)",
+                                    color: "var(--color-text-primary)",
+                                }}
+                                onFocus={(e) => {
+                                    e.currentTarget.style.borderColor = isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.3)";
+                                }}
+                                onBlur={(e) => {
+                                    e.currentTarget.style.borderColor = isDark ? "var(--color-border)" : "rgba(0, 0, 0, 0.12)";
+                                }}
                                 placeholder="Tell me about your project..."
                             ></textarea>
                         </div>
@@ -159,7 +292,20 @@ export default function Contact() {
                         <button
                             type="submit"
                             disabled={status === "sending"}
-                            className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="w-full py-4 button-ui rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed bg-transparent"
+                            style={{
+                                background: isDark ? "var(--color-surface)" : "#1A1A1A",
+                                border: isDark ? "1px solid var(--color-border)" : "none",
+                                color: isDark ? "var(--color-text-primary)" : "#FAF7F4",
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = isDark ? "var(--color-accent)" : "transparent";
+                                e.currentTarget.style.color = isDark ? "var(--color-text-primary)" : "#FAF7F4";
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = isDark ? "var(--color-border)" : "transparent";
+                                e.currentTarget.style.color = isDark ? "var(--color-text-primary)" : "#FAF7F4";
+                            }}
                         >
                             {status === "sending" ? (
                                 "Sending..."
