@@ -10,6 +10,50 @@ export interface FeaturedProject {
     gradient: string;
 }
 
+export interface Certification {
+    name: string;
+    issuer: string;
+    issuedDate: string;
+    credentialId: string;
+    skills: string[];
+    status: "completed" | "in-progress";
+    verifyUrl: string;
+    logo?: string;
+}
+
+export const certifications: Certification[] = [
+    {
+        name: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+        issuer: "Oracle",
+        issuedDate: "Feb 2026",
+        credentialId: "325937189OCI25AICFA",
+        skills: ["Artificial Intelligence", "Machine Learning", "Generative AI", "OCI Services", "AI Strategy"],
+        status: "completed",
+        verifyUrl: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=DD2A6A6E953EDEA81C3A6DE2A10D856A950EC27FA84214BF145BF92256731147",
+        logo: "/oracle.png",
+    },
+    {
+        name: "Oracle Cloud Infrastructure 2025 Certified Foundations Associate",
+        issuer: "Oracle",
+        issuedDate: "Feb 2026",
+        credentialId: "325937189OCI25FNDCFA",
+        skills: ["Cloud Computing", "IAM", "Networking", "Compute & Storage", "OCI Security"],
+        status: "completed",
+        verifyUrl: "https://catalog-education.oracle.com/ords/certview/sharebadge?id=0A360055C1CBBB554340D69F4060B82C78299BD85372ACA17EA33216827DDA80",
+        logo: "/oracle.png",
+    },
+    {
+        name: "Introduction to Generative AI",
+        issuer: "Simplilearn",
+        issuedDate: "Feb 2026",
+        credentialId: "9845280",
+        skills: ["Prompt Engineering", "Large Language Models", "Generative AI", "ChatGPT", "AI Tools"],
+        status: "completed",
+        verifyUrl: "https://drive.google.com/file/d/1IBTzew8_IHq2MejshQd8smIBl8WXeemV/view",
+        logo: "/simplilearn.jpeg",
+    },
+];
+
 export const featuredProjects: FeaturedProject[] = [
     {
         slug: "veralon",
