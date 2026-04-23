@@ -19,6 +19,7 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("");
+    const [isDark, setIsDark] = useState(false);
     const pathname = usePathname();
 
     useEffect(() => {
@@ -27,6 +28,16 @@ export default function Navbar() {
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const checkTheme = () => {
+            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
+        };
+        checkTheme();
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
     }, []);
 
     useEffect(() => {
@@ -47,13 +58,16 @@ export default function Navbar() {
         return () => observer.disconnect();
     }, []);
 
-    // Hide Navbar during global loading sequence
     if (isLoading) return null;
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-black/80 backdrop-blur-md border-b border-white/10" : "bg-transparent"
-                }`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
+            style={{
+                background: "transparent",
+                borderBottom: isDark ? "none" : "1px solid rgba(0, 0, 0, 0.09)",
+                backdropFilter: scrolled ? "blur(12px)" : "none",
+            }}
         >
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <div></div>
@@ -66,14 +80,17 @@ export default function Navbar() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className={`text-sm font-medium transition-colors relative ${isActive ? "text-purple-400" : "text-zinc-400 hover:text-white"
-                                    }`}
+                                className="text-sm nav-link-ui transition-colors relative"
+                                style={{
+                                    color: isActive ? "var(--color-text-primary)" : "var(--color-text-secondary)",
+                                }}
                             >
                                 {link.name}
                                 {isActive && (
                                     <motion.div
                                         layoutId="activeNavSection"
-                                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-purple-500 rounded-full"
+                                        className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
+                                        style={{ background: "var(--color-text-primary)" }}
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.3 }}
@@ -82,12 +99,12 @@ export default function Navbar() {
                             </Link>
                         );
                     })}
-
                 </nav>
 
-                {/* Mobile Menu Button  */}
+                {/* Mobile Menu Button */}
                 <button
-                    className="md:hidden text-zinc-400 hover:text-white"
+                    className="md:hidden transition-colors"
+                    style={{ color: "var(--color-text-secondary)" }}
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -101,7 +118,11 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-20 left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10 p-6 md:hidden flex flex-col gap-4 shadow-xl"
+                        className="absolute top-20 left-0 right-0 backdrop-blur-xl p-6 md:hidden flex flex-col gap-4 shadow-xl"
+                        style={{
+                            background: "var(--color-surface)",
+                            borderBottom: "1px solid var(--color-border)",
+                        }}
                     >
                         {navLinks.map((link) => {
                             const isActive = `#${activeSection}` === link.href || (activeSection === "" && link.href === "#about");
@@ -110,14 +131,15 @@ export default function Navbar() {
                                     key={link.name}
                                     href={link.href}
                                     onClick={() => setIsOpen(false)}
-                                    className={`text-lg font-medium transition-colors ${isActive ? "text-purple-400" : "text-zinc-400 hover:text-white"
-                                        }`}
+                                    className="text-lg nav-link-ui transition-colors"
+                                    style={{
+                                        color: isActive ? "var(--color-text-primary)" : "var(--color-text-secondary)",
+                                    }}
                                 >
                                     {link.name}
                                 </Link>
                             )
                         })}
-
                     </motion.div>
                 )}
             </AnimatePresence>

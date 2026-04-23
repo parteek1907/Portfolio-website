@@ -50,10 +50,15 @@ const TypewriterBadge = () => {
         }
 
         return () => clearTimeout(timeout);
-    }, [text, isDeleting, loopNum]); // omitting phrases to avoid lint warnings if not memoized
+    }, [text, isDeleting, loopNum]);
 
     return (
-        <span className="inline-block py-2 px-6 rounded-full bg-white/5 border border-white/10 text-2xl md:text-3xl font-medium text-purple-400 mb-4 min-w-[320px] md:min-w-[440px]">
+        <span
+            className="inline-block text-2xl md:text-3xl typewriter-text mb-4 min-w-[320px] md:min-w-[440px]"
+            style={{
+                color: "var(--color-text-secondary)",
+            }}
+        >
             {text}<span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>|</span>
         </span>
     );
@@ -62,23 +67,23 @@ const TypewriterBadge = () => {
 export default function Hero() {
     const { isLoading, setIsLoading } = useLoading();
     const isLoaded = !isLoading;
+    const [isDark, setIsDark] = useState(false);
+
+    useEffect(() => {
+        const checkTheme = () => {
+            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
+        };
+        checkTheme();
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <section
             className="min-h-screen flex items-center justify-center pt-20 pb-10 overflow-hidden relative"
         >
             <CinematicNeuralBackground onLoadComplete={() => setIsLoading(false)} />
-
-            {/* Background Gradient Blob - Fade in with hero content */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isLoaded ? 1 : 0 }}
-                transition={{ duration: 1.5 }}
-                className="absolute inset-0 pointer-events-none"
-            >
-                <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
-            </motion.div>
 
             <div className="max-w-5xl mx-auto px-6 text-center z-10">
                 <motion.div
@@ -88,20 +93,6 @@ export default function Hero() {
                     className="flex flex-col items-center"
                 >
                     <TypewriterBadge />
-                </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.9 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                    className="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full bg-white/[0.04] border border-white/[0.08]"
-                >
-                    <motion.div
-                        className="w-2 h-2 rounded-full bg-[#22c55e]"
-                        animate={{ scale: [1, 1.5, 1], opacity: [1, 0, 1] }}
-                        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                    />
-                    <span className="text-[13px] text-[#9ca3af]">Currently building: Veralon</span>
                 </motion.div>
 
                 <motion.h1
@@ -117,7 +108,8 @@ export default function Hero() {
                             }
                         }
                     }}
-                    className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.2] md:leading-[1.1]"
+                    className="text-4xl sm:text-5xl md:text-7xl hero-title tracking-tight mb-8 leading-[1.2] md:leading-[1.1]"
+                    style={{ color: "var(--color-text-primary)" }}
                 >
                     {"Building ".split("").map((char, index) => (
                         <motion.span
@@ -130,7 +122,7 @@ export default function Hero() {
                             {char}
                         </motion.span>
                     ))}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 inline-block">
+                    <span className="inline-block" style={{ color: "var(--color-text-primary)" }}>
                         {"Practical ".split("").map((char, index) => (
                             <motion.span
                                 key={`char2-${index}`}
@@ -161,7 +153,8 @@ export default function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
                     transition={{ duration: 0.8, delay: 0.6 }}
-                    className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+                    className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed body-copy text-muted"
+                    style={{ color: "var(--color-text-secondary)" }}
                 >
                     {aboutMe.heroDescription}
                 </motion.p>
@@ -174,20 +167,56 @@ export default function Hero() {
                 >
                     <Link
                         href="#projects"
-                        className="flex items-center justify-center w-full sm:w-auto h-12 px-6 rounded-full font-medium text-[15px] bg-[#8b5cf6] text-white transition-all duration-300 ease-out cursor-pointer hover:bg-[#7c3aed] hover:scale-[1.03]"
+                        className="flex items-center justify-center w-full sm:w-auto h-12 px-6 rounded-full button-ui text-[15px] bg-transparent transition-all duration-300 ease-out cursor-pointer hover:scale-[1.03]"
+                        style={{
+                            border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.2)",
+                            color: "var(--color-text-primary)",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.2)";
+                            e.currentTarget.style.background = isDark ? "transparent" : "rgba(0, 0, 0, 0.05)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = isDark ? "var(--color-border)" : "rgba(0, 0, 0, 0.2)";
+                            e.currentTarget.style.background = "transparent";
+                        }}
                     >
                         View My Work
                     </Link>
                     <Link
                         href="#contact"
-                        className="flex items-center justify-center w-full sm:w-auto h-12 px-6 rounded-full font-medium text-[15px] bg-transparent border-[1.5px] border-[#8b5cf6] text-[#8b5cf6] transition-all duration-300 ease-out cursor-pointer hover:bg-[#8b5cf6]/[0.12] hover:scale-[1.03]"
+                        className="flex items-center justify-center w-full sm:w-auto h-12 px-6 rounded-full button-ui text-[15px] bg-transparent transition-all duration-300 ease-out cursor-pointer hover:scale-[1.03]"
+                        style={{
+                            border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.2)",
+                            color: "var(--color-text-primary)",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.2)";
+                            e.currentTarget.style.background = isDark ? "transparent" : "rgba(0, 0, 0, 0.05)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = isDark ? "var(--color-border)" : "rgba(0, 0, 0, 0.2)";
+                            e.currentTarget.style.background = "transparent";
+                        }}
                     >
                         Contact Me
                     </Link>
                     <a
                         href="/ParteekGarg_Resume.pdf"
                         download="ParteekGarg_Resume.pdf"
-                        className="flex items-center justify-center gap-2 w-full sm:w-auto h-12 px-6 rounded-full font-medium text-[15px] bg-transparent border-[1.5px] border-white/25 text-white transition-all duration-300 ease-out cursor-pointer hover:border-white/60 hover:scale-[1.03]"
+                        className="flex items-center justify-center gap-2 w-full sm:w-auto h-12 px-6 rounded-full button-ui text-[15px] bg-transparent transition-all duration-300 ease-out cursor-pointer hover:scale-[1.03]"
+                        style={{
+                            border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.2)",
+                            color: "var(--color-text-primary)",
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.2)";
+                            e.currentTarget.style.background = isDark ? "transparent" : "rgba(0, 0, 0, 0.05)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = isDark ? "var(--color-border)" : "rgba(0, 0, 0, 0.2)";
+                            e.currentTarget.style.background = "transparent";
+                        }}
                     >
                         <Download size={16} />
                         Download CV
