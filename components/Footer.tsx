@@ -31,7 +31,7 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col items-center justify-center gap-1 mb-8 text-center">
                     <div className="text-xl tracking-tight footer-name" style={{ color: "var(--color-text-primary)" }}>Parteek Garg</div>
-                    <p className="text-sm footer-muted" style={{ color: "var(--color-text-secondary)" }}>Building Practical Systems.</p>
+                    <p className="text-sm footer-muted" style={{ color: "var(--color-text-secondary)" }}>Building Practical Systems</p>
                 </div>
 
                 <div

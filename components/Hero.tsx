@@ -54,7 +54,7 @@ const TypewriterBadge = () => {
 
     return (
         <span
-            className="inline-block text-2xl md:text-3xl typewriter-text mb-4 min-w-[320px] md:min-w-[440px]"
+            className="inline-block text-2xl md:text-3xl typewriter-text mb-4 min-w-[320px] md:min-w-[440px] whitespace-nowrap"
             style={{
                 color: "var(--color-text-secondary)",
             }}
@@ -136,7 +136,7 @@ export default function Hero() {
                         ))}
                     </span>
                     <br className="hidden sm:block" />
-                    {"Systems.".split("").map((char, index) => (
+                    {"Systems".split("").map((char, index) => (
                         <motion.span
                             key={`char3-${index}`}
                             variants={{
