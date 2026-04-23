@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import { certifications } from "@/lib/data";
 
 function CertificationLogo({ issuer, logo }: { issuer: string; logo?: string }) {
@@ -110,6 +111,9 @@ export default function Certifications() {
                                         rel="noopener noreferrer"
                                         className="transition-colors"
                                         style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "4px",
                                             whiteSpace: "nowrap",
                                             flexShrink: 0,
                                             fontSize: "11px",
@@ -126,7 +130,7 @@ export default function Certifications() {
                                             e.currentTarget.style.color = "var(--color-text-secondary)";
                                         }}
                                     >
-                                        Verify ↗
+                                        Verify <ExternalLink size={10} strokeWidth={2.5} />
                                     </a>
                                 </div>
 
@@ -153,7 +157,7 @@ export default function Certifications() {
                                     fontSize: "12px",
                                     marginTop: 0,
                                     marginBottom: 0,
-                                    height: "16px",
+                                    height: "20px",
                                     whiteSpace: "nowrap",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
@@ -188,15 +192,13 @@ export default function Certifications() {
                                     style={{
                                         display: "flex",
                                         flexDirection: "row",
-                                        flexWrap: "nowrap",
-                                        overflow: "hidden",
+                                        flexWrap: "wrap",
                                         gap: "6px",
                                         marginBottom: "14px",
-                                        height: "26px",
                                         alignItems: "center",
                                     }}
                                 >
-                                    {cert.skills.slice(0, 3).map((skill) => (
+                                    {cert.skills.map((skill) => (
                                         <span
                                             key={skill}
                                             className="cert-skill-pill"
@@ -206,9 +208,12 @@ export default function Certifications() {
                                                 fontSize: "10px",
                                                 padding: "3px 8px",
                                                 borderRadius: "999px",
-                                                border: "0.5px solid var(--color-border)",
+                                                border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.09)",
                                                 color: "var(--color-text-secondary)",
-                                                background: "transparent",
+                                                background: isDark ? "rgba(68, 68, 68, 0.1)" : "rgba(0, 0, 0, 0.03)",
+                                                maxWidth: "100%",
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
                                             }}
                                         >
                                             {skill}

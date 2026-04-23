@@ -10,6 +10,7 @@ import { useLoading } from "@/components/LoadingContext";
 const navLinks = [
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
+    { name: "Certifications", href: "#certifications" },
     { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
 ];
@@ -65,7 +66,7 @@ export default function Navbar() {
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
             style={{
                 background: "transparent",
-                borderBottom: isDark ? "none" : "1px solid rgba(0, 0, 0, 0.09)",
+                borderBottom: "none",
                 backdropFilter: scrolled ? "blur(12px)" : "none",
             }}
         >

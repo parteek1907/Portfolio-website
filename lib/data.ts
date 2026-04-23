@@ -44,7 +44,7 @@ export const certifications: Certification[] = [
     },
     {
         name: "Introduction to Generative AI",
-        issuer: "Simplilearn",
+        issuer: "Simplilearn • Google-aligned curriculum",
         issuedDate: "Feb 2026",
         credentialId: "9845280",
         skills: ["Prompt Engineering", "Large Language Models", "Generative AI", "ChatGPT", "AI Tools"],
