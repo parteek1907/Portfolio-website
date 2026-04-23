@@ -160,11 +160,17 @@ Visibility:
 
 **Active Section Navbar** — IntersectionObserver with `-50% 0px -50% 0px` root margin detects the active section. Adds glass-morphism backdrop blur and border on scroll.
 
+**Certifications Showcase** — A dedicated section displaying credentials with strict single-line constraints, automated "+N more" skills logic, dynamic SVG logo rendering, and precise flexbox-driven card alignment.
+
+**Light & Dark Theme System** — Persistent, dual-theme implementation using `next-themes`. Seamless toggling between a sophisticated dark mode and a warm editorial light mode, complete with frosted glass navigation pills.
+
+**Copy-to-Clipboard Email** — Smooth `framer-motion` iconography that transitions between a 'Copy' icon and a 'Check' success state when interacting with the contact section.
+
 **Custom 404 Page** — Terminal-aesthetic design with mock bash commands (staggered line animations), glitch-animated "404" text, and the CinematicNeuralBackground running in `skipIntro` mode.
 
-**SEO** — Open Graph & Twitter Card metadata, `robots.ts`, `sitemap.ts` with 4 routes, and per-project meta tags on detail pages.
+**SEO & Open Graph** — Comprehensive metadata configuration for social sharing, Open Graph images, `robots.ts`, `sitemap.ts`, and per-project meta tags.
 
-**Responsive Design** — Mobile-optimized particle count (280 vs 450), reduced connection distances, simplified 3D rendering (antialiasing off, single DPR, fog disabled), responsive grid breakpoints across all sections.
+**Responsive Design** — Mobile-optimized particle count (280 vs 450), reduced connection distances, simplified 3D rendering, responsive grid breakpoints, and precise spatial padding adjustments across all viewports.
 
 ---
 
@@ -215,13 +221,17 @@ components/
 ├── Projects.tsx                   # Featured projects (data-driven from lib/data)
 ├── ProjectCard.tsx                # Individual project card with hover effects
 ├── ProjectDetail.tsx              # Full project detail page component
-├── Contact.tsx                    # Contact form (EmailJS + validation)
+├── Certifications.tsx             # Flexbox-aligned certification cards layout
+├── Contact.tsx                    # Contact form & animated copy-to-clipboard email
 ├── Footer.tsx                     # Footer with branding
 ├── Navbar.tsx                     # Responsive navbar with scroll spy
 ├── SocialPill.tsx                 # Floating social links bar (5 platforms)
+├── ThemeToggle.tsx                # Framer-motion animated theme switcher
 ├── BackToTop.tsx                  # Scroll-to-top button (desktop only)
 ├── ScrollLock.tsx                 # Locks scroll during intro animation
-└── LoadingContext.tsx             # Loading state provider (coordinates intro)
+├── LoadingContext.tsx             # Loading state provider (coordinates intro)
+├── Providers.tsx                  # Global providers including next-themes
+└── ui/                            # Reusable UI component primitives
 
 lib/
 └── data.ts                        # Centralized portfolio data (projects, skills, links)
