@@ -11,3 +11,9 @@
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "https://parteekgarg.in/*"
+  to = "https://www.parteekgarg.in/:splat"
+  status = 301
+  force = true

@@ -130,7 +130,7 @@ export default function Certifications() {
                                             e.currentTarget.style.color = "var(--color-text-secondary)";
                                         }}
                                     >
-                                        Verify <ExternalLink size={10} strokeWidth={2.5} />
+                                        Verify <ExternalLink size={12} strokeWidth={2.2} />
                                     </a>
                                 </div>
 
@@ -157,10 +157,12 @@ export default function Certifications() {
                                     fontSize: "12px",
                                     marginTop: 0,
                                     marginBottom: 0,
-                                    height: "20px",
+                                    height: "24px",
                                     whiteSpace: "nowrap",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
+                                    display: "flex",
+                                    alignItems: "center",
                                 }}>
                                     {cert.issuer}
                                 </p>
@@ -204,16 +206,13 @@ export default function Certifications() {
                                             className="cert-skill-pill"
                                             style={{
                                                 whiteSpace: "nowrap",
-                                                flexShrink: 0,
                                                 fontSize: "10px",
-                                                padding: "3px 8px",
+                                                padding: "4px 10px",
                                                 borderRadius: "999px",
-                                                border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.09)",
+                                                border: isDark ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.08)",
                                                 color: "var(--color-text-secondary)",
-                                                background: isDark ? "rgba(68, 68, 68, 0.1)" : "rgba(0, 0, 0, 0.03)",
-                                                maxWidth: "100%",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
+                                                background: isDark ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.02)",
+                                                transition: "all 0.2s ease",
                                             }}
                                         >
                                             {skill}

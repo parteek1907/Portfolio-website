@@ -13,12 +13,12 @@ const DESKTOP_CONFIG = {
     maxConnections: -1, // No limit
 };
 
-// Mobile Configuration
+// Mobile Configuration - Scaled down for mobile view while preserving visual quality/density
 const MOBILE_CONFIG = {
-    particleCount: 280,
-    connectionDist: 3.0,
-    sphereRadius: 2.3,
-    maxConnections: 5,
+    particleCount: 450,
+    connectionDist: 2.6, // Scaled proportionally (4 * 2.3/3.5)
+    sphereRadius: 2.3,   // Reduced radius to fit nicely on mobile screens
+    maxConnections: -1,  // No limit
 };
 
 interface CinematicNeuralBackgroundProps {
@@ -69,7 +69,7 @@ export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = 
             >
                 <color attach="background" args={[isDark ? "#1C1C1C" : "#F5F0EB"]} />
 
-                <group position={[0, isMobile ? 1.5 : 0, 0]}>
+                <group position={[0, 0, 0]}>
                     <NeuralScene
                         onLoadComplete={onLoadComplete}
                         config={config}
@@ -79,10 +79,8 @@ export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = 
                     />
                 </group>
 
-                {!isMobile && (
-                    <fog attach="fog" args={[isDark ? "#1C1C1C" : "#F5F0EB", 8, 30]} />
-                )}
-                <ambientLight intensity={isMobile ? 0.8 : 0.5} />
+                <fog attach="fog" args={[isDark ? "#1C1C1C" : "#F5F0EB", 8, 30]} />
+                <ambientLight intensity={0.5} />
             </Canvas>
         </div>
     );
@@ -135,7 +133,7 @@ function NeuralScene({
             );
 
             // 3. Network Target (Uniform 3D scatter)
-            const scatterRadius = isMobile ? 20 : 35;
+            const scatterRadius = isMobile ? 23 : 35;
             // Generate a random point in a sphere for uniform scattering
             const uScatter = Math.random();
             const vScatter = Math.random();
@@ -175,12 +173,11 @@ function NeuralScene({
     // Buffers
     const lineGeometry = useMemo(() => {
         const geo = new THREE.BufferGeometry();
-        // Lower allocation for mobile safety
-        const maxLines = config.particleCount * (isMobile ? 2 : 8);
+        const maxLines = config.particleCount * 8;
         const positions = new Float32Array(maxLines * 2 * 3);
         geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         return geo;
-    }, [config.particleCount, isMobile]);
+    }, [config.particleCount]);
 
     const pointGeometry = useMemo(() => {
         const geo = new THREE.BufferGeometry();
@@ -198,16 +195,15 @@ function NeuralScene({
 
         let lineIndex = 0;
 
-        // Only use strict limits on mobile
-        // On desktop (maxConnections = -1), we skip the array overhead
-        const useConnectionLimit = isMobile && config.maxConnections > 0;
+        // Only use strict limits if maxConnections is set (>0)
+        const useConnectionLimit = config.maxConnections > 0;
         const connectionsPerNode = useConnectionLimit ? new Int8Array(config.particleCount).fill(0) : null;
 
         // Optimization: Calculate threshold outside loop
         let thresh = 0;
         if (phase <= 2) {
             // Sphere phase
-            thresh = isMobile ? 1.0 : 1.2;
+            thresh = isMobile ? 0.8 : 1.2;
         } else {
             // Network phase
             thresh = config.connectionDist;
@@ -219,7 +215,7 @@ function NeuralScene({
             const elapsedSincePhase3 = Date.now() - (startTime.current + 4000);
             const progress = Math.min(1, Math.max(0, elapsedSincePhase3 / 2000));
             // Start with tight sphere threshold, interpolate to wide network threshold
-            const sphereThresh = isMobile ? 1.0 : 1.2;
+            const sphereThresh = isMobile ? 0.8 : 1.2;
             thresh = sphereThresh + (config.connectionDist - sphereThresh) * (progress * progress); // Ease-in
         }
 
@@ -332,8 +328,7 @@ function NeuralScene({
         // Rotation
         if (phase < 3) {
             meshRef.current.rotation.y += delta * 0.2;
-            // Reduce X wobble on mobile
-            const wobble = isMobile ? 0.05 : 0.1;
+            const wobble = 0.1;
             meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * wobble;
         } else {
             meshRef.current.rotation.y += delta * 0.01;
@@ -353,7 +348,7 @@ function NeuralScene({
                 <pointsMaterial
                     transparent
                     color={isDark ? "#EDEDED" : "#1A1A1A"}
-                    size={isMobile ? 0.06 : 0.08}
+                    size={0.08}
                     sizeAttenuation={true}
                     opacity={isDark ? 0.9 : 0.12}
                     blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending}
@@ -363,7 +358,7 @@ function NeuralScene({
                 <lineBasicMaterial
                     color={isDark ? "#A0A0A0" : "#1A1A1A"}
                     transparent
-                    opacity={isMobile ? 0.2 : 0.15}
+                    opacity={0.15}
                     blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending}
                     depthWrite={false}
                 />

@@ -14,14 +14,14 @@ const oswald = Oswald({ subsets: ["latin"], variable: "--font-ui", display: "swa
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://parteekgarg.me'),
+  metadataBase: new URL('https://parteekgarg.in'),
   title: 'Parteek Garg-Portfolio',
   description: 'First-year B.Tech CSE student at NMIMS Chandigarh building full-stack systems and exploring Data Science and AI. Creator of Veralon, Campus Care, and DNA Encoding.',
   authors: [{ name: 'Parteek Garg' }],
   keywords: ['Parteek Garg', 'portfolio', 'full-stack developer', 'data science', 'AI', 'NMIMS Chandigarh', 'React', 'TypeScript', 'Next.js'],
   openGraph: {
     type: 'website',
-    url: 'https://parteekgarg.me',
+    url: 'https://parteekgarg.in',
     title: 'Parteek Garg-Portfolio',
     description: 'First-year B.Tech CSE student at NMIMS Chandigarh building full-stack systems and exploring Data Science and AI.',
     siteName: 'Parteek Garg',
@@ -58,6 +58,24 @@ const scrollScript = `
 })();
 `;
 
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Parteek Garg",
+  "url": "https://parteekgarg.in",
+  "jobTitle": "Full-Stack Developer & Data Science Student",
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "NMIMS Chandigarh"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/parteek1907/",
+    "https://github.com/parteek1907",
+    "https://twitter.com/parteek1907",
+    "https://instagram.com/parteek1907"
+  ]
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -66,6 +84,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script dangerouslySetInnerHTML={{ __html: scrollScript }} />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
       </head>

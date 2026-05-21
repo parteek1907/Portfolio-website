@@ -1,12 +1,15 @@
 export interface FeaturedProject {
     slug: string;
     title: string;
+    subtitle?: string;
+    roleBadge?: string;
+    label?: string;
     description: string;
     detailedDescription: string;
     learned: string;
     tags: string[];
     statChips: string[];
-    githubUrl: string;
+    githubUrl?: string;
     gradient: string;
 }
 
@@ -22,6 +25,16 @@ export interface Certification {
 }
 
 export const certifications: Certification[] = [
+    {
+        name: "Machine Learning for Data Science Projects",
+        issuer: "IBM",
+        issuedDate: "May 2026",
+        credentialId: "e4d3f434-b6a8-4095-a040-ac043512205c",
+        skills: ["AI Automation", "AI-on-AI", "AutoAI", "Data Modeling", "Hyperparameter Optimization"],
+        status: "completed",
+        verifyUrl: "https://www.credly.com/badges/e4d3f434-b6a8-4095-a040-ac043512205c/linked_in_profile",
+        logo: "/ibm.svg",
+    },
     {
         name: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
         issuer: "Oracle",
@@ -55,6 +68,19 @@ export const certifications: Certification[] = [
 ];
 
 export const featuredProjects: FeaturedProject[] = [
+    {
+        slug: "lumiere",
+        label: "HACKATHON PROJECT",
+        title: "Lumiere",
+        subtitle: "Hack-O-Mania 2.0 · Team Lead",
+        description: "An AI-powered patient identity resolution system that detects and prevents duplicate medical records in real time using hybrid matching, confidence-based scoring, and a human-in-the-loop review pipeline — built in a hackathon environment with privacy-first architecture.",
+        detailedDescription: "Lumiere is an AI-powered patient identity resolution system designed to detect and prevent duplicate medical records in real time. Built during Hack-O-Mania 2.0 by a team of 5, the system uses hybrid matching algorithms combining deterministic and probabilistic approaches, confidence-based scoring for match quality assessment, and a human-in-the-loop review pipeline for edge cases. The architecture prioritizes privacy-first design with multi-stage verification to ensure accurate patient identity resolution while maintaining data security.",
+        learned: "Healthcare identity resolution, privacy-preserving AI workflows, human-in-the-loop system design, confidence-scoring pipelines, and leading architecture and product direction under hackathon constraints",
+        tags: ["Next.js", "React", "FastAPI", "PostgreSQL", "Python", "TailwindCSS", "AI/ML"],
+        statChips: ["Real-time detection", "Confidence scoring", "Hybrid matching", "Human-in-the-loop", "Multi-stage verification", "Privacy-first AI"],
+        githubUrl: "https://github.com/parteek1907/lumiere",
+        gradient: "linear-gradient(to right, #a855f7, #ec4899)"
+    },
     {
         slug: "veralon",
         title: "Veralon",
@@ -108,9 +134,9 @@ export const skills = {
 };
 
 export const aboutMe = {
-    tagline: "Data Science + AI + CSE student",
-    heroDescription: "First-year B.Tech CSE student at NMIMS Chandigarh, building full-stack systems and exploring Data Science and AI. I enjoy breaking problems down until the logic feels simple.",
-    description: "I am a first-year B.Tech CSE student at NMIMS Chandigarh, focused on building strong fundamentals in programming, problem-solving, and data-driven thinking. I am currently exploring Data Science and AI through structured learning, hands-on practice, and gradual skill development, with the goal of transitioning into meaningful beginner-level projects and real-world experience."
+    tagline: "Architecting Intelligence & Full-Stack Systems",
+    heroDescription: "B.Tech CSE student at NMIMS Chandigarh building scalable full-stack applications and exploring Data Science and AI. I enjoy breaking complex problems down until the logic feels simple.",
+    description: "I am a B.Tech CSE student at NMIMS Chandigarh, focused on building strong fundamentals in programming, problem-solving, and data-driven architecture. I am currently exploring Data Science and AI through structured learning and hands-on practice, with the goal of transitioning into scalable, data-driven applications and impactful real-world engineering."
 };
 
 export const socialLinks = {

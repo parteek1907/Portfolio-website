@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 interface ProjectCardProps {
     label?: string;
     title: string;
+    subtitle?: string;
+    roleBadge?: string;
     description: string;
     learned?: string;
     tags: string[];
@@ -20,6 +22,8 @@ interface ProjectCardProps {
 export default function ProjectCard({
     label = "FEATURED PROJECT",
     title,
+    subtitle,
+    roleBadge,
     description,
     learned,
     tags,
@@ -74,6 +78,27 @@ export default function ProjectCard({
                             className="text-2xl project-title transition-colors"
                             style={{ color: "var(--color-text-primary)" }}
                         >{title}</h3>
+                        {subtitle && (
+                            <p
+                                className="text-sm body-copy mt-1"
+                                style={{ color: "var(--color-text-secondary)" }}
+                            >{subtitle}</p>
+                        )}
+                        {roleBadge && (
+                            <span
+                                className="inline-block mt-2 featured-project-label"
+                                style={{
+                                    fontSize: "11px",
+                                    letterSpacing: "0.08em",
+                                    textTransform: "uppercase",
+                                    color: isDark ? "var(--color-accent)" : "#8C8078",
+                                    padding: "2px 8px",
+                                    borderRadius: "4px",
+                                    border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.09)",
+                                    background: isDark ? "rgba(136, 136, 136, 0.08)" : "rgba(140, 128, 120, 0.06)",
+                                }}
+                            >{roleBadge}</span>
+                        )}
                     </div>
                     <div className="flex gap-4" style={{ color: "var(--color-text-secondary)" }}>
                         {githubUrl && (

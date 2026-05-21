@@ -120,7 +120,7 @@ body {
 }
 
 .tech-tag {
-  font-family: var(--font-ui);
+  font-family: var(--font-body);
   font-weight: 400;
 }
 

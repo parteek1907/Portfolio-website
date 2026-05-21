@@ -95,7 +95,8 @@ export default function Hero() {
                     <TypewriterBadge />
                 </motion.div>
 
-                <motion.h1
+                <h1 className="sr-only">Parteek Garg - Full-Stack Developer & Data Science Engineer</h1>
+                <motion.h2
                     initial="hidden"
                     animate={isLoaded ? "visible" : "hidden"}
                     variants={{
@@ -147,7 +148,7 @@ export default function Hero() {
                             {char}
                         </motion.span>
                     ))}
-                </motion.h1>
+                </motion.h2>
 
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}

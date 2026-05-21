@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
             userAgent: "*",
             allow: "/",
         },
-        sitemap: "https://yourwebsite.com/sitemap.xml",
+        sitemap: "https://parteekgarg.in/sitemap.xml",
     };
 }
