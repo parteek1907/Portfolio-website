@@ -160,7 +160,7 @@ Visibility:
 
 **Active Section Navbar** — IntersectionObserver with `-50% 0px -50% 0px` root margin detects the active section. Adds glass-morphism backdrop blur and border on scroll.
 
-**Certifications Showcase** — A dedicated section displaying credentials with strict single-line constraints, automated "+N more" skills logic, dynamic SVG logo rendering, and precise flexbox-driven card alignment.
+**Certifications Showcase** — A dedicated section displaying credentials with strict single-line constraints, automated "+N more" skills logic, dynamic SVG logo rendering, and precise flexbox-driven card alignment. Features credentials like IBM's Machine Learning for Data Science Projects and Oracle Cloud AI Foundations.
 
 **Light & Dark Theme System** — Persistent, dual-theme implementation using `next-themes`. Seamless toggling between a sophisticated dark mode and a warm editorial light mode, complete with frosted glass navigation pills.
 
@@ -168,7 +168,9 @@ Visibility:
 
 **Custom 404 Page** — Terminal-aesthetic design with mock bash commands (staggered line animations), glitch-animated "404" text, and the CinematicNeuralBackground running in `skipIntro` mode.
 
-**SEO & Open Graph** — Comprehensive metadata configuration for social sharing, Open Graph images, `robots.ts`, `sitemap.ts`, and per-project meta tags.
+**SEO & Schema Markup** — Comprehensive metadata configuration, Open Graph images, dynamically generated `robots.txt`/`sitemap.xml`, fully integrated JSON-LD `Person` Schema markup for Knowledge Graph optimization, and invisible semantic headers for crawlers.
+
+**Production Routing** — Apex domain seamlessly redirects to `www` via permanent 301 redirects implemented for static export compatibility natively through `netlify.toml`.
 
 **Responsive Design** — Mobile-optimized particle count (280 vs 450), reduced connection distances, simplified 3D rendering, responsive grid breakpoints, and precise spatial padding adjustments across all viewports.
 
