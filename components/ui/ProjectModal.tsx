@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Github, ExternalLink, ArrowRight, Activity, Layers, Target, CheckCircle2, Maximize2 } from "lucide-react";
 import { FeaturedProject } from "@/lib/data";
@@ -15,10 +15,15 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     const [isArchOpen, setIsArchOpen] = useState(false);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = "hidden";
+            // Explicitly reset scroll position to top
+            if (scrollContainerRef.current) {
+                scrollContainerRef.current.scrollTop = 0;
+            }
             const handleKeyDown = (e: KeyboardEvent) => {
                 if (e.key === "Escape") onClose();
             };
@@ -75,10 +80,103 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         </div>
 
                         {/* Body */}
-                        <div className="flex-1 overflow-y-auto custom-scrollbar grid grid-cols-1 lg:grid-cols-[2fr_1fr] items-start">
+                        <div 
+                            ref={scrollContainerRef}
+                            className="flex-1 overflow-y-auto custom-scrollbar flex flex-col lg:grid lg:grid-cols-[2fr_1fr] items-start"
+                        >
                             
-                            {/* Left Column (Content) */}
-                            <div className="w-full p-6 md:p-10 lg:pr-8 flex flex-col gap-12">
+                            {/* Right Column (Gallery, Info & Tech Stack) - Placed first in DOM for mobile top placement */}
+                            <div className="w-full bg-[var(--color-surface)] lg:border-l border-[var(--color-border)] p-6 md:p-10 flex flex-col gap-8 lg:sticky lg:top-0 h-max z-10 lg:col-start-2 lg:row-start-1">
+                                
+                                {/* Action Buttons */}
+                                {(project.liveUrl && project.liveUrl !== "#" || project.githubUrl) && (
+                                    <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
+                                        {project.liveUrl && project.liveUrl !== "#" && (
+                                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[var(--color-text-primary)] text-[var(--color-bg-primary)] font-semibold transition-opacity hover:opacity-90">
+                                                Visit Live Site <ExternalLink size={18} />
+                                            </a>
+                                        )}
+                                        {project.githubUrl && (
+                                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-tertiary)] transition-colors shadow-sm">
+                                                View Source Code <Github size={18} />
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
+                                <section>
+                                    <h3 className="text-sm font-semibold tracking-wide uppercase text-[var(--color-text-tertiary)] mb-4">Project Gallery</h3>
+                                    {project.screenshots && project.screenshots.length > 0 ? (
+                                        <ProjectGallery images={project.screenshots} />
+                                    ) : project.heroImage ? (
+                                        <ProjectGallery images={[project.heroImage]} />
+                                    ) : (
+                                        <div className="aspect-video bg-[var(--color-bg-tertiary)] rounded-xl flex items-center justify-center text-[var(--color-text-tertiary)] text-sm">
+                                            No images available
+                                        </div>
+                                    )}
+                                </section>
+
+                                <section>
+                                    <h3 className="text-sm font-semibold tracking-wide uppercase text-[var(--color-text-tertiary)] mb-4">Tech Stack</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {project.tags.map(tag => (
+                                            <span key={tag} className="px-3 py-1.5 rounded-lg bg-[var(--color-bg-primary)] border border-[var(--color-border)] text-xs font-medium text-[var(--color-text-secondary)]">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </section>
+                                
+                                {/* Project Information */}
+                                <section className="p-6 rounded-2xl bg-[var(--color-bg-primary)] border border-[var(--color-border)]">
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)] mb-4">Project Information</h3>
+                                    <div className="flex flex-col gap-3">
+                                        {project.label && (
+                                            <div className="flex justify-between items-center text-sm">
+                                                <span className="text-[var(--color-text-tertiary)]">Type</span>
+                                                <span className="font-medium text-[var(--color-text-primary)]">{project.label}</span>
+                                            </div>
+                                        )}
+                                        {project.timeline && (
+                                            <div className="flex justify-between items-center text-sm">
+                                                <span className="text-[var(--color-text-tertiary)]">Duration</span>
+                                                <span className="font-medium text-[var(--color-text-primary)]">{project.timeline}</span>
+                                            </div>
+                                        )}
+                                        {project.roleBadge && (
+                                            <div className="flex justify-between items-center text-sm">
+                                                <span className="text-[var(--color-text-tertiary)]">Role</span>
+                                                <span className="font-medium text-[var(--color-text-primary)]">{project.roleBadge}</span>
+                                            </div>
+                                        )}
+                                        {project.year && (
+                                            <div className="flex justify-between items-center text-sm">
+                                                <span className="text-[var(--color-text-tertiary)]">Year</span>
+                                                <span className="font-medium text-[var(--color-text-primary)]">{project.year}</span>
+                                            </div>
+                                        )}
+                                        {project.status && (
+                                            <div className="flex justify-between items-center text-sm">
+                                                <span className="text-[var(--color-text-tertiary)]">Status</span>
+                                                <span className="font-medium text-[var(--color-text-primary)]">{project.status}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </section>
+                                
+                                {/* Learnings */}
+                                {project.learned && (
+                                    <section className="p-6 rounded-2xl bg-[var(--color-bg-primary)] border border-[var(--color-border)]">
+                                        <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)] mb-3">What I Learned</h3>
+                                        <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
+                                            {project.learned}
+                                        </p>
+                                    </section>
+                                )}
+                            </div>
+
+                            {/* Left Column (Content) - Placed second in DOM for mobile bottom placement */}
+                            <div className="w-full p-6 md:p-10 lg:pr-8 flex flex-col gap-12 lg:col-start-1 lg:row-start-1">
                                 
                                 {/* Overview */}
                                 <section>
@@ -175,96 +273,6 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                                 )}
 
                             </div>
-
-                            {/* Right Column (Gallery, Info & Tech Stack) */}
-                            <div className="w-full bg-[var(--color-surface)] lg:border-l border-[var(--color-border)] p-6 md:p-10 flex flex-col gap-8 sticky top-0 h-max z-10">
-                                
-                                {/* Action Buttons */}
-                                {(project.liveUrl && project.liveUrl !== "#" || project.githubUrl) && (
-                                    <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
-                                        {project.liveUrl && project.liveUrl !== "#" && (
-                                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[var(--color-text-primary)] text-[var(--color-bg-primary)] font-semibold transition-opacity hover:opacity-90">
-                                                Visit Live Site <ExternalLink size={18} />
-                                            </a>
-                                        )}
-                                        {project.githubUrl && (
-                                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-tertiary)] transition-colors shadow-sm">
-                                                View Source Code <Github size={18} />
-                                            </a>
-                                        )}
-                                    </div>
-                                )}
-                                <section>
-                                    <h3 className="text-sm font-semibold tracking-wide uppercase text-[var(--color-text-tertiary)] mb-4">Project Gallery</h3>
-                                    {project.screenshots && project.screenshots.length > 0 ? (
-                                        <ProjectGallery images={project.screenshots} />
-                                    ) : project.heroImage ? (
-                                        <ProjectGallery images={[project.heroImage]} />
-                                    ) : (
-                                        <div className="aspect-video bg-[var(--color-bg-tertiary)] rounded-xl flex items-center justify-center text-[var(--color-text-tertiary)] text-sm">
-                                            No images available
-                                        </div>
-                                    )}
-                                </section>
-
-                                <section>
-                                    <h3 className="text-sm font-semibold tracking-wide uppercase text-[var(--color-text-tertiary)] mb-4">Tech Stack</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {project.tags.map(tag => (
-                                            <span key={tag} className="px-3 py-1.5 rounded-lg bg-[var(--color-bg-primary)] border border-[var(--color-border)] text-xs font-medium text-[var(--color-text-secondary)]">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </section>
-                                
-                                {/* Project Information */}
-                                <section className="p-6 rounded-2xl bg-[var(--color-bg-primary)] border border-[var(--color-border)]">
-                                    <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)] mb-4">Project Information</h3>
-                                    <div className="flex flex-col gap-3">
-                                        {project.label && (
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-[var(--color-text-tertiary)]">Type</span>
-                                                <span className="font-medium text-[var(--color-text-primary)]">{project.label}</span>
-                                            </div>
-                                        )}
-                                        {project.timeline && (
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-[var(--color-text-tertiary)]">Duration</span>
-                                                <span className="font-medium text-[var(--color-text-primary)]">{project.timeline}</span>
-                                            </div>
-                                        )}
-                                        {project.roleBadge && (
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-[var(--color-text-tertiary)]">Role</span>
-                                                <span className="font-medium text-[var(--color-text-primary)]">{project.roleBadge}</span>
-                                            </div>
-                                        )}
-                                        {project.year && (
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-[var(--color-text-tertiary)]">Year</span>
-                                                <span className="font-medium text-[var(--color-text-primary)]">{project.year}</span>
-                                            </div>
-                                        )}
-                                        {project.status && (
-                                            <div className="flex justify-between items-center text-sm">
-                                                <span className="text-[var(--color-text-tertiary)]">Status</span>
-                                                <span className="font-medium text-[var(--color-text-primary)]">{project.status}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </section>
-                                
-                                {/* Learnings */}
-                                {project.learned && (
-                                    <section className="p-6 rounded-2xl bg-[var(--color-bg-primary)] border border-[var(--color-border)]">
-                                        <h3 className="text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)] mb-3">What I Learned</h3>
-                                        <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
-                                            {project.learned}
-                                        </p>
-                                    </section>
-                                )}
-                            </div>
                         </div>
                     </motion.div>
                 </div>
@@ -283,12 +291,16 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         onClick={() => setIsArchOpen(false)}
                     />
                     
-                    <button 
+                    <motion.button 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
                         onClick={() => setIsArchOpen(false)}
                         className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
                     >
                         <X size={24} />
-                    </button>
+                    </motion.button>
 
                     <motion.div 
                         initial={{ scale: 0.95, opacity: 0 }}
