@@ -204,7 +204,8 @@ export default function Hero() {
                     </Link>
                     <a
                         href="/ParteekGarg_Resume.pdf"
-                        download="ParteekGarg_Resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 w-full sm:w-auto h-12 px-6 rounded-full button-ui text-[15px] bg-transparent transition-all duration-300 ease-out cursor-pointer hover:scale-[1.03]"
                         style={{
                             border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.2)",
@@ -219,8 +220,7 @@ export default function Hero() {
                             e.currentTarget.style.background = "transparent";
                         }}
                     >
-                        <Download size={16} />
-                        Download CV
+                        View Resume ↗
                     </a>
                 </motion.div>
             </div>
