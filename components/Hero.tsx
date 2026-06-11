@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight, Download, ArrowUpRight } from "lucide-react";
 import { aboutMe } from "@/lib/data";
 import CinematicNeuralBackground from "./CinematicNeuralBackground";
 import { useLoading } from "@/components/LoadingContext";
@@ -220,7 +220,9 @@ export default function Hero() {
                             e.currentTarget.style.background = "transparent";
                         }}
                     >
-                        View Resume ↗
+                        <span className="flex items-center gap-2">
+                            View Resume <ArrowUpRight size={18} />
+                        </span>
                     </a>
                 </motion.div>
             </div>
