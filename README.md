@@ -11,7 +11,7 @@
 [![EmailJS](https://img.shields.io/badge/EmailJS-4.4.1-FFA500?style=flat-square)](https://www.emailjs.com/)
 [![Netlify](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://www.netlify.com/)
 
-**A modern, animated developer portfolio featuring a cinematic 3D particle intro, custom neural-node cursor, scroll-triggered animations, and individual project detail pages — all statically exported with Next.js 16.**
+**A modern, animated developer portfolio featuring a cinematic 3D particle intro, custom neural-node cursor, scroll-triggered animations, and immersive project detail overlays — all statically exported with Next.js 16.**
 
 [How It Works](#-how-it-works) · [Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Deployment](#-deployment)
 
@@ -21,9 +21,9 @@
 
 ## 📌 Project Overview
 
-This portfolio is a single-page application with dedicated project detail routes, built around three engineering principles: **visual storytelling** (a cinematic 3D particle intro that transitions from sphere formation to neural network), **performance-aware animation** (Three.js with mobile-optimized particle counts, `useRef`-driven cursor tracking with zero React re-renders, and lazy-loaded below-fold sections), and **static-first architecture** (full `next export` output — no server required, deployable to any CDN).
+This portfolio is a single-page application with immersive project detail overlays, built around three engineering principles: **visual storytelling** (a cinematic 3D particle intro that transitions from sphere formation to neural network), **performance-aware animation** (Three.js with mobile-optimized particle counts, `useRef`-driven cursor tracking with zero React re-renders, and lazy-loaded below-fold sections), and **static-first architecture** (full `next export` output — no server required, deployable to any CDN).
 
-The site consists of 7 main sections (Hero, About, Skills, Projects, Contact, Footer, 404) plus dynamically generated `/projects/[slug]` detail pages, all orchestrated through a loading context that coordinates the intro animation sequence before revealing content.
+The site consists of 7 main sections (Hero, About, Skills, Projects, Contact, Footer, 404) with detailed project case studies loading seamlessly via dynamic modals, all orchestrated through a loading context that coordinates the intro animation sequence before revealing content.
 
 ---
 
@@ -148,7 +148,7 @@ Visibility:
 
 **Character-by-Character Hero Animation** — "Building Practical Systems" animates in with Framer Motion stagger, where "Practical" uses a `from-purple-400 to-purple-600` gradient.
 
-**Project Detail Pages** — `/projects/[slug]` routes statically generated via `generateStaticParams()` with per-page metadata. Each page shows the full project description, "What I Learned" card, tech stack tags, stat chips, and a GitHub CTA — all with staggered fade-up animations.
+**Project Detail Overlays** — Fully immersive, Framer Motion-powered modals for project case studies. Each overlay shows the full project description, a responsive "Project Gallery", tech stack tags, stat chips, and GitHub/Live CTAs — all with staggered fade-up animations and scroll-locking behavior.
 
 **Lazy-Loaded Sections** — About, Skills, Projects, Contact, and Footer are loaded via `next/dynamic`, code-splitting their JavaScript bundles so only Hero and Navbar load immediately.
 
@@ -160,7 +160,9 @@ Visibility:
 
 **Active Section Navbar** — IntersectionObserver with `-50% 0px -50% 0px` root margin detects the active section. Adds glass-morphism backdrop blur and border on scroll.
 
-**Certifications Showcase** — A dedicated section displaying credentials with strict single-line constraints, automated "+N more" skills logic, dynamic SVG logo rendering, and precise flexbox-driven card alignment. Features credentials like IBM's Machine Learning for Data Science Projects and Oracle Cloud AI Foundations.
+**Certifications Showcase** — A dedicated section displaying credentials with strict single-line constraints, automated "+N more" skills logic, dynamic SVG logo rendering, and precise flexbox-driven card alignment. Includes a custom-built Lightbox PDF viewer that perfectly shrink-wraps to document aspect ratios using invisible SVG bounding boxes to eliminate native iframe borders in both inline and fullscreen modes.
+
+**Editorial Layouts** — Beautifully centered editorial layouts (like the About Me section) that dynamically balance text narratives with side-by-side interactive focus pills, avoiding unbalanced vertical stacking.
 
 **Light & Dark Theme System** — Persistent, dual-theme implementation using `next-themes`. Seamless toggling between a sophisticated dark mode and a warm editorial light mode, complete with frosted glass navigation pills.
 
@@ -208,9 +210,7 @@ app/
 ├── icon.tsx                   # Dynamic favicon (purple "PG" initials)
 ├── not-found.tsx              # Custom 404 with terminal aesthetic
 ├── robots.ts                  # SEO robots configuration
-├── sitemap.ts                 # SEO sitemap (4 routes)
-└── projects/[slug]/
-    └── page.tsx               # Static project detail pages (generateStaticParams)
+└── sitemap.ts                 # SEO sitemap (5 routes)
 
 components/
 ├── CinematicNeuralBackground.tsx  # Three.js 450-particle 4-phase animation
@@ -218,11 +218,10 @@ components/
 ├── CursorEffect.tsx               # Custom neural-node cursor (3 layers)
 ├── ScrollProgressBar.tsx          # 2px purple gradient scroll indicator
 ├── Hero.tsx                       # Hero section + TypewriterBadge sub-component
-├── About.tsx                      # About section with insight cards
+├── About.tsx                      # About section with centered layout
 ├── Skills.tsx                     # Skills grid (3 categories, animated cards)
 ├── Projects.tsx                   # Featured projects (data-driven from lib/data)
 ├── ProjectCard.tsx                # Individual project card with hover effects
-├── ProjectDetail.tsx              # Full project detail page component
 ├── Certifications.tsx             # Flexbox-aligned certification cards layout
 ├── Contact.tsx                    # Contact form & animated copy-to-clipboard email
 ├── Footer.tsx                     # Footer with branding
@@ -234,6 +233,10 @@ components/
 ├── LoadingContext.tsx             # Loading state provider (coordinates intro)
 ├── Providers.tsx                  # Global providers including next-themes
 └── ui/                            # Reusable UI component primitives
+    ├── ProjectModal.tsx           # Framer Motion lightbox for case studies
+    ├── ProjectGallery.tsx         # Auto-scrolling image gallery for modals
+    ├── CertificateModal.tsx       # Lightbox viewer for full-size certificates
+    └── CertificationCard.tsx      # Individual certification card
 
 lib/
 └── data.ts                        # Centralized portfolio data (projects, skills, links)
