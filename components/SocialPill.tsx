@@ -11,6 +11,7 @@ export default function SocialPill() {
     const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
     const [isVisible, setIsVisible] = useState(false);
     const [isDark, setIsDark] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { scrollY } = useScroll();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
@@ -18,6 +19,17 @@ export default function SocialPill() {
         const heroTrigger = 100;
         setIsVisible(latest > heroTrigger);
     });
+
+    useEffect(() => {
+        const body = document.body;
+        const observer = new MutationObserver(() => {
+            setIsModalOpen(body.style.overflow === "hidden");
+        });
+        observer.observe(body, { attributes: true, attributeFilter: ["style"] });
+        // Initial check
+        setIsModalOpen(body.style.overflow === "hidden");
+        return () => observer.disconnect();
+    }, []);
 
     useEffect(() => {
         const html = document.documentElement;
@@ -40,7 +52,7 @@ export default function SocialPill() {
 
     return (
         <AnimatePresence>
-            {isVisible && (
+            {isVisible && !isModalOpen && (
                 <motion.div
                     initial={{ y: 20, opacity: 0, scale: 0.96 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
