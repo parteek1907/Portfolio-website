@@ -1,0 +1,31 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0C0C0E"/>
+    <defs>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <rect width="40" height="40" fill="none"/>
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        </pattern>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(100, 150, 255, 0.1)"/>
+            <stop offset="100%" stop-color="rgba(100, 150, 255, 0)"/>
+        </radialGradient>
+    </defs>
+    <rect width="1200" height="800" fill="url(#grid)"/>
+    <circle cx="600" cy="400" r="500" fill="url(#glow)"/>
+    
+    <!-- Mock UI Window -->
+    <rect x="200" y="200" width="800" height="450" rx="16" fill="#151518" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <!-- Mac Window Controls -->
+    <circle cx="230" cy="230" r="6" fill="#4B4B52"/>
+    <circle cx="250" cy="230" r="6" fill="#4B4B52"/>
+    <circle cx="270" cy="230" r="6" fill="#4B4B52"/>
+    <!-- Mock Content lines -->
+    <rect x="300" y="280" width="300" height="24" rx="4" fill="rgba(255,255,255,0.05)"/>
+    <rect x="300" y="320" width="400" height="12" rx="4" fill="rgba(255,255,255,0.02)"/>
+    <rect x="300" y="340" width="350" height="12" rx="4" fill="rgba(255,255,255,0.02)"/>
+    
+    <!-- Mock Image / Chart area -->
+    <rect x="300" y="390" width="600" height="200" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)"/>
+    
+    <text x="600" y="490" font-family="sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.2)" text-anchor="middle" dominant-baseline="middle">PROJECT SCREENSHOT</text>
+</svg>

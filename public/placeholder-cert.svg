@@ -1,0 +1,7 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="800" height="600" fill="#1A1A1A"/>
+<rect x="40" y="40" width="720" height="520" stroke="#333333" stroke-width="4" stroke-dasharray="10 10"/>
+<path d="M400 240C377.909 240 360 257.909 360 280C360 302.091 377.909 320 400 320C422.091 320 440 302.091 440 280C440 257.909 422.091 240 400 240ZM400 304C386.745 304 376 293.255 376 280C376 266.745 386.745 256 400 256C413.255 256 424 266.745 424 280C424 293.255 413.255 304 400 304Z" fill="#666666"/>
+<path d="M408 316.5V360L400 352L392 360V316.5C394.576 317.472 397.243 318 400 318C402.757 318 405.424 317.472 408 316.5Z" fill="#666666"/>
+<text fill="#666666" xml:space="preserve" style="white-space: pre" font-family="sans-serif" font-size="24" font-weight="600" letter-spacing="0em"><tspan x="280" y="400">CERTIFICATE PLACEHOLDER</tspan></text>
+</svg>

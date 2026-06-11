@@ -1,0 +1,26 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0C0C0E"/>
+    <defs>
+        <pattern id="dot" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.5" fill="rgba(255,255,255,0.04)"/>
+        </pattern>
+        <radialGradient id="arch-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(150, 100, 255, 0.1)"/>
+            <stop offset="100%" stop-color="rgba(150, 100, 255, 0)"/>
+        </radialGradient>
+    </defs>
+    <rect width="1200" height="800" fill="url(#dot)"/>
+    <circle cx="600" cy="400" r="500" fill="url(#arch-glow)"/>
+    
+    <!-- Arch Nodes -->
+    <rect x="350" y="250" width="160" height="100" rx="12" fill="#151518" stroke="rgba(255,255,255,0.1)"/>
+    <rect x="690" y="250" width="160" height="100" rx="12" fill="#151518" stroke="rgba(255,255,255,0.1)"/>
+    <rect x="520" y="450" width="160" height="100" rx="12" fill="#151518" stroke="rgba(255,255,255,0.1)"/>
+    
+    <!-- Lines -->
+    <path d="M 430 350 Q 430 400 520 500" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="6 6"/>
+    <path d="M 770 350 Q 770 400 680 500" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="6 6"/>
+    <path d="M 510 300 L 690 300" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    
+    <text x="600" y="700" font-family="sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.2)" text-anchor="middle" dominant-baseline="middle">SYSTEM ARCHITECTURE DIAGRAM</text>
+</svg>
