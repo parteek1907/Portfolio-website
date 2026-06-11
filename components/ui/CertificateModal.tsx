@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Download, Maximize2, Copy, Check } from "lucide-react";
 import Image from "next/image";
 import { Certification } from "@/lib/data";
+import { Document, Page, pdfjs } from 'react-pdf';
+
+// Set up PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface CertificateModalProps {
     certificate: Certification | null;
@@ -80,18 +84,39 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                                     </div>
                                     {certificate.fullCertificate.endsWith('.pdf') ? (
                                         <>
-                                            <svg 
-                                                width={Math.round((certificate.aspectRatio || 1.414) * 1000)}
-                                                height={1000}
-                                                viewBox={`0 0 ${Math.round((certificate.aspectRatio || 1.414) * 1000)} 1000`} 
-                                                className="w-auto h-auto max-w-full max-h-full min-h-[40vh] lg:min-h-[60vh] pointer-events-none opacity-0"
-                                            />
-                                            <iframe 
-                                                src={`${certificate.fullCertificate}#view=Fit&toolbar=0&navpanes=0`}
-                                                className="absolute inset-0 w-[101%] h-[101%] -top-[0.5%] -left-[0.5%] border-0 pointer-events-none"
-                                                title={`${certificate.title} Certificate`}
-                                                tabIndex={-1}
-                                            />
+                                            {/* Exact Desktop Layout */}
+                                            <div className="hidden md:block relative w-full h-full">
+                                                {/* Invisible structural SVG to force container aspect ratio */}
+                                                <svg 
+                                                    width={Math.round((certificate.aspectRatio || 1.414) * 1000)}
+                                                    height={1000}
+                                                    viewBox={`0 0 ${Math.round((certificate.aspectRatio || 1.414) * 1000)} 1000`} 
+                                                    className="w-auto h-auto max-w-full max-h-full pointer-events-none opacity-0"
+                                                />
+                                                <div className="absolute inset-0 w-[101%] h-[101%] -top-[0.5%] -left-[0.5%]">
+                                                    <iframe 
+                                                        src={`${certificate.fullCertificate}#view=Fit&toolbar=0&navpanes=0`}
+                                                        className="w-full h-full border-0 pointer-events-none"
+                                                        title={`${certificate.title} Certificate`}
+                                                        tabIndex={-1}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {/* Mobile View - Flawless React-PDF Canvas Rendering */}
+                                            <div className="block md:hidden bg-transparent flex items-center justify-center">
+                                                <Document 
+                                                    file={certificate.fullCertificate} 
+                                                    loading={<div className="w-full h-full bg-transparent" />}
+                                                    className="w-full flex justify-center"
+                                                >
+                                                    <Page 
+                                                        pageNumber={1} 
+                                                        width={typeof window !== 'undefined' ? window.innerWidth - 80 : 300} 
+                                                        renderTextLayer={false} 
+                                                        renderAnnotationLayer={false} 
+                                                    />
+                                                </Document>
+                                            </div>
                                         </>
                                     ) : (
                                         <Image
@@ -195,12 +220,16 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                             onClick={() => setIsFullScreen(false)}
                         />
                         
-                        <button 
+                        <motion.button 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
                             onClick={() => setIsFullScreen(false)}
                             className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
                         >
                             <X size={24} />
-                        </button>
+                        </motion.button>
 
                         <motion.div 
                             initial={{ scale: 0.95, opacity: 0 }}
@@ -212,17 +241,38 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                             <div className="relative inline-flex rounded-2xl overflow-hidden shadow-2xl bg-[var(--color-surface)] max-w-full max-h-[90vh]">
                                 {certificate.fullCertificate.endsWith('.pdf') ? (
                                     <>
-                                        <svg 
-                                            width={Math.round((certificate.aspectRatio || 1.414) * 1000)}
-                                            height={1000}
-                                            viewBox={`0 0 ${Math.round((certificate.aspectRatio || 1.414) * 1000)} 1000`} 
-                                            className="w-auto h-auto max-w-full max-h-[90vh] pointer-events-none opacity-0"
-                                        />
-                                        <iframe 
-                                            src={`${certificate.fullCertificate}#view=Fit&toolbar=0&navpanes=0`}
-                                            className="absolute inset-0 w-[101%] h-[101%] -top-[0.5%] -left-[0.5%] border-0"
-                                            title={`${certificate.title} Certificate Fullscreen`}
-                                        />
+                                        {/* Exact Desktop Layout */}
+                                        <div className="hidden md:block relative w-full h-full">
+                                            {/* Invisible structural SVG to force container aspect ratio */}
+                                            <svg 
+                                                width={Math.round((certificate.aspectRatio || 1.414) * 1000)}
+                                                height={1000}
+                                                viewBox={`0 0 ${Math.round((certificate.aspectRatio || 1.414) * 1000)} 1000`} 
+                                                className="w-auto h-auto max-w-full max-h-[90vh] pointer-events-none opacity-0"
+                                            />
+                                            <div className="absolute inset-0 w-[101%] h-[101%] -top-[0.5%] -left-[0.5%]">
+                                                <iframe 
+                                                    src={`${certificate.fullCertificate}#view=FitH&toolbar=0&navpanes=0`}
+                                                    className="w-full h-full border-0"
+                                                    title={`${certificate.title} Certificate Fullscreen`}
+                                                />
+                                            </div>
+                                        </div>
+                                        {/* Mobile View - Flawless React-PDF Canvas Rendering */}
+                                        <div className="block md:hidden bg-transparent flex items-center justify-center">
+                                            <Document 
+                                                file={certificate.fullCertificate} 
+                                                loading={<div className="w-full h-full bg-transparent" />}
+                                                className="w-full flex justify-center"
+                                            >
+                                                <Page 
+                                                    pageNumber={1} 
+                                                    width={typeof window !== 'undefined' ? window.innerWidth - 32 : 350} 
+                                                    renderTextLayer={false} 
+                                                    renderAnnotationLayer={false} 
+                                                />
+                                            </Document>
+                                        </div>
                                     </>
                                 ) : (
                                     <Image
