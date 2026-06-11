@@ -5,10 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Download, Maximize2, Copy, Check } from "lucide-react";
 import Image from "next/image";
 import { Certification } from "@/lib/data";
-import { Document, Page, pdfjs } from 'react-pdf';
+import dynamic from "next/dynamic";
 
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+const PDFViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
 
 interface CertificateModalProps {
     certificate: Certification | null;
@@ -102,20 +101,13 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                                                     />
                                                 </div>
                                             </div>
-                                            {/* Mobile View - Flawless React-PDF Canvas Rendering */}
                                             <div className="block md:hidden bg-transparent flex items-center justify-center">
-                                                <Document 
+                                                <PDFViewer 
                                                     file={certificate.fullCertificate} 
                                                     loading={<div className="w-full h-full bg-transparent" />}
                                                     className="w-full flex justify-center"
-                                                >
-                                                    <Page 
-                                                        pageNumber={1} 
-                                                        width={typeof window !== 'undefined' ? window.innerWidth - 80 : 300} 
-                                                        renderTextLayer={false} 
-                                                        renderAnnotationLayer={false} 
-                                                    />
-                                                </Document>
+                                                    width={typeof window !== 'undefined' ? window.innerWidth - 80 : 300} 
+                                                />
                                             </div>
                                         </>
                                     ) : (
@@ -258,20 +250,13 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                                                 />
                                             </div>
                                         </div>
-                                        {/* Mobile View - Flawless React-PDF Canvas Rendering */}
                                         <div className="block md:hidden bg-transparent flex items-center justify-center">
-                                            <Document 
+                                            <PDFViewer 
                                                 file={certificate.fullCertificate} 
                                                 loading={<div className="w-full h-full bg-transparent" />}
                                                 className="w-full flex justify-center"
-                                            >
-                                                <Page 
-                                                    pageNumber={1} 
-                                                    width={typeof window !== 'undefined' ? window.innerWidth - 32 : 350} 
-                                                    renderTextLayer={false} 
-                                                    renderAnnotationLayer={false} 
-                                                />
-                                            </Document>
+                                                width={typeof window !== 'undefined' ? window.innerWidth - 32 : 350} 
+                                            />
                                         </div>
                                     </>
                                 ) : (

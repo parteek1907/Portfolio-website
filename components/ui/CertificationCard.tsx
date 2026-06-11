@@ -4,10 +4,9 @@ import { motion } from "framer-motion";
 import { ExternalLink, CheckCircle, Clock } from "lucide-react";
 import Image from "next/image";
 import { Certification } from "@/lib/data";
-import { Document, Page, pdfjs } from 'react-pdf';
+import dynamic from "next/dynamic";
 
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+const PDFViewer = dynamic(() => import("./PDFViewer"), { ssr: false });
 
 interface CertificationCardProps {
     certificate: Certification;
@@ -32,20 +31,13 @@ export default function CertificationCard({ certificate, index, onViewClick }: C
                 <div className="absolute inset-0 z-10 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
                 {certificate.thumbnail.endsWith('.pdf') ? (
                     <>
-                        {/* Mobile View - Flawless React-PDF Canvas Rendering */}
                         <div className="block md:hidden absolute inset-0 overflow-hidden pointer-events-none bg-transparent flex items-start justify-center">
-                            <Document 
+                            <PDFViewer 
                                 file={certificate.thumbnail} 
                                 loading={<div className="w-full h-full bg-transparent" />}
                                 className="w-full flex justify-center"
-                            >
-                                <Page 
-                                    pageNumber={1} 
-                                    width={typeof window !== 'undefined' ? window.innerWidth - 32 : 350} 
-                                    renderTextLayer={false} 
-                                    renderAnnotationLayer={false} 
-                                />
-                            </Document>
+                                width={typeof window !== 'undefined' ? window.innerWidth - 32 : 350} 
+                            />
                         </div>
                         {/* Desktop View - EXACTLY as it was initially (flawless) */}
                         <div className="hidden md:block absolute top-0 left-[-1%] w-[102%] h-[250%] pointer-events-none group-hover:scale-[1.03] origin-top transition-transform duration-500 ease-out">
