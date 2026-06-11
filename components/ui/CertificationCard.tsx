@@ -4,6 +4,10 @@ import { motion } from "framer-motion";
 import { ExternalLink, CheckCircle, Clock } from "lucide-react";
 import Image from "next/image";
 import { Certification } from "@/lib/data";
+import { Document, Page, pdfjs } from 'react-pdf';
+
+// Set up PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface CertificationCardProps {
     certificate: Certification;
@@ -27,14 +31,32 @@ export default function CertificationCard({ certificate, index, onViewClick }: C
             >
                 <div className="absolute inset-0 z-10 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
                 {certificate.thumbnail.endsWith('.pdf') ? (
-                    <div className="absolute top-0 left-[-1%] w-[102%] h-[250%] pointer-events-none group-hover:scale-[1.03] origin-top transition-transform duration-500 ease-out">
-                        <iframe
-                            src={`${certificate.thumbnail}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                            className="w-full h-full object-top"
-                            style={{ border: 'none' }}
-                            tabIndex={-1}
-                        />
-                    </div>
+                    <>
+                        {/* Mobile View - Flawless React-PDF Canvas Rendering */}
+                        <div className="block md:hidden absolute inset-0 overflow-hidden pointer-events-none bg-transparent flex items-start justify-center">
+                            <Document 
+                                file={certificate.thumbnail} 
+                                loading={<div className="w-full h-full bg-transparent" />}
+                                className="w-full flex justify-center"
+                            >
+                                <Page 
+                                    pageNumber={1} 
+                                    width={typeof window !== 'undefined' ? window.innerWidth - 32 : 350} 
+                                    renderTextLayer={false} 
+                                    renderAnnotationLayer={false} 
+                                />
+                            </Document>
+                        </div>
+                        {/* Desktop View - EXACTLY as it was initially (flawless) */}
+                        <div className="hidden md:block absolute top-0 left-[-1%] w-[102%] h-[250%] pointer-events-none group-hover:scale-[1.03] origin-top transition-transform duration-500 ease-out">
+                            <iframe
+                                src={`${certificate.thumbnail}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                                className="w-full h-full object-top"
+                                style={{ border: 'none' }}
+                                tabIndex={-1}
+                            />
+                        </div>
+                    </>
                 ) : (
                     <Image
                         src={certificate.thumbnail}
