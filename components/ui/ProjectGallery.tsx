@@ -107,12 +107,16 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                             onClick={() => setIsLightboxOpen(false)}
                         />
                         
-                        <button 
+                        <motion.button 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
                             onClick={() => setIsLightboxOpen(false)}
                             className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
                         >
                             <X size={24} />
-                        </button>
+                        </motion.button>
 
                         <motion.div 
                             initial={{ scale: 0.95, opacity: 0 }}
