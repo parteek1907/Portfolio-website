@@ -114,8 +114,8 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
                                 )}
                             </div>
 
-                            <div className="pt-4 border-t border-[var(--color-border)] flex items-center justify-between mt-2">
-                                <div className="flex items-center gap-4 text-xs font-semibold text-[var(--color-text-tertiary)]">
+                            <div className="pt-4 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-2">
+                                <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-[var(--color-text-tertiary)]">
                                     {project.year && (
                                         <span className="flex items-center gap-1.5">
                                             <Calendar size={14} /> {project.year}
@@ -127,7 +127,7 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
                                         </span>
                                     )}
                                 </div>
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-4 mt-1 sm:mt-0">
                                     <span className="flex items-center gap-2 text-sm font-semibold text-[var(--color-text-primary)] group-hover:translate-x-1 transition-transform">
                                         View Case Study <ArrowRight size={16} />
                                     </span>
