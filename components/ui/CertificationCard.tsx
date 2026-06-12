@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, CheckCircle, Clock } from "lucide-react";
+import { ArrowUpRight, Calendar } from "lucide-react";
 import Image from "next/image";
 import { Certification } from "@/lib/data";
 import dynamic from "next/dynamic";
@@ -21,14 +21,20 @@ export default function CertificationCard({ certificate, index, onViewClick }: C
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: index * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="group relative flex flex-col bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out"
+            className="group relative flex flex-col gap-6 cursor-pointer w-full h-full"
         >
-            {/* Thumbnail Header */}
+            {/* Thumbnail Hero */}
             <div 
-                className="relative h-48 w-full overflow-hidden bg-[var(--color-bg-tertiary)] cursor-pointer flex items-center justify-center"
+                className="relative aspect-[1.414] w-full overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-tertiary)] shadow-sm"
                 onClick={onViewClick}
             >
-                <div className="absolute inset-0 z-10 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />
+                {/* Editorial Hover Overlay */}
+                <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 bg-black/30 backdrop-blur-[2px] transition-all duration-500 flex items-center justify-center pointer-events-none">
+                    <span className="text-white text-xs font-semibold tracking-[0.2em] uppercase flex items-center gap-2 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+                        Click to view
+                    </span>
+                </div>
+
                 {certificate.thumbnail.endsWith('.pdf') ? (
                     <>
                         <div className="block md:hidden absolute inset-0 overflow-hidden pointer-events-none bg-transparent flex items-start justify-center">
@@ -39,8 +45,8 @@ export default function CertificationCard({ certificate, index, onViewClick }: C
                                 width={typeof window !== 'undefined' ? window.innerWidth - 32 : 350} 
                             />
                         </div>
-                        {/* Desktop View - EXACTLY as it was initially (flawless) */}
-                        <div className="hidden md:block absolute top-0 left-[-1%] w-[102%] h-[250%] pointer-events-none group-hover:scale-[1.03] origin-top transition-transform duration-500 ease-out">
+                        {/* Desktop View */}
+                        <div className="hidden md:block absolute top-0 left-[-1%] w-[102%] h-[250%] pointer-events-none transition-transform duration-700 ease-out">
                             <iframe
                                 src={`${certificate.thumbnail}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
                                 className="w-full h-full object-top"
@@ -54,101 +60,61 @@ export default function CertificationCard({ certificate, index, onViewClick }: C
                         src={certificate.thumbnail}
                         alt={`${certificate.title} Preview`}
                         fill
-                        className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                        className="object-cover object-center transition-transform duration-700 ease-out"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                 )}
-                
-                {/* Status Badge overlay */}
-                <div className="absolute top-4 right-4 z-20">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[var(--color-surface)]/90 backdrop-blur-md border border-[var(--color-border)] shadow-sm">
-                        {certificate.status === "completed" ? (
-                            <>
-                                <CheckCircle size={14} className="text-emerald-500" />
-                                <span className="text-[var(--color-text-primary)]">Completed</span>
-                            </>
-                        ) : (
-                            <>
-                                <Clock size={14} className="text-amber-500" />
-                                <span className="text-[var(--color-text-primary)]">In Progress</span>
-                            </>
-                        )}
-                    </span>
-                </div>
-                
-                {/* Hover overlay text */}
-                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-black/40 backdrop-blur-[2px] transition-all duration-300">
-                    <span className="px-4 py-2 bg-white/10 border border-white/20 text-white rounded-lg backdrop-blur-md font-medium shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                        Click to View
-                    </span>
-                </div>
             </div>
 
-            {/* Content Body */}
-            <div className="flex flex-col flex-1 p-6 relative">
-                {/* Issuer Logo Floating */}
-                {certificate.issuerLogo && (
-                    <div className="absolute -top-8 left-6 w-16 h-16 flex items-center justify-center z-30 rounded-2xl overflow-hidden shadow-sm border border-[var(--color-border)]">
-                        <div className="relative w-full h-full bg-[var(--color-surface)]">
+            {/* Caption Body */}
+            <div className="flex flex-col flex-1 px-1">
+                
+                {/* Top: Logo + Issuer + Title */}
+                <div className="flex items-start gap-4 md:gap-5">
+                    {/* Large Logo without container borders */}
+                    {certificate.issuerLogo && (
+                        <div className="relative w-12 h-12 md:w-14 md:h-14 shrink-0 flex items-center justify-center mt-1">
                             <Image 
                                 src={certificate.issuerLogo} 
                                 alt={certificate.issuer} 
-                                fill 
-                                className="object-cover"
+                                fill
+                                className="object-contain rounded-xl overflow-hidden"
                             />
                         </div>
-                    </div>
-                )}
+                    )}
 
-                <div className={`flex flex-col flex-1 ${certificate.issuerLogo ? 'mt-6' : ''}`}>
-                    <p className="text-sm font-medium text-[var(--color-text-secondary)] mb-1">
-                        {certificate.issuer}
-                    </p>
-                    <h3 className="text-lg font-bold text-[var(--color-text-primary)] leading-snug mb-3 line-clamp-2 min-h-[3.25rem]">
-                        {certificate.title}
-                    </h3>
-                    
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                        {certificate.skills.slice(0, 3).map((skill) => (
-                            <span 
-                                key={skill} 
-                                className="px-3 py-1 text-[11px] font-medium rounded-full bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] text-[var(--color-text-secondary)] whitespace-nowrap"
-                            >
-                                {skill}
-                            </span>
-                        ))}
-                        {certificate.skills.length > 3 && (
-                            <span className="px-3 py-1 text-[11px] font-medium rounded-full bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] text-[var(--color-text-tertiary)] whitespace-nowrap">
-                                +{certificate.skills.length - 3} more
-                            </span>
-                        )}
+                    <div className="flex flex-col pt-1">
+                        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-[var(--color-text-secondary)] mb-0.5">
+                            {certificate.issuer}
+                        </span>
+                        <h3 className="text-base md:text-lg font-medium text-[var(--color-text-primary)] leading-tight tracking-tight">
+                            {certificate.title}
+                        </h3>
                     </div>
                 </div>
-
-                {/* Footer / Actions */}
-                <div className="pt-4 mt-auto border-t border-[var(--color-border)] flex items-center justify-between">
-                    <div className="flex gap-4">
-                        <div className="flex flex-col">
-                            <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-tertiary)] font-semibold">Issued</span>
-                            <span className="text-sm font-medium text-[var(--color-text-secondary)]">{certificate.issueDate}</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-tertiary)] font-semibold">Hours</span>
-                            <span className="text-sm font-medium text-[var(--color-text-secondary)]">{certificate.hours}</span>
-                        </div>
+                
+                {/* Bottom: Metadata Footer */}
+                <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-4 mt-auto pt-6">
+                    <div className="flex flex-wrap items-center gap-1.5 md:gap-2 text-[12px] md:text-[13px] font-medium text-[var(--color-text-secondary)]">
+                        <Calendar size={14} className="opacity-70" />
+                        <span>Issued {certificate.issueDate}</span>
+                        {certificate.hours && (
+                            <>
+                                <span className="opacity-50 mx-1">•</span>
+                                <span>{certificate.hours.toLowerCase().includes("hour") ? certificate.hours : `${certificate.hours} Hours`}</span>
+                            </>
+                        )}
                     </div>
                     
-                    <div className="flex items-center gap-2">
-                        <a 
-                            href={certificate.verificationUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)] transition-colors"
-                        >
-                            Verify
-                            <ExternalLink size={14} />
-                        </a>
-                    </div>
+                    <a 
+                        href={certificate.verificationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/link relative flex items-center gap-1 text-[13px] font-medium text-[var(--color-text-primary)] hover:text-[var(--color-text-secondary)] transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        Verify <ArrowUpRight size={14} className="transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                    </a>
                 </div>
             </div>
         </motion.article>
