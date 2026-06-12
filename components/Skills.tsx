@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { skills } from "@/lib/data";
+import { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { expertise } from "@/lib/data";
 
 export default function Skills() {
     const [isDark, setIsDark] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
 
     useEffect(() => {
-        const checkTheme = () => {
-            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-        };
+        const checkTheme = () => setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
         checkTheme();
         const observer = new MutationObserver(checkTheme);
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
@@ -20,106 +23,87 @@ export default function Skills() {
     return (
         <section
             id="skills"
-            className="pt-10 pb-10 px-6"
+            ref={containerRef}
+            className="pt-24 pb-32 px-6 relative overflow-hidden scroll-mt-24"
             style={{
                 borderTop: "1px solid var(--color-border)",
-                background: "var(--color-bg-secondary)",
+                background: "var(--color-bg-primary)",
             }}
         >
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-5xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-16"
+                    className="mb-16 md:mb-24"
                 >
-                    <h2 className="text-3xl md:text-4xl section-title mb-4">Technical Skills</h2>
-                    <p style={{ color: "var(--color-text-secondary)" }} className="max-w-2xl mx-auto body-copy text-muted">
-                        A curated list of technologies and tools I work with to bring ideas to life.
+                    <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6" style={{ color: "var(--color-text-primary)" }}>Skills & Technologies</h2>
+                    <p className="text-lg md:text-xl max-w-2xl leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                        Technologies, tools, and domains I'm actively learning and building with.
                     </p>
                 </motion.div>
 
-                <div className="space-y-12">
-                    {/* Programming Languages */}
-                    <div>
-                        <div className="flex items-center gap-4 mb-6">
-                            <div
-                                className="w-1 h-8 rounded-full"
-                                style={{ background: isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.2)", opacity: 1 }}
-                            ></div>
-                            <h3 className="text-2xl section-category-label">Programming Languages</h3>
-                        </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                            {skills.programmingLanguages.map((skill, index) => (
-                                <SkillCard key={index} skill={skill} index={index} isDark={isDark} />
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Frontend Development */}
-                    <div>
-                        <div className="flex items-center gap-4 mb-6">
-                            <div
-                                className="w-1 h-8 rounded-full"
-                                style={{ background: isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.2)", opacity: 1 }}
-                            ></div>
-                            <h3 className="text-2xl section-category-label">Frontend Development</h3>
-                        </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                            {skills.frontendDevelopment.map((skill, index) => (
-                                <SkillCard key={index} skill={skill} index={index} isDark={isDark} />
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Domains */}
-                    <div>
-                        <div className="flex items-center gap-4 mb-6">
-                            <div
-                                className="w-1 h-8 rounded-full"
-                                style={{ background: isDark ? "var(--color-accent)" : "rgba(0, 0, 0, 0.2)", opacity: 1 }}
-                            ></div>
-                            <h3 className="text-2xl section-category-label">Domains</h3>
-                        </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                            {skills.domains.map((skill, index) => (
-                                <SkillCard key={index} skill={skill} index={index} isDark={isDark} />
-                            ))}
-                        </div>
-                    </div>
+                <div className="flex flex-col gap-16 md:gap-20">
+                    {expertise.map((item, index) => (
+                        <ExpertiseRow key={index} item={item} index={index} isDark={isDark} scrollYProgress={scrollYProgress} />
+                    ))}
                 </div>
             </div>
         </section>
     );
 }
 
-function SkillCard({ skill, index, isDark }: { skill: { name: string; levelLabel: string; iconClass: string; iconColor: string }, index: number, isDark: boolean }) {
+function ExpertiseRow({ item, index, isDark, scrollYProgress }: { item: { area: string; technologies: string[] }, index: number, isDark: boolean, scrollYProgress: any }) {
+    const yTransform = useTransform(
+        scrollYProgress,
+        [0, 1],
+        [index % 2 === 0 ? 15 : 5, index % 2 === 0 ? -15 : -5]
+    );
+
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-            whileHover={{ y: -5 }}
-            className="flex flex-col items-center justify-center p-6 rounded-2xl transition-all cursor-default group"
-            style={{
-                background: "var(--color-surface)",
-                border: "1px solid var(--color-border)",
-            }}
-        >
-            <i className={`${skill.iconClass} text-4xl mb-4 transition-transform group-hover:scale-110`} style={{ color: skill.iconColor }}></i>
-            <h4 className="text-lg font-medium mb-1" style={{ color: "var(--color-text-primary)" }}>{skill.name}</h4>
-            <span
-                className="text-xs skill-badge px-2 py-1 rounded-full transition-colors"
-                style={{
-                    background: isDark ? "rgba(68, 68, 68, 0.4)" : "rgba(0, 0, 0, 0.06)",
-                    border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.1)",
-                    color: "var(--color-text-secondary)",
-                }}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start">
+            {/* Left Side: Category Title */}
+            <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="md:col-span-4 flex flex-col pt-2"
             >
-                {skill.levelLabel}
-            </span>
-        </motion.div>
+                <div className="mb-3 flex items-center gap-3">
+                    <span className="text-xs font-mono opacity-40" style={{ color: "var(--color-text-tertiary)" }}>0{index + 1}</span>
+                    <div className="h-px w-8" style={{ background: "var(--color-border)" }}></div>
+                </div>
+                <h4 className="text-xl md:text-2xl font-medium tracking-tight" style={{ color: "var(--color-text-primary)" }}>
+                    {item.area}
+                </h4>
+            </motion.div>
+
+            {/* Right Side: Floating Typography */}
+            <motion.div
+                style={{ y: yTransform }}
+                className="md:col-span-8 flex flex-wrap gap-x-4 gap-y-2 md:gap-x-6 md:gap-y-3 mt-2 md:mt-0 items-center"
+            >
+                {item.technologies.map((tech: string, techIndex: number) => (
+                    <motion.span
+                        key={techIndex}
+                        initial={{ opacity: 0, y: 5, filter: "blur(2px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.15 + (techIndex * 0.03), ease: [0.22, 1, 0.36, 1] }}
+                        whileHover={{
+                            scale: 1.02,
+                            color: "var(--color-text-primary)",
+                            textShadow: isDark ? "0 0 15px rgba(255,255,255,0.4)" : "0 0 15px rgba(0,0,0,0.2)"
+                        }}
+                        className="text-lg md:text-xl lg:text-2xl font-medium tracking-tight cursor-default transition-all duration-300"
+                        style={{ color: "var(--color-text-tertiary)" }}
+                    >
+                        {tech}
+                    </motion.span>
+                ))}
+            </motion.div>
+        </div>
     );
 }
