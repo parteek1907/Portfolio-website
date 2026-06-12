@@ -12,7 +12,7 @@ export default function Projects() {
     return (
         <section
             id="projects"
-            className="pt-10 pb-10 px-6"
+            className="pt-10 pb-10 px-6 scroll-mt-24"
             style={{ background: "var(--color-bg-primary)" }}
         >
             <div className="max-w-5xl mx-auto">
@@ -21,15 +21,15 @@ export default function Projects() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="mb-16 text-center"
+                    className="mb-16 md:mb-24"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold section-title mb-4 tracking-tight">Featured Case Studies</h2>
-                    <p className="body-copy text-lg max-w-2xl mx-auto" style={{ color: "var(--color-text-secondary)" }}>
-                        Deep dives into architectural decisions, technical challenges, and the impact of my most significant projects.
+                    <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6" style={{ color: "var(--color-text-primary)" }}>Things I've Built</h2>
+                    <p className="text-lg md:text-xl max-w-2xl leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                        A collection of selected projects that reflect my learning, curiosity, and problem-solving approach.
                     </p>
                 </motion.div>
 
-                <div className="grid gap-10 md:gap-16">
+                <div className="flex flex-col gap-16 md:gap-24">
                     {featuredProjects.map((project, index) => (
                         <ProjectCard
                             key={project.slug}
