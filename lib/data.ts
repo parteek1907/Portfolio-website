@@ -21,6 +21,7 @@ export interface FeaturedProject {
     timeline?: string;
     year?: string;
     status?: string;
+    aspectRatio?: string;
 }
 
 export interface Certification {
@@ -108,7 +109,7 @@ export const certifications: Certification[] = [
     {
         id: "cert-simplilearn-genai",
         title: "Introduction to Generative AI",
-        issuer: "Simplilearn • Google-aligned curriculum",
+        issuer: "Simplilearn",
         issuerLogo: "/simplilearn.jpeg",
         issueDate: "Feb 2026",
         credentialId: "9845280",
@@ -329,26 +330,36 @@ export const featuredProjects: FeaturedProject[] = [
     }
 ];
 
-export const skills = {
-    programmingLanguages: [
-        { name: "C", levelLabel: "Beginner", iconClass: "devicon-c-plain", iconColor: "#A8B9CC" },
-        { name: "JavaScript", levelLabel: "Beginner", iconClass: "devicon-javascript-plain", iconColor: "#F7DF1E" },
-        { name: "Java", levelLabel: "Beginner", iconClass: "devicon-java-plain", iconColor: "#ED8B00" },
-        { name: "Python", levelLabel: "Beginner", iconClass: "devicon-python-plain", iconColor: "#3776AB" }
-    ],
-    frontendDevelopment: [
-        { name: "HTML5", levelLabel: "Intermediate", iconClass: "devicon-html5-plain", iconColor: "#E34F26" },
-        { name: "CSS3", levelLabel: "Intermediate", iconClass: "devicon-css3-plain", iconColor: "#1572B6" }
-    ],
-    domains: [
-        { name: "Data Science", levelLabel: "Beginner", iconClass: "devicon-pandas-plain", iconColor: "#150458" },
-        { name: "Artificial Intelligence", levelLabel: "Beginner", iconClass: "devicon-tensorflow-line", iconColor: "#FF6F00" }
-    ]
-};
+export const expertise = [
+    {
+        area: "Programming Languages",
+        technologies: ["Python", "Java", "TypeScript", "C"]
+    },
+    {
+        area: "Frontend",
+        technologies: ["React.js", "HTML5", "CSS3", "Tailwind CSS", "Framer Motion"]
+    },
+    {
+        area: "Backend & Tools",
+        technologies: ["Node.js", "Git", "GitHub", "VS Code"]
+    },
+    {
+        area: "Databases",
+        technologies: ["Supabase (PostgreSQL)", "localStorage"]
+    },
+    {
+        area: "AI / Data Science",
+        technologies: ["Groq LLM", "RAG Architecture", "Data Science (learning)"]
+    },
+    {
+        area: "Domains",
+        technologies: ["Full Stack Web", "Bioinformatics", "Academic Tools"]
+    }
+];
 
 export const aboutMe = {
     tagline: "Architecting Intelligence & Full-Stack Systems",
-    heroDescription: "B.Tech CSE student at NMIMS Chandigarh building scalable full-stack applications and exploring Data Science and AI. I enjoy breaking complex problems down until the logic feels simple.",
+    heroDescription: "Computer Science student exploring software engineering, data science, and AI through hands-on projects, continuous learning, and thoughtful problem-solving.",
     description: "I am a B.Tech CSE student at NMIMS Chandigarh, focused on building strong fundamentals in programming, problem-solving, and data-driven architecture. I am currently exploring Data Science and AI through structured learning and hands-on practice, with the goal of transitioning into scalable, data-driven applications and impactful real-world engineering."
 };
 
