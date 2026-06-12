@@ -50,13 +50,27 @@ export default function Navbar() {
                     }
                 });
             },
-            { rootMargin: "-50% 0px -50% 0px" }
+            { rootMargin: "-30% 0px -30% 0px" }
         );
 
-        const sections = document.querySelectorAll("section[id]");
-        sections.forEach((section) => observer.observe(section));
+        const observeSections = () => {
+            const sections = document.querySelectorAll("section[id]");
+            sections.forEach((section) => observer.observe(section));
+        };
 
-        return () => observer.disconnect();
+        // Initial observation
+        observeSections();
+
+        // Watch for dynamically loaded sections
+        const mutationObserver = new MutationObserver(() => {
+            observeSections();
+        });
+        mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+        return () => {
+            observer.disconnect();
+            mutationObserver.disconnect();
+        };
     }, []);
 
     if (isLoading) return null;
@@ -78,10 +92,19 @@ export default function Navbar() {
                     {navLinks.map((link) => {
                         const isActive = `#${activeSection}` === link.href || (activeSection === "" && link.href === "#about");
                         return (
-                            <Link
+                            <a
                                 key={link.name}
                                 href={link.href}
-                                className="text-sm nav-link-ui transition-colors relative"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const targetId = link.href.replace(/.*\#/, "");
+                                    const elem = document.getElementById(targetId);
+                                    if (elem) {
+                                        elem.scrollIntoView({ behavior: "smooth" });
+                                        window.history.pushState(null, "", link.href);
+                                    }
+                                }}
+                                className="text-sm nav-link-ui transition-colors relative cursor-pointer"
                                 style={{
                                     color: isActive ? "var(--color-text-primary)" : "var(--color-text-secondary)",
                                 }}
@@ -92,12 +115,10 @@ export default function Navbar() {
                                         layoutId="activeNavSection"
                                         className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
                                         style={{ background: "var(--color-text-primary)" }}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ duration: 0.3 }}
+                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                     />
                                 )}
-                            </Link>
+                            </a>
                         );
                     })}
                 </nav>
@@ -128,17 +149,26 @@ export default function Navbar() {
                         {navLinks.map((link) => {
                             const isActive = `#${activeSection}` === link.href || (activeSection === "" && link.href === "#about");
                             return (
-                                <Link
+                                <a
                                     key={link.name}
                                     href={link.href}
-                                    onClick={() => setIsOpen(false)}
-                                    className="text-lg nav-link-ui transition-colors"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setIsOpen(false);
+                                        const targetId = link.href.replace(/.*\#/, "");
+                                        const elem = document.getElementById(targetId);
+                                        if (elem) {
+                                            elem.scrollIntoView({ behavior: "smooth" });
+                                            window.history.pushState(null, "", link.href);
+                                        }
+                                    }}
+                                    className="text-lg nav-link-ui transition-colors cursor-pointer"
                                     style={{
                                         color: isActive ? "var(--color-text-primary)" : "var(--color-text-secondary)",
                                     }}
                                 >
                                     {link.name}
-                                </Link>
+                                </a>
                             )
                         })}
                     </motion.div>
