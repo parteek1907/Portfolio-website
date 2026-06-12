@@ -52,22 +52,26 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
                     style={{ aspectRatio: project.aspectRatio || (project.title.toLowerCase().includes('veralon') ? '16/10' : 'auto') }}
                 >
                     {images.length > 0 ? (
-                        <div className="w-full relative">
-                            <AnimatePresence>
-                                <motion.img
-                                    key={currentImageIndex}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0, position: "absolute", top: 0, left: 0 }}
+                        <motion.div layout className="w-full relative flex items-center justify-center">
+                            {images.map((img, idx) => (
+                                <motion.img 
+                                    layout
+                                    key={idx}
+                                    src={img} 
+                                    alt={`${project.title} screenshot ${idx + 1}`} 
+                                    initial={false}
+                                    animate={{ 
+                                        opacity: idx === currentImageIndex ? 1 : 0,
+                                    }}
                                     transition={{ duration: 0.6, ease: "easeInOut" }}
-                                    src={images[currentImageIndex]}
-                                    alt={`${project.title} screenshot`}
                                     className={`w-full block ${
-                                        project.title.toLowerCase().includes('veralon') ? 'h-full object-cover object-top' : 'h-[auto] object-contain'
+                                        idx === currentImageIndex ? "relative z-10" : "absolute inset-0 z-0 pointer-events-none"
+                                    } ${
+                                        project.title.toLowerCase().includes('veralon') ? 'h-full object-cover object-top' : 'h-full object-contain'
                                     }`}
                                 />
-                            </AnimatePresence>
-                        </div>
+                            ))}
+                        </motion.div>
                     ) : (
                         <div className="w-full aspect-video rounded-2xl flex items-center justify-center text-[var(--color-text-tertiary)] text-sm bg-[var(--color-bg-tertiary)] border border-[var(--color-border)]">
                             No preview available
