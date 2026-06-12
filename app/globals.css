@@ -197,6 +197,11 @@ button, a, [role="button"] {
   outline-offset: 2px;
 }
 
+input:focus-visible, 
+textarea:focus-visible {
+  outline: none !important;
+}
+
 /* Selection */
 ::selection {
   background: var(--color-text-secondary);
