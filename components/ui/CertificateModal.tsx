@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Download, Maximize2, Copy, Check } from "lucide-react";
+import { X, Maximize2, Check, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { Certification } from "@/lib/data";
 import dynamic from "next/dynamic";
@@ -132,66 +132,61 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                                     <X size={20} />
                                 </button>
 
-                                <div className="mb-6 mt-4 lg:mt-0">
+                                <div className="flex-1 mt-4 lg:mt-0">
                                     {certificate.issuerLogo && (
-                                        <div className="w-16 h-16 relative mb-4 rounded-2xl overflow-hidden shadow-sm border border-[var(--color-border)] bg-[var(--color-surface)]">
+                                        <div className="w-12 h-12 relative mb-6 rounded-xl overflow-hidden shadow-sm border border-[var(--color-border)] bg-[var(--color-surface)]">
                                             <Image src={certificate.issuerLogo} alt={certificate.issuer} fill className="object-cover" />
                                         </div>
                                     )}
-                                    <h2 className="text-2xl font-bold mb-2 text-[var(--color-text-primary)] leading-tight">{certificate.title}</h2>
-                                    <p className="text-[var(--color-text-secondary)] font-medium mb-1">{certificate.issuer}</p>
+                                    <h2 className="text-2xl font-semibold mb-2 text-[var(--color-text-primary)] leading-tight tracking-tight">{certificate.title}</h2>
+                                    <p className="text-[var(--color-text-secondary)] mb-8">{certificate.issuer}</p>
                                     
-                                    <div className="flex flex-wrap gap-x-4 gap-y-1 mb-4">
-                                        <p className="text-[var(--color-text-tertiary)] text-sm">Issued {certificate.issueDate}</p>
-                                        <p className="text-[var(--color-text-tertiary)] text-sm">&bull; {certificate.hours} Hours</p>
-                                    </div>
-
-                                    <div className="flex items-start gap-3 p-3 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-xs font-mono text-[var(--color-text-secondary)] mt-2 shadow-sm">
-                                        <div className="flex flex-col gap-1 flex-1 min-w-0">
-                                            <span className="opacity-60 uppercase tracking-wider text-[10px] font-sans">Credential ID</span>
-                                            <span className="break-all">{certificate.credentialId}</span>
+                                    <div className="flex flex-col gap-8">
+                                        <div className="flex flex-col gap-1">
+                                            <p className="text-[var(--color-text-primary)] text-[15px]">
+                                                Issued {certificate.issueDate} <span className="opacity-40 mx-1">&bull;</span> {certificate.hours} Hours
+                                            </p>
                                         </div>
-                                        <button 
-                                            onClick={handleCopy} 
-                                            className="p-1.5 hover:bg-[var(--color-bg-tertiary)] border border-transparent hover:border-[var(--color-border)] rounded-md transition-all shrink-0 mt-0.5" 
-                                            title="Copy ID"
-                                        >
-                                            {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
-                                        </button>
-                                    </div>
-                                </div>
 
-                                <div className="mb-8 flex-1">
-                                    <h3 className="text-sm font-semibold tracking-wide uppercase text-[var(--color-text-tertiary)] mb-3">Skills Covered</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {certificate.skills.map((skill) => (
-                                            <span
-                                                key={skill}
-                                                className="px-3 py-1.5 text-xs font-medium rounded-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] text-[var(--color-text-secondary)]"
-                                            >
-                                                {skill}
+                                        <div className="flex flex-col gap-2 group cursor-pointer w-fit" onClick={handleCopy}>
+                                            <span className="text-xs uppercase tracking-widest text-[var(--color-text-secondary)] flex items-center gap-2">
+                                                Credential ID {copied && <span className="text-emerald-500 normal-case tracking-normal text-[11px]">(Copied)</span>}
                                             </span>
-                                        ))}
+                                            <span className="font-mono text-[14px] text-[var(--color-text-primary)] break-all group-hover:opacity-70 transition-opacity">
+                                                {certificate.credentialId}
+                                            </span>
+                                        </div>
+
+                                        {certificate.skills.length > 0 && (
+                                            <div className="flex flex-col gap-2">
+                                                <span className="text-xs uppercase tracking-widest text-[var(--color-text-secondary)]">Skills</span>
+                                                <p className="text-[14px] text-[var(--color-text-primary)] leading-relaxed">
+                                                    {certificate.skills.join(" • ")}
+                                                </p>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col gap-3 mt-auto">
+                                <div className="flex flex-col gap-5 mt-12 pt-8 border-t border-[var(--color-border)]">
                                     <a
                                         href={certificate.verificationUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-tertiary)] transition-colors shadow-sm"
+                                        className="group relative flex items-center gap-2 w-fit text-[15px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
                                     >
                                         Verify Credential
-                                        <ExternalLink size={18} />
+                                        <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-current transition-all duration-300 group-hover:w-full opacity-40"></span>
                                     </a>
                                     <a
                                         href={certificate.downloadUrl}
                                         download={`${certificate.title.replace(/\s+/g, "_")}.pdf`}
-                                        className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-semibold hover:bg-[var(--color-bg-tertiary)] transition-colors shadow-sm"
+                                        className="group relative flex items-center gap-2 w-fit text-[15px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
                                     >
-                                        <Download size={18} />
                                         Download PDF
+                                        <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-current transition-all duration-300 group-hover:w-full opacity-40"></span>
                                     </a>
                                 </div>
                             </div>
