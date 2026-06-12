@@ -6,24 +6,6 @@ import { certifications, Certification } from "@/lib/data";
 import CertificationCard from "./ui/CertificationCard";
 import CertificateModal from "./ui/CertificateModal";
 
-const AnimatedCounter = ({ value, label }: { value: string, label: string }) => {
-    return (
-        <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, type: "spring" }}
-            className="flex flex-col items-center justify-center p-6 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] shadow-sm"
-        >
-            <span className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-2 tracking-tight">
-                {value}
-            </span>
-            <span className="text-sm font-medium text-[var(--color-text-secondary)] uppercase tracking-wider text-center">
-                {label}
-            </span>
-        </motion.div>
-    );
-};
 
 export default function Certifications() {
     const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
@@ -39,34 +21,47 @@ export default function Certifications() {
     return (
         <section
             id="certifications"
-            className="pt-20 pb-24 px-6 relative"
+            className="pt-20 pb-24 px-6 relative scroll-mt-24"
             style={{
                 background: "var(--color-bg-primary)",
                 borderTop: "1px solid var(--color-border)",
             }}
         >
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-5xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-16"
+                    className="mb-12 md:mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold section-title mb-6 tracking-tight text-[var(--color-text-primary)]">
-                        Certifications
-                    </h2>
-                    <p className="text-lg md:text-xl max-w-2xl mx-auto body-copy text-[var(--color-text-secondary)]">
-                        Verified credentials, professional training, and specialized technical knowledge.
-                    </p>
+                    <div className="flex flex-col lg:flex-row lg:items-end gap-12 lg:gap-20">
+                        <div className="flex flex-col gap-4 flex-1">
+                            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-2" style={{ color: "var(--color-text-primary)" }}>
+                                Certifications
+                            </h2>
+                            <p className="text-lg md:text-xl leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
+                                Verified credentials, professional training, and specialized technical knowledge.
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap gap-x-8 gap-y-6 md:gap-12 lg:gap-16 lg:pb-1">
+                            <div className="flex flex-col">
+                                <span className="text-3xl font-medium text-[var(--color-text-primary)]">{totalCerts}</span>
+                                <span className="text-xs uppercase tracking-widest text-[var(--color-text-secondary)] mt-1">Certifications</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-3xl font-medium text-[var(--color-text-primary)]">{uniqueOrgs}</span>
+                                <span className="text-xs uppercase tracking-widest text-[var(--color-text-secondary)] mt-1">Organizations</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-3xl font-medium text-[var(--color-text-primary)]">{totalHours}+</span>
+                                <span className="text-xs uppercase tracking-widest text-[var(--color-text-secondary)] mt-1">Hours</span>
+                            </div>
+                        </div>
+                    </div>
                 </motion.div>
 
-                {/* Statistics Section */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-16">
-                    <AnimatedCounter value={`${totalCerts}+`} label="Certifications Earned" />
-                    <AnimatedCounter value={`${uniqueOrgs}`} label="Organizations" />
-                    <AnimatedCounter value={`${totalHours}+`} label="Learning Hours" />
-                </div>
+
 
                 {/* Certifications Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
