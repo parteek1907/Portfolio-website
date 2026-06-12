@@ -17,6 +17,9 @@ export default function Home() {
       <About />
       <Skills />
       <Certifications />
+      <div className="w-full bg-[var(--color-bg-primary)]">
+        <div className="w-full h-px bg-[var(--color-border)] opacity-60" />
+      </div>
       <Projects />
       <Contact />
       <Footer />
