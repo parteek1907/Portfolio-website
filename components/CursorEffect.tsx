@@ -179,7 +179,7 @@ export default function CursorEffect() {
                     background: dotColor,
                     boxShadow: dotGlow,
                     pointerEvents: "none",
-                    zIndex: 99999,
+                    zIndex: 9999999,
                     opacity: 0,
                     transition: "background 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease",
                 }}
@@ -195,7 +195,7 @@ export default function CursorEffect() {
                     width: 0,
                     height: 0,
                     pointerEvents: "none",
-                    zIndex: 99999,
+                    zIndex: 9999999,
                     opacity: 0,
                     transition: "opacity 0.3s ease",
                 }}
@@ -232,7 +232,7 @@ export default function CursorEffect() {
                     background: "transparent",
                     border: ringBorder,
                     pointerEvents: "none",
-                    zIndex: 99998,
+                    zIndex: 9999998,
                     opacity: 0,
                     transition: "border-color 0.15s ease, opacity 0.15s ease",
                 }}

@@ -54,7 +54,8 @@
    ========================================= */
 
 html {
-  scroll-behavior: smooth;
+  /* Scroll behavior handled by lib/smoothScroll.ts for premium easing */
+  scroll-behavior: auto;
 }
 
 body {
@@ -65,6 +66,15 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
   transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* =========================================
+   EDITORIAL HEADING SYSTEM
+   All headings use serif. No exceptions.
+   ========================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
 }
 
 /* Typography utilities */
@@ -209,24 +219,32 @@ textarea:focus-visible {
 }
 
 /* =========================================
-   SCROLLBAR
+   SCROLLBAR — Universal
+   3px hairline. Everywhere. No exceptions.
    ========================================= */
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 3px;
+  height: 3px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-primary);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border-strong);
-  border-radius: 4px;
+  background: rgba(128, 128, 128, 0.18);
+  border-radius: 99px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-secondary);
+  background: rgba(128, 128, 128, 0.4);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.18) transparent;
 }
 
 /* =========================================

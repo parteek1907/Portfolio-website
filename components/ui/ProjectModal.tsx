@@ -13,9 +13,18 @@ interface ProjectModalProps {
     onClose: () => void;
 }
 
-export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
+export default function ProjectModal({ project: incomingProject, isOpen, onClose }: ProjectModalProps) {
     const [isArchOpen, setIsArchOpen] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    // Cache the project so it doesn't instantly become null when closing, allowing exit animations to run
+    const [project, setProject] = useState<FeaturedProject | null>(incomingProject);
+    
+    useEffect(() => {
+        if (incomingProject) {
+            setProject(incomingProject);
+        }
+    }, [incomingProject]);
 
     useEffect(() => {
         if (isOpen) {
@@ -40,207 +49,217 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
         <>
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex justify-center p-0 md:p-6 lg:p-12">
+                <div className="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none">
+                    {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
                     />
 
+                    {/* Sliding Panel */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="relative w-full max-w-7xl max-h-[100dvh] md:max-h-[90vh] bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-none md:rounded-3xl shadow-2xl overflow-hidden flex flex-col z-10"
+                        initial={{ y: "100%" }}
+                        animate={{ y: 0 }}
+                        exit={{ y: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="relative w-full max-w-7xl mx-auto h-[95vh] md:h-[90vh] rounded-t-3xl shadow-2xl flex flex-col overflow-hidden pointer-events-auto"
+                        style={{
+                            background: "var(--color-bg-primary)",
+                            borderTop: "1px solid var(--color-border)",
+                            borderLeft: "1px solid var(--color-border)",
+                            borderRight: "1px solid var(--color-border)"
+                        }}
                     >
-                        {/* Header */}
-                        <div className="flex items-center justify-between px-6 py-6 md:px-12 md:py-8 border-b border-[var(--color-border)] bg-[var(--color-surface)]">
-                            <div>
-                                {project.label && (
-                                    <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-secondary)] mb-2 block">
-                                        {project.label}
-                                    </span>
-                                )}
-                                <h2 className="text-3xl md:text-5xl font-medium text-[var(--color-text-primary)] tracking-tight">
-                                    {project.title}
-                                </h2>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <button
-                                    onClick={onClose}
-                                    className="p-3 rounded-full bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
-                                >
-                                    <X size={24} />
-                                </button>
-                            </div>
+                        {/* Minimal Header with Close Button */}
+                        <div className="absolute top-0 left-0 right-0 z-20 flex justify-end p-6 md:p-8 bg-gradient-to-b from-[var(--color-bg-primary)] to-transparent pointer-events-none">
+                            <button
+                                onClick={onClose}
+                                className="p-2 transition-opacity opacity-40 hover:opacity-100 pointer-events-auto mix-blend-difference text-white"
+                                aria-label="Close modal"
+                            >
+                                <X size={24} />
+                            </button>
                         </div>
 
-                        {/* Body */}
+                        {/* Body Container */}
                         <div 
                             ref={scrollContainerRef}
-                            className="flex-1 overflow-y-auto custom-scrollbar flex flex-col lg:grid lg:grid-cols-[2.5fr_1fr] items-start"
+                            className="flex-1 overflow-y-auto custom-scrollbar relative z-10"
                         >
-                            
-                            {/* Left Column (Content) */}
-                            <div className="w-full p-6 md:p-12 lg:pr-16 flex flex-col gap-16 lg:col-start-1 lg:row-start-1">
+                            <div className="flex flex-col lg:grid lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_360px] gap-12 lg:gap-24 px-6 py-16 md:px-16 md:py-24 max-w-7xl mx-auto items-start">
                                 
-                                {/* Overview */}
-                                <section>
-                                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-2xl font-light">
-                                        {project.detailedDescription || project.description}
-                                    </p>
-                                </section>
+                                {/* Left Column (Main Content) */}
+                                <div className="w-full flex flex-col gap-20">
+                                    
+                                    {/* Massive Title Section */}
+                                    <header className="flex flex-col gap-6 max-w-4xl">
+                                        {project.label && (
+                                            <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-text-secondary)]" style={{ fontFamily: "var(--font-ui)" }}>
+                                                {project.label}
+                                            </span>
+                                        )}
+                                        <h2 className="text-5xl md:text-7xl font-medium text-[var(--color-text-primary)] tracking-tight leading-none" style={{ fontFamily: "var(--font-display)" }}>
+                                            {project.title}
+                                        </h2>
+                                        <p className="text-[var(--color-text-secondary)] leading-relaxed text-xl md:text-2xl font-light mt-4">
+                                            {project.detailedDescription || project.description}
+                                        </p>
+                                    </header>
 
-                                {/* Project Gallery - Emphasized */}
-                                <section>
-                                    {project.screenshots && project.screenshots.length > 0 ? (
-                                        <ProjectGallery images={project.screenshots} />
-                                    ) : project.heroImage && (
-                                        <ProjectGallery images={[project.heroImage]} />
-                                    )}
-                                </section>
-
-                                {/* Key Metrics - Typography based */}
-                                {project.keyMetrics && project.keyMetrics.length > 0 && (
-                                    <section className="flex flex-wrap gap-12 md:gap-24 py-10 border-y border-[var(--color-border)]">
-                                        {project.keyMetrics.map((metric, idx) => (
-                                            <div key={idx} className="flex flex-col gap-2">
-                                                <span className="text-5xl md:text-6xl font-medium tracking-tight text-[var(--color-text-primary)]">{metric.value}</span>
-                                                <span className="text-sm font-semibold tracking-widest uppercase text-[var(--color-text-secondary)]">{metric.label}</span>
-                                            </div>
-                                        ))}
+                                    {/* Project Gallery - Emphasized without borders */}
+                                    <section className="-mx-6 md:-mx-16 lg:mx-0">
+                                        {project.screenshots && project.screenshots.length > 0 ? (
+                                            <ProjectGallery images={project.screenshots} />
+                                        ) : project.heroImage && (
+                                            <ProjectGallery images={[project.heroImage]} />
+                                        )}
                                     </section>
-                                )}
 
-                                {/* Features & Challenges */}
-                                <div className="grid md:grid-cols-2 gap-12">
-                                    {project.features && project.features.length > 0 && (
-                                        <section>
-                                            <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-6">Core Features</h3>
-                                            <ul className="flex flex-col gap-4">
-                                                {project.features.map((feature, idx) => (
-                                                    <li key={idx} className="flex items-start gap-4 text-[var(--color-text-primary)] text-base">
-                                                        <span className="opacity-30 mt-0.5 text-[var(--color-text-secondary)]">&bull;</span>
-                                                        <span className="leading-relaxed">{feature}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                    {/* Key Metrics - Floating typography */}
+                                    {project.keyMetrics && project.keyMetrics.length > 0 && (
+                                        <section className="flex flex-wrap gap-x-20 gap-y-12 py-12 border-t border-[var(--color-border)] mt-4">
+                                            {project.keyMetrics.map((metric, idx) => (
+                                                <div key={idx} className="flex flex-col gap-3">
+                                                    <span className="text-6xl md:text-8xl font-medium tracking-tight text-[var(--color-text-primary)] leading-none" style={{ fontFamily: "var(--font-display)" }}>{metric.value}</span>
+                                                    <span className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)]" style={{ fontFamily: "var(--font-ui)" }}>{metric.label}</span>
+                                                </div>
+                                            ))}
                                         </section>
                                     )}
 
-                                    {project.challenges && project.challenges.length > 0 && (
-                                        <section>
-                                            <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-6">Challenges Solved</h3>
-                                            <ul className="flex flex-col gap-4">
-                                                {project.challenges.map((challenge, idx) => (
-                                                    <li key={idx} className="flex items-start gap-4 text-[var(--color-text-primary)] text-base">
-                                                        <span className="opacity-30 mt-0.5 text-[var(--color-text-secondary)]">&bull;</span>
-                                                        <span className="leading-relaxed">{challenge}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                    {/* Features & Challenges */}
+                                    <div className="grid md:grid-cols-2 gap-16">
+                                        {project.features && project.features.length > 0 && (
+                                            <section>
+                                                <h3 className="text-sm font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-8" style={{ fontFamily: "var(--font-ui)" }}>Core Features</h3>
+                                                <ul className="flex flex-col gap-6">
+                                                    {project.features.map((feature, idx) => (
+                                                        <li key={idx} className="flex items-start gap-5 text-[var(--color-text-primary)] text-lg">
+                                                            <span className="opacity-40 mt-1 text-[var(--color-text-secondary)]">&bull;</span>
+                                                            <span className="leading-relaxed font-light">{feature}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </section>
+                                        )}
+
+                                        {project.challenges && project.challenges.length > 0 && (
+                                            <section>
+                                                <h3 className="text-sm font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-8" style={{ fontFamily: "var(--font-ui)" }}>Challenges Solved</h3>
+                                                <ul className="flex flex-col gap-6">
+                                                    {project.challenges.map((challenge, idx) => (
+                                                        <li key={idx} className="flex items-start gap-5 text-[var(--color-text-primary)] text-lg">
+                                                            <span className="opacity-40 mt-1 text-[var(--color-text-secondary)]">&bull;</span>
+                                                            <span className="leading-relaxed font-light">{challenge}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </section>
+                                        )}
+                                    </div>
+
+                                    {/* Architecture Diagram */}
+                                    {project.architectureDiagram && (
+                                        <section className="pt-10">
+                                            <h3 className="text-sm font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-8" style={{ fontFamily: "var(--font-ui)" }}>System Architecture</h3>
+                                            <div 
+                                                className="relative w-full rounded-2xl overflow-hidden bg-[var(--color-bg-tertiary)] group cursor-pointer flex items-center justify-center border border-[var(--color-border)]"
+                                                onClick={() => setIsArchOpen(true)}
+                                            >
+                                                <Image 
+                                                    src={project.architectureDiagram} 
+                                                    alt={`${project.title} Architecture`} 
+                                                    width={1920}
+                                                    height={1080}
+                                                    unoptimized
+                                                    quality={100}
+                                                    className="w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                                                />
+                                                <div className="absolute top-6 right-6 p-4 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
+                                                    <Maximize2 size={20} strokeWidth={1.5} />
+                                                </div>
+                                            </div>
                                         </section>
                                     )}
                                 </div>
 
-                                {/* Architecture Diagram */}
-                                {project.architectureDiagram && (
-                                    <section>
-                                        <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-6">System Architecture</h3>
-                                        <div 
-                                            className="relative w-full rounded-3xl overflow-hidden bg-[var(--color-bg-tertiary)] group cursor-pointer flex items-center justify-center border border-[var(--color-border)]"
-                                            onClick={() => setIsArchOpen(true)}
-                                        >
-                                            <Image 
-                                                src={project.architectureDiagram} 
-                                                alt={`${project.title} Architecture`} 
-                                                width={1920}
-                                                height={1080}
-                                                unoptimized
-                                                quality={100}
-                                                className="w-full h-auto transition-transform duration-500"
-                                            />
-                                            <div className="absolute top-6 right-6 p-3 rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
-                                                <Maximize2 size={20} />
-                                            </div>
-                                        </div>
-                                    </section>
-                                )}
-                            </div>
-
-                            {/* Right Column (Sidebar Metadata) */}
-                            <div className="w-full lg:border-l border-[var(--color-border)] p-6 md:p-12 flex flex-col gap-10 lg:sticky lg:top-0 h-max z-10 lg:col-start-2 lg:row-start-1 bg-[var(--color-surface)]">
-                                
-                                {project.tags && project.tags.length > 0 && (
-                                    <section>
-                                        <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-4">Tech Stack</h3>
-                                        <div className="flex flex-col gap-2">
-                                            {project.tags.map(tag => (
-                                                <span key={tag} className="text-base font-medium text-[var(--color-text-primary)]">
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </section>
-                                )}
-
-                                {project.roleBadge && (
-                                    <section>
-                                        <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-4">Role</h3>
-                                        <span className="text-base font-medium text-[var(--color-text-primary)]">{project.roleBadge}</span>
-                                    </section>
-                                )}
-
-                                {project.timeline && (
-                                    <section>
-                                        <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-4">Duration</h3>
-                                        <span className="text-base font-medium text-[var(--color-text-primary)]">{project.timeline}</span>
-                                    </section>
-                                )}
-
-                                {project.year && (
-                                    <section>
-                                        <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-4">Date</h3>
-                                        <span className="text-base font-medium text-[var(--color-text-primary)]">{project.year}</span>
-                                    </section>
-                                )}
-
-                                {project.learned && (
-                                    <section>
-                                        <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-4">Key Learnings</h3>
-                                        <ul className="flex flex-col gap-3">
-                                            {project.learned.split('. ').filter(s => s.trim().length > 0).map((learning, idx) => (
-                                                <li key={idx} className="flex items-start gap-3 text-base text-[var(--color-text-primary)] font-medium">
-                                                    <span className="opacity-30 mt-0.5 text-[var(--color-text-secondary)]">&bull;</span>
-                                                    <span className="leading-relaxed">{learning.trim()}{learning.endsWith('.') ? '' : '.'}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </section>
-                                )}
-
-                                {/* Links */}
-                                {(project.liveUrl && project.liveUrl !== "#" || project.githubUrl) && (
-                                    <div className="flex flex-col gap-5 mt-4 pt-8 border-t border-[var(--color-border)]">
-                                        {project.liveUrl && project.liveUrl !== "#" && (
-                                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group relative flex items-center gap-2 w-fit text-base font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors">
-                                                Visit Live Site
-                                                <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                                                <span className="absolute -bottom-1 left-0 w-0 h-px bg-current transition-all duration-300 group-hover:w-full opacity-40"></span>
-                                            </a>
+                                {/* Right Column (Sidebar Metadata) */}
+                                <div className="w-full flex flex-col gap-12 lg:sticky lg:top-24 h-max pt-12 lg:pt-0 lg:pl-12 xl:pl-16 border-t lg:border-t-0 lg:border-l border-[var(--color-border)]">
+                                    
+                                    {/* Metadata block */}
+                                    <div className="flex flex-col gap-10">
+                                        {project.roleBadge && (
+                                            <section>
+                                                <h3 className="text-[11px] font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-3" style={{ fontFamily: "var(--font-ui)" }}>Role</h3>
+                                                <span className="text-lg text-[var(--color-text-primary)]">{project.roleBadge}</span>
+                                            </section>
                                         )}
-                                        {project.githubUrl && (
-                                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="group relative flex items-center gap-2 w-fit text-base font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors">
-                                                Source Code
-                                                <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                                                <span className="absolute -bottom-1 left-0 w-0 h-px bg-current transition-all duration-300 group-hover:w-full opacity-40"></span>
-                                            </a>
+
+                                        {project.timeline && (
+                                            <section>
+                                                <h3 className="text-[11px] font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-3" style={{ fontFamily: "var(--font-ui)" }}>Duration</h3>
+                                                <span className="text-lg text-[var(--color-text-primary)]">{project.timeline}</span>
+                                            </section>
+                                        )}
+
+                                        {project.year && (
+                                            <section>
+                                                <h3 className="text-[11px] font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-3" style={{ fontFamily: "var(--font-ui)" }}>Date</h3>
+                                                <span className="text-lg text-[var(--color-text-primary)]">{project.year}</span>
+                                            </section>
+                                        )}
+
+                                        {project.tags && project.tags.length > 0 && (
+                                            <section>
+                                                <h3 className="text-[11px] font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-4" style={{ fontFamily: "var(--font-ui)" }}>Tech Stack</h3>
+                                                <div className="flex flex-wrap gap-x-6 gap-y-3">
+                                                    {project.tags.map(tag => (
+                                                        <span key={tag} className="text-lg text-[var(--color-text-primary)] font-light">
+                                                            {tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </section>
                                         )}
                                     </div>
-                                )}
+
+                                    {project.learned && (
+                                        <section className="pt-6 lg:pt-10">
+                                            <h3 className="text-[11px] font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-5" style={{ fontFamily: "var(--font-ui)" }}>Key Learnings</h3>
+                                            <ul className="flex flex-col gap-4">
+                                                {project.learned.split('. ').filter(s => s.trim().length > 0).map((learning, idx) => (
+                                                    <li key={idx} className="flex items-start gap-4 text-base text-[var(--color-text-primary)] font-light">
+                                                        <span className="opacity-30 mt-1 text-[var(--color-text-secondary)]">&bull;</span>
+                                                        <span className="leading-relaxed">{learning.trim()}{learning.endsWith('.') ? '' : '.'}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </section>
+                                    )}
+
+                                    {/* Links - Minimal editorial style */}
+                                    {(project.liveUrl && project.liveUrl !== "#" || project.githubUrl) && (
+                                        <div className="flex flex-col gap-6 pt-10 border-t border-[var(--color-border)]">
+                                            {project.liveUrl && project.liveUrl !== "#" && (
+                                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group relative flex items-center gap-3 w-fit text-lg text-[var(--color-text-primary)] transition-colors">
+                                                    <span className="relative z-10" style={{ fontFamily: "var(--font-ui)" }}>Visit Live Site</span>
+                                                    <ArrowUpRight size={18} className="relative z-10 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                                                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+                                                </a>
+                                            )}
+                                            {project.githubUrl && (
+                                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="group relative flex items-center gap-3 w-fit text-lg text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors">
+                                                    <span className="relative z-10" style={{ fontFamily: "var(--font-ui)" }}>Source Code</span>
+                                                    <ArrowUpRight size={18} className="relative z-10 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                                                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full"></span>
+                                                </a>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </motion.div>
@@ -251,12 +270,12 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
         {/* Architecture Lightbox Modal */}
         <AnimatePresence>
             {isArchOpen && project?.architectureDiagram && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 pointer-events-none">
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+                        className="absolute inset-0 bg-black/90 backdrop-blur-xl pointer-events-auto"
                         onClick={() => setIsArchOpen(false)}
                     />
                     
@@ -266,7 +285,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         onClick={() => setIsArchOpen(false)}
-                        className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                        className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors pointer-events-auto"
                     >
                         <X size={24} />
                     </motion.button>
@@ -276,7 +295,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.95, opacity: 0 }}
                         transition={{ type: "spring", damping: 25 }}
-                        className="relative flex items-center justify-center w-full max-w-7xl"
+                        className="relative flex items-center justify-center w-full max-w-7xl pointer-events-auto"
                     >
                         <Image 
                             src={project.architectureDiagram} 

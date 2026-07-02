@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { aboutMe } from "@/lib/data";
+import { smoothScrollToElement } from "@/lib/smoothScroll";
 import CinematicNeuralBackground from "./CinematicNeuralBackground";
 import { useLoading } from "@/components/LoadingContext";
 
@@ -127,7 +128,7 @@ export default function Hero() {
                             e.preventDefault();
                             const elem = document.getElementById("projects");
                             if (elem) {
-                                elem.scrollIntoView({ behavior: "smooth" });
+                                smoothScrollToElement("projects");
                                 window.history.pushState(null, "", "#projects");
                             }
                         }}
@@ -147,7 +148,7 @@ export default function Hero() {
                             e.preventDefault();
                             const elem = document.getElementById("contact");
                             if (elem) {
-                                elem.scrollIntoView({ behavior: "smooth" });
+                                smoothScrollToElement("contact");
                                 window.history.pushState(null, "", "#contact");
                             }
                         }}

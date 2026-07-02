@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowLeft } from "lucide-react";
 import { useLoading } from "@/components/LoadingContext";
+import { smoothScrollToElement } from "@/lib/smoothScroll";
 
 const navLinks = [
     { name: "About", href: "#about" },
@@ -116,11 +117,8 @@ export default function Navbar() {
                                     }
 
                                     const targetId = link.href.replace(/.*\#/, "");
-                                    const elem = document.getElementById(targetId);
-                                    if (elem) {
-                                        elem.scrollIntoView({ behavior: "smooth" });
-                                        window.history.pushState(null, "", link.href);
-                                    }
+                                    smoothScrollToElement(targetId);
+                                    window.history.pushState(null, "", link.href);
                                 }}
                                 className="text-sm nav-link-ui transition-colors relative cursor-pointer"
                                 style={{
@@ -180,11 +178,8 @@ export default function Navbar() {
                                         }
 
                                         const targetId = link.href.replace(/.*\#/, "");
-                                        const elem = document.getElementById(targetId);
-                                        if (elem) {
-                                            elem.scrollIntoView({ behavior: "smooth" });
-                                            window.history.pushState(null, "", link.href);
-                                        }
+                                        smoothScrollToElement(targetId);
+                                        window.history.pushState(null, "", link.href);
                                     }}
                                     className="text-lg nav-link-ui transition-colors cursor-pointer"
                                     style={{

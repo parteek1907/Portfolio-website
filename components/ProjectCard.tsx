@@ -39,8 +39,7 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="w-full relative group cursor-pointer border-b border-[var(--color-border)] pb-16 md:pb-24 last:border-b-0 last:pb-0"
-            onClick={onClick}
+            className="w-full relative group border-b border-[var(--color-border)] pb-16 md:pb-24 last:border-b-0 last:pb-0"
         >
             <div className="flex flex-col md:flex-row md:items-center h-full gap-8 md:gap-16 relative z-10">
                 
@@ -119,10 +118,13 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
 
                         {/* CTA */}
                         <div className="flex justify-end mt-4">
-                            <span className="group/link relative flex items-center gap-1.5 text-[15px] font-medium text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-text-secondary)]">
+                            <button 
+                                onClick={onClick}
+                                className="group/link relative flex items-center gap-1.5 text-[15px] font-medium text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-text-secondary)] cursor-pointer bg-transparent border-none p-0"
+                            >
                                 View Case Study <ArrowUpRight size={16} className="transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
                                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-current transition-all duration-300 group-hover/link:w-full opacity-40"></span>
-                            </span>
+                            </button>
                         </div>
                     </div>
                 </div>

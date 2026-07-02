@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CheckCircle, AlertCircle, ArrowUpRight } from "lucide-react";
 import emailjs from '@emailjs/browser';
@@ -14,6 +14,15 @@ export default function Contact() {
         message: ''
     });
     const [isDark, setIsDark] = useState(false);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        handleChange(e);
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    };
 
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
@@ -183,12 +192,14 @@ export default function Contact() {
 
                             <div className="flex flex-col gap-1.5 mt-4">
                                     <textarea
+                                        ref={textareaRef}
                                         id="message"
                                         name="message"
                                         value={formData.message}
-                                        onChange={handleChange}
+                                        onChange={handleTextareaChange}
                                         required
-                                        className="w-full bg-transparent py-2 transition-colors resize-none outline-none text-[15px] min-h-[120px]"
+                                        rows={1}
+                                        className="w-full bg-transparent py-2 transition-colors resize-none outline-none text-[15px] overflow-hidden"
                                         style={{
                                             borderBottom: isDark ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
                                             color: "var(--color-text-primary)",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
@@ -12,6 +13,11 @@ interface ProjectGalleryProps {
 export default function ProjectGallery({ images }: ProjectGalleryProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
         if (isLightboxOpen || images.length <= 1) return;
@@ -95,66 +101,69 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                 )}
             </div>
 
-            {/* Lightbox Modal */}
-            <AnimatePresence>
-                {isLightboxOpen && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="absolute inset-0 bg-black/90 backdrop-blur-xl"
-                            onClick={() => setIsLightboxOpen(false)}
-                        />
-                        
-                        <motion.button 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            onClick={() => setIsLightboxOpen(false)}
-                            className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                        >
-                            <X size={24} />
-                        </motion.button>
-
-                        <motion.div 
-                            initial={{ scale: 0.95, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.95, opacity: 0 }}
-                            transition={{ type: "spring", damping: 25 }}
-                            className="relative flex items-center justify-center w-full max-w-7xl"
-                        >
-                            <Image 
-                                src={images[currentIndex]} 
-                                alt={`Fullscreen Screenshot ${currentIndex + 1}`} 
-                                width={1920}
-                                height={1080}
-                                unoptimized
-                                quality={100}
-                                className="w-auto h-auto max-w-full max-h-[85vh] rounded-2xl shadow-2xl"
+            {/* Lightbox Modal via Portal to escape CSS transform boundaries */}
+            {isMounted && document.body && createPortal(
+                <AnimatePresence>
+                    {isLightboxOpen && (
+                        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 md:p-12 pointer-events-none">
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-0 bg-black/95 backdrop-blur-xl pointer-events-auto"
+                                onClick={() => setIsLightboxOpen(false)}
                             />
+                            
+                            <motion.button 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                onClick={() => setIsLightboxOpen(false)}
+                                className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors pointer-events-auto"
+                            >
+                                <X size={24} />
+                            </motion.button>
 
-                            {images.length > 1 && (
-                                <>
-                                    <button 
-                                        onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                                        className="absolute left-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/50 text-white hover:bg-black/80 backdrop-blur-md transition-colors"
-                                    >
-                                        <ChevronLeft size={32} />
-                                    </button>
-                                    <button 
-                                        onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                                        className="absolute right-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/50 text-white hover:bg-black/80 backdrop-blur-md transition-colors"
-                                    >
-                                        <ChevronRight size={32} />
-                                    </button>
-                                </>
-                            )}
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
+                            <motion.div 
+                                initial={{ scale: 0.95, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.95, opacity: 0 }}
+                                transition={{ type: "spring", damping: 25 }}
+                                className="relative flex items-center justify-center w-full max-w-7xl pointer-events-auto"
+                            >
+                                <Image 
+                                    src={images[currentIndex]} 
+                                    alt={`Fullscreen Screenshot ${currentIndex + 1}`} 
+                                    width={1920}
+                                    height={1080}
+                                    unoptimized
+                                    quality={100}
+                                    className="w-auto h-auto max-w-full max-h-[85vh] rounded-2xl shadow-2xl"
+                                />
+
+                                {images.length > 1 && (
+                                    <>
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                                            className="absolute left-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/50 text-white hover:bg-black/80 backdrop-blur-md transition-colors"
+                                        >
+                                            <ChevronLeft size={32} />
+                                        </button>
+                                        <button 
+                                            onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                                            className="absolute right-6 top-1/2 -translate-y-1/2 p-4 rounded-full bg-black/50 text-white hover:bg-black/80 backdrop-blur-md transition-colors"
+                                        >
+                                            <ChevronRight size={32} />
+                                        </button>
+                                    </>
+                                )}
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>,
+                document.body
+            )}
         </>
     );
 }

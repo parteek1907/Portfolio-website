@@ -369,6 +369,77 @@ For other providers (Vercel, Cloudflare Pages, GitHub Pages), use the static `ou
 
 ---
 
+## 📋 Changelog
+
+### v1.3.0 — July 2026 *(The Editorial Overhaul)*
+- Sliding legal modal — all legal pages now float up as an overlay instead of navigating away
+- Editorial tab navigation inside the modal with Framer Motion `layoutId` underline glide
+- Dynamic browser tab titles — rotating messages when the tab is inactive, restores on return
+- Custom smooth scroll engine with ease-out quint curve, replaces native browser scrolling
+- Scroll animation cancellation — user input instantly aborts programmatic scroll
+- Unified 3px hairline scrollbar system across the entire site
+- Consistent serif typography system — all headings now use Georgia globally
+- Footer links redesigned with animated underlines matching Hero CTA behavior
+
+### v1.2.0 — June 13, 2026 *(The Polish Sprint)*
+- Layout-driven crossfade for project cards — resolved 0-height rendering flashes
+- Hero tagline updated to highlight AI and Data Science focus
+- Perfectly smooth Framer Motion crossfade without layout jumps on project transitions
+- Fixed navbar anchor scrolling and `layoutId` animation glitch
+- Bypassed Next.js router for smooth hash-based scrolling on the hero page
+- Static editorial labels and Framer Motion contact buttons
+- Horizontal dividers between all major sections for visual rhythm
+- Certificate modal text clipping fixed with `flex-wrap`
+- Scroll margin offsets added to Projects, Skills, and About sections
+
+### v1.1.0 — June 11, 2026 *(The Modal Architecture)*
+- Full project modal system — dynamic overlay modals replaced separate project pages
+- Auto-scrolling project screenshot gallery with lightbox zoom
+- Certification showcase with PDF-compatible lightbox using `react-pdf`
+- Native canvas rendering for flawless mobile PDF scaling
+- Dynamically loaded `react-pdf` to prevent `DOMMatrix` SSR failure during production builds
+- Synchronized close button exit animations across all modals
+- Resolved sticky scrolling block in ProjectModal and restored natural mobile layout order
+- Fixed footer element overlap on mobile viewports
+- Hero layout refined — emojis replaced with Lucide icons
+- Comprehensive project screenshots, issuer logos, and certification PDFs added
+
+### v1.0.0 — May 22, 2026 *(The SEO & Accessibility Pass)*
+- Comprehensive SEO optimizations — meta descriptions, Open Graph tags, structured data
+- Custom favicon and OG image generated
+- Mobile UI refinements across all sections
+- Certifications added to navbar navigation
+
+### v0.9.0 — April 23, 2026 *(The Design System)*
+- Switched display font to Georgia serif — established the editorial identity
+- Dark/light theme toggle with smooth transitions via `Providers` architecture
+- Copy-to-clipboard email button with Framer Motion transition feedback
+- Certifications section built with aligned card layout
+- Global CSS variables and animation system established
+- Hero, Navbar, SocialPill, About, Skills, and Projects components all refined
+- Custom 404 page designed
+
+### v0.5.0 — March 18, 2026 *(The Infrastructure)*
+- MIT License added
+- Netlify deployment configured — cache headers, `_redirects`, static export
+- Scroll restoration fix — browser scroll restore prevented, forced top on page load
+- Project detail pages removed in favor of the modal-first approach
+- Hero animation skip on back-navigation implemented
+
+### v0.1.0 — March 12, 2026 *(The Big Bang)*
+- Major portfolio overhaul — complete redesign from scratch
+- Comprehensive README with architecture diagrams and animation pipeline docs
+- Core sections built: Hero, About, Projects, Skills, Contact
+- Framer Motion animation system integrated
+- Next.js 16 with Turbopack as the foundation
+
+### v0.0.1 — March 1, 2026 *(Initial Commit)*
+- Repository created
+- Project scaffolded with Next.js and Tailwind CSS
+- The journey begins
+
+---
+
 ## 👤 Author
 
 **Parteek Garg**

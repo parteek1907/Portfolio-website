@@ -18,7 +18,7 @@ export default function Footer() {
     }, []);
 
     const currentYear = new Date().getFullYear();
-    const buildVersion = "v1.2.0"; // Or dynamic if available
+    const buildVersion = "v1.3.0"; // Updated July 2026
     const lastUpdated = "July 2026";
 
     const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (

@@ -138,7 +138,7 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                                             <Image src={certificate.issuerLogo} alt={certificate.issuer} fill className="object-cover" />
                                         </div>
                                     )}
-                                    <h2 className="text-2xl font-semibold mb-2 text-[var(--color-text-primary)] leading-tight tracking-tight">{certificate.title}</h2>
+                                    <h2 className="text-2xl font-semibold mb-2 text-[var(--color-text-primary)] leading-tight tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{certificate.title}</h2>
                                     <p className="text-[var(--color-text-secondary)] mb-8">{certificate.issuer}</p>
                                     
                                     <div className="flex flex-col gap-8">

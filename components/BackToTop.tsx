@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowUp } from "lucide-react";
+import { smoothScrollTo } from "@/lib/smoothScroll";
 
 export default function BackToTop() {
     const [isVisible, setIsVisible] = useState(false);
@@ -24,7 +25,7 @@ export default function BackToTop() {
     }, []);
 
     const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        smoothScrollTo(0, 1400);
     };
 
     return (
