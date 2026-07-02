@@ -9,17 +9,25 @@ import CinematicNeuralBackground from "./CinematicNeuralBackground";
 import { useLoading } from "@/components/LoadingContext";
 
 export default function Hero() {
-    const { isLoading, setIsLoading } = useLoading();
-    const isLoaded = !isLoading;
+    const { isLoading, setIsLoading, hasPlayedIntro, setHasPlayedIntro } = useLoading();
+    
+    // Freeze the value for the lifetime of this component mount
+    const [skipIntroState] = useState(hasPlayedIntro);
+    
+    const isLoaded = skipIntroState ? true : !isLoading;
     const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
+        // Mark the intro as played in the global context for future navigations
+        setHasPlayedIntro(true);
+        
         const checkTheme = () => {
             setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
         };
         checkTheme();
         const observer = new MutationObserver(checkTheme);
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        
         return () => observer.disconnect();
     }, []);
 
@@ -27,7 +35,7 @@ export default function Hero() {
         <section
             className="min-h-screen flex items-center justify-center pt-20 pb-10 overflow-hidden relative"
         >
-            <CinematicNeuralBackground onLoadComplete={() => setIsLoading(false)} />
+            <CinematicNeuralBackground skipIntro={skipIntroState} onLoadComplete={() => setIsLoading(false)} />
 
             <div className="max-w-5xl mx-auto px-6 text-center z-10 flex flex-col items-center">
                 <h1 className="sr-only">Parteek Garg - Full-Stack Developer & Data Science Engineer</h1>
@@ -35,7 +43,7 @@ export default function Hero() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    transition={skipIntroState ? { duration: 0 } : { duration: 0.8, delay: 0.2 }}
                     className="mb-6"
                 >
                     <span className="text-sm font-semibold tracking-[0.2em] uppercase" style={{ color: "var(--color-accent)" }}>
@@ -51,8 +59,8 @@ export default function Hero() {
                         visible: {
                             opacity: 1,
                             transition: {
-                                staggerChildren: 0.1,
-                                delayChildren: 0.4
+                                staggerChildren: skipIntroState ? 0 : 0.1,
+                                delayChildren: skipIntroState ? 0 : 0.4
                             }
                         }
                     }}
@@ -100,7 +108,7 @@ export default function Hero() {
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
+                    transition={skipIntroState ? { duration: 0 } : { duration: 0.8, delay: 0.6 }}
                     className="text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed body-copy text-muted"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
@@ -110,7 +118,7 @@ export default function Hero() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
+                    transition={skipIntroState ? { duration: 0 } : { duration: 0.8, delay: 0.8 }}
                     className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-8 sm:gap-12 w-full mt-4"
                 >
                     <a

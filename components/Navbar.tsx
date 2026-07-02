@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowLeft } from "lucide-react";
 import { useLoading } from "@/components/LoadingContext";
 
 const navLinks = [
@@ -22,6 +22,7 @@ export default function Navbar() {
     const [activeSection, setActiveSection] = useState("");
     const [isDark, setIsDark] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -85,7 +86,18 @@ export default function Navbar() {
             }}
         >
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                <div></div>
+                <div>
+                    {pathname !== "/" && (
+                        <Link 
+                            href="/" 
+                            className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
+                            style={{ color: "var(--color-text-primary)" }}
+                        >
+                            <ArrowLeft size={16} />
+                            Home
+                        </Link>
+                    )}
+                </div>
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center gap-8">
@@ -97,6 +109,12 @@ export default function Navbar() {
                                 href={link.href}
                                 onClick={(e) => {
                                     e.preventDefault();
+                                    
+                                    if (pathname !== "/") {
+                                        router.push("/" + link.href);
+                                        return;
+                                    }
+
                                     const targetId = link.href.replace(/.*\#/, "");
                                     const elem = document.getElementById(targetId);
                                     if (elem) {
@@ -155,6 +173,12 @@ export default function Navbar() {
                                     onClick={(e) => {
                                         e.preventDefault();
                                         setIsOpen(false);
+                                        
+                                        if (pathname !== "/") {
+                                            router.push("/" + link.href);
+                                            return;
+                                        }
+
                                         const targetId = link.href.replace(/.*\#/, "");
                                         const elem = document.getElementById(targetId);
                                         if (elem) {

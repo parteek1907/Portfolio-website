@@ -8,7 +8,8 @@ import ScrollLock from "@/components/ScrollLock";
 import CursorEffect from "@/components/CursorEffect";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import { Providers } from "@/components/Providers";
-
+import DynamicTitle from "@/components/DynamicTitle";
+import LegalModal from "@/components/LegalModal";
 
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-ui", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -91,6 +92,8 @@ export default function RootLayout({
       <body className={`${oswald.variable} ${inter.variable} font-sans antialiased`} suppressHydrationWarning>
         <Providers>
           <LoadingProvider>
+            <DynamicTitle />
+            <LegalModal />
             <ScrollProgressBar />
             <ScrollLock />
             <CursorEffect />
