@@ -371,6 +371,14 @@ For other providers (Vercel, Cloudflare Pages, GitHub Pages), use the static `ou
 
 ## 📋 Changelog
 
+### v1.4.0 — July 2026 *(The Identity Update)*
+- Premium Animated Signature: Custom SVG footer signature with a smooth, CEO-style "ink drawing" wipe animation.
+- Dynamic Theme ID Card: 3D physics ID card physically shifts materials between glossy black and bright white plastic based on active theme.
+- Advanced ID Card Styling: Center-punched lanyard layout, premium serif typography, and official university logo integration.
+- Pixel-Perfect GitHub Activity: Reconstructed heatmap matches native GitHub proportions exactly with a minimal horizontal hover pill.
+- Refined Document Titles: Streamlined tab titles to a strict dual-state system (Active/Inactive), removing the rotating timer.
+- Course Specialization: Updated credentials to explicitly highlight the Data Science specialization.
+
 ### v1.3.0 — July 2026 *(The Editorial Overhaul)*
 - Sliding legal modal — all legal pages now float up as an overlay instead of navigating away
 - Editorial tab navigation inside the modal with Framer Motion `layoutId` underline glide
