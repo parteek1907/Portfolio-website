@@ -54,7 +54,7 @@ export default function CinematicNeuralBackground({ onLoadComplete, skipIntro = 
     const config = isMobile ? MOBILE_CONFIG : DESKTOP_CONFIG;
 
     return (
-        <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: isDark ? "#1C1C1C" : "#F5F0EB" }}>
+        <div className="absolute inset-0 z-0 pointer-events-none" style={{ backgroundColor: isDark ? "#1C1C1C" : "#F5F0EB" }}>
             <Canvas
                 camera={{ position: [0, 0, 12], fov: 60 }}
                 dpr={isMobile ? 1 : [1, 2]}
