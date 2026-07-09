@@ -18,7 +18,7 @@ export default function Footer() {
     }, []);
 
     const currentYear = new Date().getFullYear();
-    const buildVersion = "v1.3.0"; // Updated July 2026
+    const buildVersion = "v1.4.0"; // Updated July 2026
     const lastUpdated = "July 2026";
 
     const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
@@ -36,12 +36,25 @@ export default function Footer() {
     );
 
     return (
-        <footer className="relative pt-24 pb-8" style={{ background: isDark ? "var(--color-bg-primary)" : "#E8E2DA", borderTop: "1px solid var(--color-border)" }}>
+        <footer className="relative pt-24 pb-8" style={{ backgroundColor: isDark ? "var(--color-bg-primary)" : "#E8E2DA", borderTop: "1px solid var(--color-border)" }}>
             <div className="max-w-7xl mx-auto px-6">
 
                 {/* Centered Minimal Identity */}
                 <div className="flex flex-col items-center justify-center text-center mb-16">
-                    <h3 className="text-3xl md:text-4xl mb-3 font-serif tracking-tight" style={{ color: "var(--color-text-primary)" }}>Parteek Garg</h3>
+                    {/* Animated Signature */}
+                    <motion.div 
+                        initial={{ clipPath: "inset(0% 100% 0% 0%)", opacity: 0, scale: 0.98 }}
+                        whileInView={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1, scale: 1 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="w-[300px] md:w-[440px] mb-10 flex justify-center items-center pointer-events-none select-none relative"
+                    >
+                        <img
+                            src="/Parteek%20Garg%20(480%20x%20120%20px).svg"
+                            alt="Parteek Garg Signature"
+                            className={`w-full h-auto object-contain drop-shadow-sm opacity-90 transition-colors duration-500 ${isDark ? 'invert' : ''}`}
+                        />
+                    </motion.div>
                     <p className="text-sm md:text-base font-medium mb-10" style={{ color: "var(--color-text-secondary)" }}>Building Practical Systems</p>
 
                     {/* The small line with a dot */}
