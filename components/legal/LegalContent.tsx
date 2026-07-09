@@ -118,6 +118,19 @@ export function ChangelogContent() {
         <div className="space-y-10" style={{ color: "var(--color-text-secondary)" }}>
 
             <section>
+                <H>v1.4.0 — July 2026</H>
+                <Sub>The Identity Update</Sub>
+                <ul className="list-disc pl-5 space-y-1.5">
+                    <li><strong>Premium Animated Signature:</strong> Replaced standard footer text with a custom SVG signature featuring a smooth, CEO-style "ink drawing" wipe animation driven by Framer Motion.</li>
+                    <li><strong>Dynamic Theme ID Card:</strong> The 3D physics ID card now dynamically shifts its physical materials between glossy deep black and bright white plastic based on the active light/dark mode.</li>
+                    <li><strong>Advanced ID Card Styling:</strong> Overhauled the 3D ID card with a premium center-punched layout, elegant serif typography, realistic lanyard physics, and the official university logo.</li>
+                    <li><strong>Pixel-Perfect GitHub Activity:</strong> Reconstructed the GitHub contribution graph to perfectly match native GitHub proportions, completely eliminated horizontal scrolling, and implemented a minimal horizontal hover pill tooltip.</li>
+                    <li><strong>Refined Document Titles:</strong> Streamlined browser tab titles to a strict dual-state system, removing the distracting rotating timer for a cleaner editorial feel.</li>
+                    <li><strong>Course Specialization:</strong> Updated credentials to explicitly highlight the Data Science specialization.</li>
+                </ul>
+            </section>
+
+            <section>
                 <H>v1.3.0 — July 2026</H>
                 <Sub>The Editorial Overhaul</Sub>
                 <ul className="list-disc pl-5 space-y-1.5">
