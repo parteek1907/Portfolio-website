@@ -8,6 +8,7 @@ const Certifications = dynamic(() => import("@/components/Certifications"));
 const Projects = dynamic(() => import("@/components/Projects"));
 const Contact = dynamic(() => import("@/components/Contact"));
 const Footer = dynamic(() => import("@/components/Footer"));
+const GithubActivity = dynamic(() => import("@/components/GithubActivity"));
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <div className="w-full h-px bg-[var(--color-border)] opacity-60" />
       </div>
       <Projects />
+      <GithubActivity />
       <Contact />
       <Footer />
     </main>
