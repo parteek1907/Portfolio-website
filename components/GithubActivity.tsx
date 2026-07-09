@@ -136,10 +136,10 @@ export default function GithubActivity() {
                                 const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
                                 const delay = dayOfYear * 8; // 8ms
                                 
-                                return React.cloneElement(block as React.ReactElement, {
+                                return React.cloneElement(block as React.ReactElement<any>, {
                                     className: `github-block ${!isEmpty ? 'interactive' : ''}`,
                                     style: {
-                                        ...((block as React.ReactElement).props.style || {}),
+                                        ...((block as React.ReactElement<any>).props.style || {}),
                                         animationDelay: `${delay}ms`
                                     },
                                     onMouseEnter: (e: React.MouseEvent) => {
