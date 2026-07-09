@@ -13,7 +13,7 @@ export default function Projects() {
         <section
             id="projects"
             className="pt-10 pb-10 px-6 scroll-mt-24"
-            style={{ background: "var(--color-bg-primary)" }}
+            style={{ backgroundColor: "var(--color-bg-primary)" }}
         >
             <div className="max-w-5xl mx-auto">
                 <motion.div
