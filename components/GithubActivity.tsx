@@ -101,6 +101,11 @@ export default function GithubActivity() {
                     html[class*="light"] .github-block.interactive:hover {
                         filter: brightness(85%);
                     }
+                    /* Fallback to hide total count and legend natively via CSS */
+                    .calendar-wrapper article > footer,
+                    .calendar-wrapper .react-activity-calendar__footer {
+                        display: none !important;
+                    }
                 `}} />
 
                 {/* Grid */}
@@ -113,8 +118,7 @@ export default function GithubActivity() {
                             theme={explicitTheme}
                             blockSize={15}
                             blockMargin={3}
-                            hideTotalCount={true}
-                            hideColorLegend={true}
+
                             transformData={(data) => {
                                 const total = data.reduce((acc, day) => acc + day.count, 0);
                                 if (total !== totalContributions) {
