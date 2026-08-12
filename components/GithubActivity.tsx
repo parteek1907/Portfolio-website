@@ -86,7 +86,11 @@ export default function GithubActivity() {
                         rx: 2px; /* Smoother corner for rectangles */
                         ry: 2px;
                         opacity: 0;
-                        animation: fadeTileIn 0.4s ease-out forwards;
+                        animation-name: fadeTileIn;
+                        animation-duration: 0.4s;
+                        animation-timing-function: ease-out;
+                        animation-fill-mode: forwards;
+                        animation-delay: var(--tile-delay, 0ms);
                     }
                     @keyframes fadeTileIn {
                         from { opacity: 0; }
@@ -140,8 +144,8 @@ export default function GithubActivity() {
                                     className: `github-block ${!isEmpty ? 'interactive' : ''}`,
                                     style: {
                                         ...((block as React.ReactElement<any>).props.style || {}),
-                                        animationDelay: `${delay}ms`
-                                    },
+                                        "--tile-delay": `${delay}ms`
+                                    } as React.CSSProperties,
                                     onMouseEnter: (e: React.MouseEvent) => {
                                         if (isEmpty) return; // No tooltip for empty days
 
