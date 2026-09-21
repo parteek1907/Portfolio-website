@@ -371,6 +371,13 @@ For other providers (Vercel, Cloudflare Pages, GitHub Pages), use the static `ou
 
 ## 📋 Changelog
 
+### v1.5.0 — September 2026 *(The Smooth Experience Update)*
+- **Lenis Smooth Scrolling Integration:** Upgraded the native scroll engine to Lenis, delivering a buttery-smooth, hardware-accelerated editorial scrolling experience.
+- **Advanced Scroll Lock Architecture:** Hardened the modal system by bridging Lenis with native body locks (`data-lenis-prevent`), ensuring the main page stays perfectly frozen when exploring Project, Certificate, Legal, and Lightbox overlays.
+- **Mobile-First Rendering Rules:** Engineered a responsive `9:19` aspect ratio container system for project cards, allowing tall mobile app screenshots to scale perfectly alongside desktop landscape views without letterboxing.
+- **Hackathon Timeline Integration:** Deployed a dedicated scroll-driven SVG timeline component to document the journey from early ideas (Prayas) to winning executions (Sanket).
+- **High-Fidelity Assets:** Wired up comprehensive UI showcases, dashboards, and architecture diagrams for the FinWise and Ziro case studies.
+
 ### v1.4.0 — July 2026 *(The Identity Update)*
 - Premium Animated Signature: Custom SVG footer signature with a smooth, CEO-style "ink drawing" wipe animation.
 - Dynamic Theme ID Card: 3D physics ID card physically shifts materials between glossy black and bright white plastic based on active theme.
