@@ -32,12 +32,14 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
     const nextImage = () => setCurrentIndex((prev) => (prev + 1) % images.length);
     const prevImage = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
 
+    const isMobileRatio = images.some(img => img.toLowerCase().includes('sanket'));
+
     return (
         <>
-            <div className="flex flex-col gap-3">
+            <div className={`flex flex-col gap-3 ${isMobileRatio ? 'max-w-[300px] mx-auto' : 'w-full'}`}>
                 {/* Main Viewport */}
                 <div 
-                    className="relative w-full aspect-video rounded-2xl overflow-hidden bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] group cursor-pointer"
+                    className={`relative w-full rounded-2xl overflow-hidden bg-[var(--color-bg-tertiary)] border border-[var(--color-border)] group cursor-pointer ${isMobileRatio ? 'aspect-[9/19]' : 'aspect-video'}`}
                     onClick={() => setIsLightboxOpen(true)}
                 >
                     <AnimatePresence>
@@ -53,7 +55,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
                                 src={images[currentIndex]} 
                                 alt={`Screenshot ${currentIndex + 1}`} 
                                 fill 
-                                className="object-cover"
+                                className={isMobileRatio ? "object-contain p-4" : "object-cover"}
                             />
                         </motion.div>
                     </AnimatePresence>
@@ -105,7 +107,7 @@ export default function ProjectGallery({ images }: ProjectGalleryProps) {
             {isMounted && document.body && createPortal(
                 <AnimatePresence>
                     {isLightboxOpen && (
-                        <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 md:p-12 pointer-events-none">
+                        <div data-lenis-prevent className="fixed inset-0 z-[999999] flex items-center justify-center p-4 md:p-12 pointer-events-none">
                             <motion.div 
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}

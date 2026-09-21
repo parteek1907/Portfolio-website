@@ -49,7 +49,7 @@ export default function ProjectModal({ project: incomingProject, isOpen, onClose
         <>
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none">
+                <div data-lenis-prevent className="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none">
                     {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -85,8 +85,10 @@ export default function ProjectModal({ project: incomingProject, isOpen, onClose
                         </div>
 
                         {/* Body Container */}
+                        {/* Scrollable Content */}
                         <div 
                             ref={scrollContainerRef}
+                            data-lenis-prevent
                             className="flex-1 overflow-y-auto custom-scrollbar relative z-10"
                         >
                             <div className="flex flex-col lg:grid lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_360px] gap-12 lg:gap-24 px-6 py-16 md:px-16 md:py-24 max-w-7xl mx-auto items-start">

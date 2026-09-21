@@ -55,7 +55,7 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
         <>
             <AnimatePresence>
                 {isOpen && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12">
+                    <div data-lenis-prevent className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -124,7 +124,7 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
                             </div>
 
                             {/* Right: Details & Actions */}
-                            <div className="w-full lg:w-[400px] flex flex-col p-6 lg:p-8 overflow-y-auto custom-scrollbar bg-[var(--color-surface)]">
+                            <div data-lenis-prevent className="w-full lg:w-[400px] flex flex-col p-6 lg:p-8 overflow-y-auto custom-scrollbar bg-[var(--color-surface)]">
                                 <button
                                     onClick={onClose}
                                     className="absolute top-4 right-4 p-2 rounded-full bg-[var(--color-bg-tertiary)] hover:bg-[var(--color-border)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors z-20"
@@ -198,7 +198,7 @@ export default function CertificateModal({ certificate, isOpen, onClose }: Certi
             {/* Fullscreen Lightbox Modal */}
             <AnimatePresence>
                 {isFullScreen && certificate && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
+                    <div data-lenis-prevent className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12">
                         <motion.div 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}

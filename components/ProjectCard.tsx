@@ -44,38 +44,42 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
             <div className="flex flex-col md:flex-row md:items-center h-full gap-8 md:gap-16 relative z-10">
                 
                 {/* Left/Top: Hero Image */}
-                <div 
-                    className={`w-full md:w-[50%] lg:w-[55%] relative rounded-2xl overflow-hidden shadow-md shrink-0 border border-[var(--color-border)] bg-[var(--color-bg-tertiary)] ${
-                        project.title.toLowerCase().includes('veralon') ? 'aspect-[16/10]' : ''
-                    }`}
-                    style={{ aspectRatio: project.aspectRatio || (project.title.toLowerCase().includes('veralon') ? '16/10' : 'auto') }}
-                >
-                    {images.length > 0 ? (
-                        <motion.div layout className="w-full relative flex items-center justify-center">
-                            {images.map((img, idx) => (
-                                <motion.img 
-                                    layout
-                                    key={idx}
-                                    src={img} 
-                                    alt={`${project.title} screenshot ${idx + 1}`} 
-                                    initial={false}
-                                    animate={{ 
-                                        opacity: idx === currentImageIndex ? 1 : 0,
-                                    }}
-                                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                                    className={`w-full block ${
-                                        idx === currentImageIndex ? "relative z-10" : "absolute inset-0 z-0 pointer-events-none"
-                                    } ${
-                                        project.title.toLowerCase().includes('veralon') ? 'h-full object-cover object-top' : 'h-full object-contain'
-                                    }`}
-                                />
-                            ))}
-                        </motion.div>
-                    ) : (
-                        <div className="w-full aspect-video rounded-2xl flex items-center justify-center text-[var(--color-text-tertiary)] text-sm bg-[var(--color-bg-tertiary)] border border-[var(--color-border)]">
-                            No preview available
-                        </div>
-                    )}
+                <div className="w-full md:w-[50%] lg:w-[55%] flex items-center justify-center shrink-0">
+                    <div 
+                        className={`relative rounded-2xl overflow-hidden shadow-md border border-[var(--color-border)] bg-[var(--color-bg-tertiary)] ${
+                            project.title.toLowerCase() === 'sanket' 
+                                ? 'w-full max-w-[260px] md:max-w-[280px] mx-auto'
+                                : 'w-full h-full'
+                        }`}
+                        style={{ aspectRatio: project.aspectRatio || (project.title.toLowerCase() === 'sanket' ? '9/19' : 'auto') }}
+                    >
+                        {images.length > 0 ? (
+                            <motion.div layout className="w-full h-full relative flex items-center justify-center">
+                                {images.map((img, idx) => (
+                                    <motion.img 
+                                        layout
+                                        key={idx}
+                                        src={img} 
+                                        alt={`${project.title} screenshot ${idx + 1}`} 
+                                        initial={false}
+                                        animate={{ 
+                                            opacity: idx === currentImageIndex ? 1 : 0,
+                                        }}
+                                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                                        className={`w-full block ${
+                                            idx === currentImageIndex ? "relative z-10" : "absolute inset-0 z-0 pointer-events-none"
+                                        } ${
+                                            project.title.toLowerCase().includes('veralon') ? 'h-full object-cover object-top' : 'h-full object-contain'
+                                        }`}
+                                    />
+                                ))}
+                            </motion.div>
+                        ) : (
+                            <div className="w-full aspect-video rounded-2xl flex items-center justify-center text-[var(--color-text-tertiary)] text-sm bg-[var(--color-bg-tertiary)] border border-[var(--color-border)]">
+                                No preview available
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* Right/Bottom: Content */}

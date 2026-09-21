@@ -10,6 +10,7 @@ import ScrollProgressBar from "@/components/ScrollProgressBar";
 import { Providers } from "@/components/Providers";
 import DynamicTitle from "@/components/DynamicTitle";
 import LegalModal from "@/components/LegalModal";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-ui", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -83,7 +84,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script dangerouslySetInnerHTML={{ __html: scrollScript }} />
@@ -97,7 +98,9 @@ export default function RootLayout({
             <ScrollProgressBar />
             <ScrollLock />
             <CursorEffect />
-            {children}
+            <SmoothScrolling>
+              {children}
+            </SmoothScrolling>
             <SocialPill />
             <BackToTop />
           </LoadingProvider>

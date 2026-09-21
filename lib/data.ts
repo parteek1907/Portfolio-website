@@ -125,6 +125,134 @@ export const certifications: Certification[] = [
 
 export const featuredProjects: FeaturedProject[] = [
     {
+        slug: "ziro",
+        label: "HACKATHON PROJECT · Team Lead",
+        title: "Ziro",
+        subtitle: "Move Money Smarter",
+        description: "Ziro is an intelligent financial platform that makes payments safer, smarter, and more resilient. It combines AI-powered payment protection, smart settlement, offline transactions, and privacy-conscious financial reputation.",
+        detailedDescription: "Ziro acts as an intelligent layer between users and traditional or blockchain-based payment infrastructure. Its Smart Settlement Engine evaluates available TradFi and DeFi routes, while the AI Payment Firewall screens transactions for scams and fraud before authorization. The TrustScore Engine builds a privacy-conscious financial reputation, while the Offline Payment Engine allows qualifying transactions to be securely queued during connectivity loss. Ziro also provides a Human Consultant layer when automated assistance isn't enough.",
+        learned: "Designing secure state-driven financial workflows, integrating AI into fintech without making it the sole decision-maker, handling offline transactions and retries, and abstracting blockchain complexity.",
+        tags: ["Next.js", "TypeScript", "FastAPI", "Python", "Groq", "Llama", "Google GenAI", "Firebase", "Polygon", "Stellar"],
+        statChips: ["Smart Settlement", "AI Firewall", "TrustScore", "Offline Queuing"],
+        githubUrl: "https://github.com/parteek1907/Ziro",
+        liveUrl: "#",
+        gradient: "linear-gradient(135deg, #F6F3EC, #DCE8E1)",
+        heroImage: "/Ziro/Landingpage.png",
+        screenshots: [
+            "/Ziro/Landingpage.png",
+            "/Ziro/Dashboard.png",
+            "/Ziro/Features.png",
+            "/Ziro/Payment.png",
+            "/Ziro/TrustScore.png"
+        ],
+        keyMetrics: [
+            { label: "Core Backend Capabilities", value: "6" },
+            { label: "Pre-txn Security Checks", value: "3" },
+            { label: "Settlement Ecosystems", value: "2" }
+        ],
+        features: [
+            "Smart Settlement Engine — evaluates routes based on cost and settlement",
+            "AI Payment Firewall — detects fraud, scams, and suspicious transactions",
+            "TrustScore — privacy-conscious financial reputation",
+            "Offline Payment Engine — securely queues payments offline",
+            "Human Consultant — personalized assistance fallback"
+        ],
+        challenges: [
+            "Multi-layer payment orchestration: routing, screening, and settlement in one lifecycle",
+            "Blockchain abstraction: integrating Web3 settlement without exposing wallet complexity",
+            "Offline reliability: distinguishing queued vs settled cryptographically signed transactions"
+        ],
+        architectureDiagram: "/Ziro/SystemArchitecture.png",
+        timeline: "24 Hours",
+        year: "Sept 2026",
+        status: "Completed"
+    },
+    {
+        slug: "sanket",
+        label: "HACKATHON PROJECT",
+        title: "Sanket",
+        subtitle: "Ocean Hazard Intelligence Platform",
+        description: "Sanket is a mobile-first ocean and coastal safety platform that combines citizen reporting, environmental intelligence, social signals, AI-driven hazard analysis, and emergency response into a unified safety ecosystem.",
+        detailedDescription: "Sanket is built as a location-aware safety ecosystem where citizen reports, public social signals, weather/ocean conditions, and geospatial information converge into a centralized incident intelligence layer. The system uses AI-assisted verification and duplicate-incident clustering to transform fragmented reports into unified, location-aware incidents with severity and confidence assessments. A geospatial risk engine powers live hazard maps, personalized risk assessment, geo-fenced alerts, and lower-risk route recommendations, while an explainable AI layer exposes the evidence behind major risk decisions. The platform also incorporates one-tap hazard reporting, community verification, smart SOS, offline emergency mode, and offline report synchronization to maintain functionality during unreliable connectivity. The architecture is designed around a central incident model so that Home, Reports, Social Intelligence, Weather, Maps, Alerts, and Emergency workflows operate on consistent shared data rather than isolated features.",
+        learned: "Designing a real-time, event-driven safety ecosystem rather than disconnected application features. Working with geospatial data, location services, hazard zones, clustering, and proximity-based intelligence. Building AI systems with explainability, confidence, corroboration, and uncertainty handling rather than treating AI output as absolute truth. Designing robust offline-first emergency workflows for unreliable network environments. Maintaining a consistent design system and shared state across multiple complex mobile application modules. Engineering for failure states, permissions, stale data, synchronization, and real-world edge cases.",
+        tags: ["Flutter", "Dart", "FastAPI", "Python", "PostgreSQL", "PostGIS", "PyTorch", "Mapbox", "Firebase"],
+        statChips: ["6+ integrated modules", "AI verification", "Offline-first SOS", "Geospatial routing"],
+        githubUrl: "https://github.com/adityaa6060/SANKET",
+        liveUrl: "#",
+        gradient: "linear-gradient(135deg, #061A2D, #0B4F6C)",
+        heroImage: "/Sanket/Dashboard.png",
+        screenshots: [
+            "/Sanket/Dashboard.png",
+            "/Sanket/SOS.png",
+            "/Sanket/SocialMedia.png"
+        ],
+        keyMetrics: [
+            { label: "Integrated Modules", value: "6+" },
+            { label: "Intelligence Inputs", value: "4+" },
+            { label: "Unified Pipeline", value: "1" }
+        ],
+        features: [
+            "AI-Powered Hazard Intelligence — combines citizen reports, social signals, and environmental data to identify and assess emerging coastal hazards.",
+            "Real-Time Incident Intelligence — clusters duplicate reports into unified incidents with severity, confidence, affected areas, timelines, and evolving risk.",
+            "Geospatial Safety System — live hazard maps, personalized risk assessment, geo-fenced warnings, affected zones, and lower-risk route recommendations.",
+            "Smart Reporting & Emergency Response — one-tap hazard reporting, evidence capture, community verification, SOS, emergency contacts, and location sharing.",
+            "Offline-First Safety — cached emergency information, last-known location, offline reporting, persistent report queues, and automatic synchronization when connectivity returns."
+        ],
+        challenges: [
+            "Turning fragmented reports into meaningful incidents: Designed a geospatial and temporal clustering architecture capable of treating multiple reports and signals as evidence for a single evolving event.",
+            "Maintaining consistency across a complex ecosystem: Centralized location, incident, risk, user, and environmental data so Home, Reports, Social, Weather, Maps, and SOS don't operate as isolated systems.",
+            "Designing for unreliable real-world connectivity: Implemented offline emergency functionality and queued report synchronization while clearly distinguishing live data from stale/last-known information."
+        ],
+        architectureDiagram: "/Sanket/SystemArchitecture.png",
+        timeline: "2026 Cycle",
+        year: "September 2026",
+        status: "Completed"
+    },
+    {
+        slug: "finwise",
+        label: "HACKATHON PROJECT · Team Lead",
+        title: "FinWise",
+        subtitle: "AI-Powered Financial Learning Ecosystem",
+        description: "FinWise is an AI-powered financial literacy ecosystem that bridges the gap between learning financial concepts and making financial decisions. It combines interactive courses, practical trading labs, a simulated virtual market, and contextual AI mentoring.",
+        detailedDescription: "FinWise is designed as a connected financial-learning ecosystem rather than a collection of independent tools. Its architecture connects a structured learning layer with practical Trading Labs and a simulated Virtual Market, allowing users to move from learning a concept to applying it in a controlled environment and reflecting on their decisions. A contextual AI Mentor provides guidance based on the learner's current activity, while Emotion AI adds a behavioral layer to help users understand patterns that may influence financial decisions. Financial Goals, Myth vs Fact, Scam Detection, XP, achievements, and leaderboard progression extend the experience beyond trading into broader financial literacy and long-term engagement. The core product loop is Learn → Practice → Decide → Reflect → Improve, with AI functioning as an integrated intelligence layer.",
+        learned: "Designing an AI-first product around context and orchestration, rather than treating an LLM API as the product itself. Building interconnected product modules where learning, simulation, behavioral feedback, goals, and gamification contribute to one user journey. Working with real-time market data and maintaining a single source of truth. Designing human-centered AI interactions, particularly using the AI Mentor to guide users instead of simply providing answers.",
+        tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Python", "FastAPI", "Google Gemini", "Firebase", "Yahoo Finance"],
+        statChips: ["Virtual Market", "Contextual AI Mentor", "Emotion AI", "Scam Detection"],
+        githubUrl: "https://github.com/parteek1907/finwise-ai",
+        liveUrl: "#",
+        gradient: "linear-gradient(135deg, #071A14 0%, #123C2E 100%)",
+        heroImage: "/FinWiseAI/Dashboard.png",
+        screenshots: [
+            "/FinWiseAI/Dashboard.png",
+            "/FinWiseAI/Dashboard1.png",
+            "/FinWiseAI/Features.png",
+            "/FinWiseAI/Learning.png",
+            "/FinWiseAI/aimentor.png",
+            "/FinWiseAI/virutalmarket.png"
+        ],
+        keyMetrics: [
+            { label: "Hackathon Teams", value: "3,500+" },
+            { label: "Competition Result", value: "Top 6 Finalist" },
+            { label: "Interconnected Systems", value: "7+" }
+        ],
+        features: [
+            "Practical Financial Learning — Structured courses enhanced with practical Trading Labs",
+            "Virtual Market Simulation — Market-data-driven simulated trading with portfolio tracking",
+            "Contextual AI Mentor + Emotion AI — AI guidance connected to the learner's current course/activity",
+            "Financial Planning & Safety — Goal tracking, Myth vs Fact, and scam-awareness experiences",
+            "Gamified Learning Ecosystem — XP, achievements, badges, progress and leaderboard mechanics"
+        ],
+        challenges: [
+            "Market-data consistency: Ensuring the same stock price is used across the Virtual Market, portfolio, and other UI surfaces",
+            "Connecting AI to product context: Moving beyond a generic chatbot by making the AI Mentor relevant to the user's current course",
+            "Turning passive learning into applied learning: Designing the connection between courses, practical labs, and simulated trading so the product functions as one ecosystem"
+        ],
+        architectureDiagram: "/FinWiseAI/SystemArchitecture.png",
+        timeline: "48 Hours",
+        year: "Aug 2026",
+        status: "Completed"
+    },
+    {
         slug: "greentrace",
         title: "GreenTrace",
         subtitle: "Environmental Intelligence Platform",

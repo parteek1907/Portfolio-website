@@ -81,7 +81,7 @@ function LegalModalInner() {
     return (
         <AnimatePresence>
             {modalType && modalData && (
-                <div className="fixed inset-0 z-[99999] flex flex-col justify-end pointer-events-none">
+                <div data-lenis-prevent className="fixed inset-0 z-[99999] flex flex-col justify-end pointer-events-none">
                     
                     {/* Backdrop */}
                     <motion.div
@@ -124,7 +124,7 @@ function LegalModalInner() {
                                                 {modalData.title}
                                             </h2>
                                             <p className="text-xs mt-2 tracking-widest uppercase" style={{ color: "var(--color-text-secondary)", fontFamily: "var(--font-ui)", letterSpacing: "0.15em" }}>
-                                                Last updated — July 2026
+                                                Last updated — September 2026
                                             </p>
                                         </motion.div>
                                     </AnimatePresence>
@@ -183,7 +183,7 @@ function LegalModalInner() {
                         </div>
 
                         {/* Scrollable Content */}
-                        <div className="flex-1 overflow-y-auto px-6 py-10 custom-scrollbar">
+                        <div data-lenis-prevent className="flex-1 overflow-y-auto px-6 py-10 custom-scrollbar">
                             <AnimatePresence mode="wait">
                                 <motion.div 
                                     key={modalType}

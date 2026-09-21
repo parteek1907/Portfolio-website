@@ -18,8 +18,8 @@ export default function Footer() {
     }, []);
 
     const currentYear = new Date().getFullYear();
-    const buildVersion = "v1.4.0"; // Updated July 2026
-    const lastUpdated = "July 2026";
+    const buildVersion = "v1.5.0"; // Updated September 2026
+    const lastUpdated = "September 2026";
 
     const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
         <Link

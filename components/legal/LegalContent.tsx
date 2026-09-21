@@ -118,6 +118,17 @@ export function ChangelogContent() {
         <div className="space-y-10" style={{ color: "var(--color-text-secondary)" }}>
 
             <section>
+                <H>v1.5.0 — September 2026</H>
+                <Sub>The Hackathon Expansion</Sub>
+                <ul className="list-disc pl-5 space-y-1.5">
+                    <li><strong>Experience Timeline:</strong> Integrated a dynamic Aceternity timeline component to showcase hackathon achievements, complete with precise metadata.</li>
+                    <li><strong>Ziro Project Integration:</strong> Added Ziro, an intelligent financial platform for secure settlements, featuring detailed metrics and architecture.</li>
+                    <li><strong>FinWise AI Ecosystem:</strong> Integrated FinWise AI, a comprehensive financial learning platform built during StoxraHack 2026.</li>
+                    <li><strong>Visual Polish:</strong> Refined the Experience section with column separators and a clean, high-contrast timeline track.</li>
+                </ul>
+            </section>
+
+            <section>
                 <H>v1.4.0 — July 2026</H>
                 <Sub>The Identity Update</Sub>
                 <ul className="list-disc pl-5 space-y-1.5">

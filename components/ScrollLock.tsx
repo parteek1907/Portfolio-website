@@ -2,9 +2,11 @@
 
 import { useEffect } from "react";
 import { useLoading } from "@/components/LoadingContext";
+import { useLenis } from "lenis/react";
 
 export default function ScrollLock() {
     const { isLoading } = useLoading();
+    const lenis = useLenis();
 
     useEffect(() => {
         if (isLoading) {
@@ -16,6 +18,8 @@ export default function ScrollLock() {
             window.scrollTo(0, 0);
             document.documentElement.scrollTop = 0;
             document.body.scrollTop = 0;
+
+            lenis?.stop();
             
             // Prevent scroll restoration
             if (window.history) {
@@ -25,13 +29,15 @@ export default function ScrollLock() {
             // Unlock scroll
             document.body.style.overflow = "unset";
             document.documentElement.style.overflow = "unset";
+            lenis?.start();
         }
 
         return () => {
             document.body.style.overflow = "unset";
             document.documentElement.style.overflow = "unset";
+            lenis?.start();
         };
-    }, [isLoading]);
+    }, [isLoading, lenis]);
 
     return null;
 }
