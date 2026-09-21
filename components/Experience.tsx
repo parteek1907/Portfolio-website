@@ -36,9 +36,12 @@ export default function Experience() {
 
           <div>
             <p className="font-semibold text-neutral-200 mb-1 tracking-wider text-xs uppercase">Project</p>
-            <a href="#projects" className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4">
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent("openProjectModal", { detail: { slug: "lumiere" } }))}
+              className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4 bg-transparent border-none p-0 cursor-pointer text-left"
+            >
               Lumiere
-            </a>
+            </button>
           </div>
 
         </div>
@@ -76,9 +79,12 @@ export default function Experience() {
 
           <div>
             <p className="font-semibold text-neutral-200 mb-1 tracking-wider text-xs uppercase">Project</p>
-            <a href="#projects" className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4">
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent("openProjectModal", { detail: { slug: "lumiere" } }))}
+              className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4 bg-transparent border-none p-0 cursor-pointer text-left"
+            >
               Lumiere
-            </a>
+            </button>
           </div>
 
         </div>
@@ -116,9 +122,12 @@ export default function Experience() {
 
           <div>
             <p className="font-semibold text-neutral-200 mb-1 tracking-wider text-xs uppercase">Project</p>
-            <a href="#projects" className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4">
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent("openProjectModal", { detail: { slug: "finwise" } }))}
+              className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4 bg-transparent border-none p-0 cursor-pointer text-left"
+            >
               FinWise AI
-            </a>
+            </button>
           </div>
 
         </div>
@@ -158,9 +167,12 @@ export default function Experience() {
 
           <div>
             <p className="font-semibold text-neutral-200 mb-1 tracking-wider text-xs uppercase">Project</p>
-            <a href="#projects" className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4">
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent("openProjectModal", { detail: { slug: "sanket" } }))}
+              className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4 bg-transparent border-none p-0 cursor-pointer text-left"
+            >
               Sanket
-            </a>
+            </button>
           </div>
 
         </div>
@@ -202,9 +214,12 @@ export default function Experience() {
 
           <div>
             <p className="font-semibold text-neutral-200 mb-1 tracking-wider text-xs uppercase">Project</p>
-            <a href="#projects" className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4">
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent("openProjectModal", { detail: { slug: "ziro" } }))}
+              className="text-white hover:text-neutral-300 transition-colors underline underline-offset-4 bg-transparent border-none p-0 cursor-pointer text-left"
+            >
               Ziro
-            </a>
+            </button>
           </div>
 
         </div>

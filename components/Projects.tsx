@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ui/ProjectModal";
@@ -8,6 +8,19 @@ import { featuredProjects, FeaturedProject } from "@/lib/data";
 
 export default function Projects() {
     const [selectedProject, setSelectedProject] = useState<FeaturedProject | null>(null);
+
+    useEffect(() => {
+        const handleOpenModal = (e: Event) => {
+            const customEvent = e as CustomEvent<{slug: string}>;
+            const project = featuredProjects.find(p => p.slug === customEvent.detail.slug);
+            if (project) {
+                setSelectedProject(project);
+            }
+        };
+
+        window.addEventListener("openProjectModal", handleOpenModal);
+        return () => window.removeEventListener("openProjectModal", handleOpenModal);
+    }, []);
 
     return (
         <section
