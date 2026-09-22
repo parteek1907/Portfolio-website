@@ -61,9 +61,9 @@ const TimelineItem = ({ item, index, lineHeight, totalItems }: { item: TimelineE
           {item.isWinner ? (
             <motion.div
               animate={{
-                color: isActive ? "#ffffff" : "var(--color-border-strong)",
+                color: isActive ? "var(--timeline-active-color)" : "var(--color-border-strong)",
                 scale: isActive ? 1.3 : 1,
-                filter: isActive ? "drop-shadow(0 0 10px rgba(255,255,255,0.6))" : "drop-shadow(0 0 0px rgba(255,255,255,0))",
+                filter: isActive ? "drop-shadow(0 0 10px var(--timeline-glow-color))" : "drop-shadow(0 0 0px rgba(128,128,128,0))",
               }}
               transition={{ duration: 0.3, ease: "easeOut", type: "spring", stiffness: 300, damping: 20 }}
               className="flex items-center justify-center"
@@ -76,7 +76,7 @@ const TimelineItem = ({ item, index, lineHeight, totalItems }: { item: TimelineE
                 backgroundColor: isActive ? "var(--color-text-primary)" : "transparent",
                 borderColor: isActive ? "var(--color-text-primary)" : "var(--color-border-strong)",
                 scale: isActive ? 1.3 : 1,
-                boxShadow: isActive ? "0 0 20px 2px rgba(255,255,255,0.2)" : "none",
+                boxShadow: isActive ? "0 0 20px 2px var(--timeline-glow-node-color)" : "none",
               }}
               transition={{ duration: 0.3, ease: "easeOut", type: "spring", stiffness: 300, damping: 20 }}
               className="h-4 w-4 rounded-full border p-2"
@@ -154,8 +154,15 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     offset: ["start 10%", "end 100%"],
   });
 
-  const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
-  const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+  // Wrap the scroll progress in a spring for buttery smooth interpolation
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  const heightTransform = useTransform(smoothProgress, [0, 1], [0, height]);
+  const opacityTransform = useTransform(smoothProgress, [0, 0.1], [0, 1]);
 
   return (
     <div
@@ -179,7 +186,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         {/* High-Contrast Editorial Ending */}
         <div className="relative h-40 mt-20 w-full pointer-events-none">
           <div 
-            className="absolute h-[1px] bg-neutral-400 dark:bg-neutral-600"
+            className="absolute h-[1px] bg-neutral-300 dark:bg-neutral-600"
             style={{
               width: "80px",
               left: "32px",
@@ -189,7 +196,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           />
           {/* Circular node intersecting the crossbar */}
           <div 
-            className="absolute w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-600"
+            className="absolute w-2 h-2 rounded-full bg-neutral-300 dark:bg-neutral-600"
             style={{
               left: "32px",
               transform: "translate(-50%, -50%)",
@@ -221,14 +228,14 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           style={{
             bottom: "240px",
           }}
-          className="absolute md:left-[31px] left-[31px] top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200/20 to-neutral-200/20 to-[100%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_100%)] "
+          className="absolute md:left-[31px] left-[31px] top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-800/20 dark:via-neutral-200/20 to-neutral-800/20 dark:to-neutral-200/20 to-[100%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_100%)] "
         >
           <motion.div
             style={{
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-white via-white to-transparent from-[0%] via-[10%] rounded-full"
+            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-neutral-800 dark:from-neutral-200 via-neutral-800 dark:via-neutral-200 to-transparent from-[0%] via-[10%] rounded-full"
           />
         </div>
       </div>

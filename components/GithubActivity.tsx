@@ -154,10 +154,15 @@ export default function GithubActivity() {
                                         const sectionRect = sectionRef.current?.getBoundingClientRect();
                                         
                                         if (sectionRect) {
+                                            const rawX = rect.left - sectionRect.left + (rect.width / 2);
+                                            // Clamp x to prevent tooltip from overflowing the 973px container edges
+                                            // Assuming max tooltip width is ~260px (130px half-width)
+                                            const clampedX = Math.max(130, Math.min(rawX, 973 - 130));
+                                            
                                             setHoveredCell({
                                                 count: activity.count,
                                                 date: activity.date,
-                                                x: rect.left - sectionRect.left + (rect.width / 2),
+                                                x: clampedX,
                                                 y: rect.top - sectionRect.top - 8 // 8px above the tile
                                             });
                                         }

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
   --font-sans: var(--font-body);
@@ -23,6 +23,10 @@
   --color-border-strong: rgba(0, 0, 0, 0.16);
   --color-accent: #8C8078;
   --font-display: Georgia, "Times New Roman", Times, serif;
+  
+  --timeline-glow-color: rgba(128, 128, 128, 0.5);
+  --timeline-glow-node-color: rgba(128, 128, 128, 0.3);
+  --timeline-active-color: var(--color-text-primary);
 }
 
 [data-theme="dark"] {
@@ -35,6 +39,10 @@
   --color-border: #444444;
   --color-border-strong: #555555;
   --color-accent: #888888;
+  
+  --timeline-glow-color: rgba(255, 255, 255, 0.6);
+  --timeline-glow-node-color: rgba(255, 255, 255, 0.2);
+  --timeline-active-color: #ffffff;
 }
 
 [data-theme="dark"] .form-typography input::placeholder,
