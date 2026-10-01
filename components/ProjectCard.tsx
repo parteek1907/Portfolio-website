@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Calendar, Clock, CheckCircle2, Trophy } from "lucide-react";
+import { ArrowUpRight, Calendar, Clock, CheckCircle2, Trophy, Globe, Github } from "lucide-react";
 import Image from "next/image";
 import { FeaturedProject } from "@/lib/data";
 
@@ -121,7 +121,31 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
                         </div>
 
                         {/* CTA */}
-                        <div className="flex justify-end mt-4">
+                        <div className="flex justify-end items-center gap-6 mt-4">
+                            {project.githubUrl && project.githubUrl !== "#" && (
+                                <a 
+                                    href={project.githubUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group/link relative flex items-center gap-1.5 text-[15px] font-medium text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-text-secondary)] cursor-pointer bg-transparent border-none p-0"
+                                    title="Source Code"
+                                >
+                                    <Github size={20} />
+                                    <span className="absolute -bottom-2 left-0 w-0 h-px bg-current transition-all duration-300 group-hover/link:w-full opacity-40"></span>
+                                </a>
+                            )}
+                            {project.liveUrl && project.liveUrl !== "#" && (
+                                <a 
+                                    href={project.liveUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group/link relative flex items-center gap-1.5 text-[15px] font-medium text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-text-secondary)] cursor-pointer bg-transparent border-none p-0"
+                                    title="Live Demo"
+                                >
+                                    <Globe size={20} />
+                                    <span className="absolute -bottom-2 left-0 w-0 h-px bg-current transition-all duration-300 group-hover/link:w-full opacity-40"></span>
+                                </a>
+                            )}
                             <button 
                                 onClick={onClick}
                                 className="group/link relative flex items-center gap-1.5 text-[15px] font-medium text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-text-secondary)] cursor-pointer bg-transparent border-none p-0"

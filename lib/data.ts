@@ -135,7 +135,7 @@ export const featuredProjects: FeaturedProject[] = [
         tags: ["Next.js", "TypeScript", "FastAPI", "Python", "Groq", "Llama", "Google GenAI", "Firebase", "Polygon", "Stellar"],
         statChips: ["Smart Settlement", "AI Firewall", "TrustScore", "Offline Queuing"],
         githubUrl: "https://github.com/parteek1907/Ziro",
-        liveUrl: "#",
+        liveUrl: "https://zir0.vercel.app/",
         gradient: "linear-gradient(135deg, #F6F3EC, #DCE8E1)",
         heroImage: "/Ziro/Landingpage.png",
         screenshots: [
@@ -219,7 +219,7 @@ export const featuredProjects: FeaturedProject[] = [
         tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Python", "FastAPI", "Google Gemini", "Firebase", "Yahoo Finance"],
         statChips: ["Virtual Market", "Contextual AI Mentor", "Emotion AI", "Scam Detection"],
         githubUrl: "https://github.com/parteek1907/finwise-ai",
-        liveUrl: "#",
+        liveUrl: "https://getfinwise.vercel.app/",
         gradient: "linear-gradient(135deg, #071A14 0%, #123C2E 100%)",
         heroImage: "/FinWiseAI/Dashboard.png",
         screenshots: [
@@ -262,6 +262,7 @@ export const featuredProjects: FeaturedProject[] = [
         tags: ["Next.js", "TypeScript", "TailwindCSS", "Framer Motion", "Supabase", "Recharts"],
         statChips: ["Carbon Twin Simulator", "Generative Signature", "Dual-State Routing"],
         githubUrl: "https://github.com/parteek1907/GreenTrace",
+        liveUrl: "https://mygreentrace.vercel.app/",
         heroImage: "/GreenTrace/LandingPage.png",
         screenshots: [
             "/GreenTrace/LandingPage.png",
@@ -312,7 +313,7 @@ export const featuredProjects: FeaturedProject[] = [
             "/Lumiere/Records.png",
             "/Lumiere/Performance.png"
         ],
-        liveUrl: "#",
+        liveUrl: "https://uselumiere.vercel.app/",
         keyMetrics: [
             { label: "Matches Detected", value: "99.9%" },
             { label: "Latency", value: "< 50ms" },
@@ -398,7 +399,7 @@ export const featuredProjects: FeaturedProject[] = [
             "/CampusCare/Attendance.png",
             "/CampusCare/CgpaCalc.png"
         ],
-        liveUrl: "#",
+        liveUrl: "https://campuscareonline.netlify.app/",
         keyMetrics: [
             { label: "Backend Dependency", value: "0" },
             { label: "Test Coverage", value: "High" },
@@ -436,7 +437,7 @@ export const featuredProjects: FeaturedProject[] = [
         screenshots: [
             "/DnaEncoding/Dashboard.png"
         ],
-        liveUrl: "#",
+        liveUrl: "https://dnaencoding.netlify.app/",
         keyMetrics: [
             { label: "Input Modalities", value: "4" },
             { label: "Base Mappings", value: "Dynamic" },

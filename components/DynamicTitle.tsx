@@ -4,8 +4,8 @@ import { useEffect } from "react";
 
 export default function DynamicTitle() {
     useEffect(() => {
-        const titleActive = "Parteek Garg — Portfolio";
-        const titleInactive = "Come Back — More Projects Await";
+        const titleActive = "Parteek Garg | Portfolio";
+        const titleInactive = "The Journey Continues";
 
         const handleVisibilityChange = () => {
             document.title = document.hidden ? titleInactive : titleActive;

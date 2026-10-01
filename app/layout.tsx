@@ -17,14 +17,14 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swa
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://parteekgarg.in'),
-  title: 'Parteek Garg-Portfolio',
+  title: 'Parteek Garg | Portfolio',
   description: 'First-year B.Tech CSE student at NMIMS Chandigarh building full-stack systems and exploring Data Science and AI. Creator of Veralon, Campus Care, and DNA Encoding.',
   authors: [{ name: 'Parteek Garg' }],
   keywords: ['Parteek Garg', 'portfolio', 'full-stack developer', 'data science', 'AI', 'NMIMS Chandigarh', 'React', 'TypeScript', 'Next.js'],
   openGraph: {
     type: 'website',
     url: 'https://parteekgarg.in',
-    title: 'Parteek Garg-Portfolio',
+    title: 'Parteek Garg | Portfolio',
     description: 'First-year B.Tech CSE student at NMIMS Chandigarh building full-stack systems and exploring Data Science and AI.',
     siteName: 'Parteek Garg',
     locale: 'en_IN',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Parteek Garg-Portfolio',
+    title: 'Parteek Garg | Portfolio',
     description: 'First-year B.Tech CSE student at NMIMS Chandigarh building full-stack systems and exploring Data Science and AI.',
     images: ['/og-image.png'],
   },
