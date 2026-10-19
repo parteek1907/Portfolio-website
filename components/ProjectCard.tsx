@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Calendar, Clock, CheckCircle2, Trophy, Globe, Github } from "lucide-react";
 import Image from "next/image";
 import { FeaturedProject } from "@/lib/data";
+import ProjectTeam from "./ui/ProjectTeam";
 
 interface ProjectCardProps {
     project: FeaturedProject;
@@ -35,10 +36,12 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
 
     return (
         <motion.div
+            id={`project-card-${index}`}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
+            transition={{ duration: 0.5, delay: (index % 5) * 0.08 }}
             className="w-full relative group border-b border-[var(--color-border)] pb-16 md:pb-24 last:border-b-0 last:pb-0"
         >
             <div className="flex flex-col md:flex-row md:items-center h-full gap-8 md:gap-16 relative z-10">
@@ -119,6 +122,9 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
                                 </>
                             )}
                         </div>
+
+                        {/* Project Team */}
+                        <ProjectTeam projectTitle={project.title} contributors={project.contributors} isSolo={project.isSolo} />
 
                         {/* CTA */}
                         <div className="flex justify-end items-center gap-6 mt-4">

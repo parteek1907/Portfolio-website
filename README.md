@@ -371,6 +371,14 @@ For other providers (Vercel, Cloudflare Pages, GitHub Pages), use the static `ou
 
 ## 📋 Changelog
 
+### v1.6.0 — October 2026 *(The Editorial Architecture & Experience Polish Update)*
+- **Editorial Hero Section Redesign:** Re-architected the hero into a clean, single-viewport editorial composition with serif headline typography (`"I build things that solve real problems."`), letter-spaced `PARTEEK GARG` eyebrow, and underline action links with diagonal arrow accents.
+- **"Currently Building" Showcase Module:** Added an architectural right-aligned block displaying active technical pursuits (Full-stack systems, AI, FinTech) with custom hairline border and geometric node accents.
+- **Living Scroll Micro-Animation:** Crafted a custom pulsating light-beam scroll indicator featuring an infinite laser pulse, breathing typography, and floating chevron for smooth section traversal.
+- **Enhanced Project Team & Contributor System:** Overhauled contributor sections across all project case studies with automated GitHub avatar resolution (`https://github.com/USERNAME.png`), verified roles, clickable profiles, and React Portal rendering (`document.body`) to prevent stacking context bleed.
+- **Controlled Smooth Collapse Mechanics:** Eliminated layout plunge and jarring round-trip scroll jumps on "Show less" triggers in Projects and Hackathons by softly scrolling up to the target view before unmounting off-screen elements.
+- **Hackathon Timeline Journey & Curation:** Integrated HackShift-IIITD and AI Ideathon into the Aceternity timeline, establishing strict reverse-chronological ordering and refined editorial subtitles.
+
 ### v1.5.0 — September 2026 *(The Smooth Experience Update)*
 - **Lenis Smooth Scrolling Integration:** Upgraded the native scroll engine to Lenis, delivering a buttery-smooth, hardware-accelerated editorial scrolling experience.
 - **Advanced Scroll Lock Architecture:** Hardened the modal system by bridging Lenis with native body locks (`data-lenis-prevent`), ensuring the main page stays perfectly frozen when exploring Project, Certificate, Legal, and Lightbox overlays.

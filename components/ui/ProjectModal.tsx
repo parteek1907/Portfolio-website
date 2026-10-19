@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowUpRight, Maximize2 } from "lucide-react";
 import { FeaturedProject } from "@/lib/data";
 import ProjectGallery from "./ProjectGallery";
+import ProjectTeam from "./ProjectTeam";
 import Image from "next/image";
 
 interface ProjectModalProps {
@@ -213,6 +214,8 @@ export default function ProjectModal({ project: incomingProject, isOpen, onClose
                                                 <span className="text-lg text-[var(--color-text-primary)]">{project.year}</span>
                                             </section>
                                         )}
+
+                                        <ProjectTeam projectTitle={project.title} contributors={project.contributors} isSolo={project.isSolo} />
 
                                         {project.tags && project.tags.length > 0 && (
                                             <section>

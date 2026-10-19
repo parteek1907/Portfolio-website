@@ -1,3 +1,12 @@
+export interface ProjectContributor {
+    name: string;
+    role: string;
+    githubUsername?: string;
+    avatar?: string;
+    githubUrl?: string;
+    linkedinUrl?: string;
+}
+
 export interface FeaturedProject {
     slug: string;
     title: string;
@@ -22,6 +31,8 @@ export interface FeaturedProject {
     year?: string;
     status?: string;
     aspectRatio?: string;
+    contributors?: ProjectContributor[];
+    isSolo?: boolean;
 }
 
 export interface Certification {
@@ -125,6 +136,190 @@ export const certifications: Certification[] = [
 
 export const featuredProjects: FeaturedProject[] = [
     {
+        slug: "kin",
+        title: "KIN",
+        label: "HACKATHON PROJECT",
+        description: "KIN is a proof-of-work-driven professional network that connects students, alumni, founders, and universities through verified expertise, explainable talent matching, and trusted introductions. Replacing static directories and cold outreach with an interconnected network, it combines career intelligence, skill-based opportunities, reputation systems, and privacy-aware professional collaboration.",
+        detailedDescription: "KIN reimagines professional networking as a graph of verified expertise, institutional relationships, and active intent rather than a collection of self-reported profiles. Its core architecture combines repository-backed talent discovery, multi-hop connection routing, and evidence-grounded match explanations to help students reach relevant alumni, founders, and recruiters through credible introductions. The platform extends this model through career progression analysis, transferable-skill discovery, engineering challenge submissions, and structured mock interviews, creating a connected workflow from demonstrated ability to professional opportunity.\n\nThe application uses Next.js 14.2, React, TypeScript, and Tailwind CSS for the frontend, with a custom HTML5 Canvas network visualization and Framer Motion for interaction. A FastAPI backend, PostgreSQL, SQLAlchemy, and Alembic provide the API and persistence layer. Firebase Authentication and JWT-based backend authentication support identity workflows, while Gemini Vision API integration is designed to extract credentials from uploaded documents. Additional engineering systems include an explainable qualification-based connection engine, a contribution-based reputation ledger with idempotency safeguards and reversible audit corrections, and a privacy-separated Ghost Mode with entitlement checks and audited identity resolution.\n\nThe documented implementation includes nine sequential database migrations and a backend test suite reported to contain 114 passing automated tests across authentication, career intelligence, networking, skill bounties, reputation, privacy, and mock interviews. The central engineering challenge is maintaining consistency across graph relationships, persistent backend state, identity verification, and authorization boundaries while delivering a coherent, interactive product experience. The architecture is designed to support a broader professional network without reducing talent discovery to keyword matching or unverified claims.",
+        learned: "Building KIN reinforced the importance of explicit domain boundaries, explainable matching, transactional integrity, and server-side authorization when combining graph-oriented experiences with persistent identity, reputation, and privacy-sensitive workflows.",
+        tags: [
+            "Next.js",
+            "TypeScript",
+            "React",
+            "FastAPI",
+            "PostgreSQL",
+            "SQLAlchemy",
+            "Firebase Auth",
+            "HTML5 Canvas"
+        ],
+        statChips: [
+            "Talent Discovery",
+            "Force-Directed Graph",
+            "114 Automated Tests",
+            "Reputation Ledger"
+        ],
+        githubUrl: "https://github.com/parteek1907/Kin",
+        liveUrl: "https://kin-path.vercel.app/",
+        gradient: "linear-gradient(135deg, #1C1917, #292524)",
+        heroImage: "/Kin/LandingPage.png",
+        screenshots: [
+            "/Kin/LandingPage.png",
+            "/Kin/Dashboard.png",
+            "/Kin/Problems.png",
+            "/Kin/SocialMedia.png",
+            "/Kin/TimeMachine.png"
+        ],
+        keyMetrics: [
+            {
+                label: "Automated Backend Tests",
+                value: "114"
+            },
+            {
+                label: "Database Migrations",
+                value: "9"
+            },
+            {
+                label: "Core Feature Engines",
+                value: "8"
+            },
+            {
+                label: "Test Pass Rate",
+                value: "100%"
+            }
+        ],
+        features: [
+            "Artifact-oriented talent discovery with explainable expertise matching and evidence dossiers.",
+            "Interactive force-directed network visualization with multi-hop relationship discovery.",
+            "Career progression timelines, deterministic skill-gap analysis, and transferable-skill recommendations.",
+            "Engineering skill bounties with repository submissions, structured reviews, and outcome tracking.",
+            "Contribution-based reputation, qualification-driven connections, and privacy-separated Ghost Mode."
+        ],
+        challenges: [
+            "Designing consistent relationship, qualification, and notification workflows across a multi-service application backed by a relational data model.",
+            "Implementing an auditable contribution ledger with idempotent transactions, reversible corrections, and anti-abuse safeguards.",
+            "Enforcing authorization and identity separation across professional verification, connection workflows, and privacy-sensitive discussions."
+        ],
+        architectureDiagram: "/Kin/SystemArchitecture.png",
+        timeline: "24 Hours",
+        year: "Oct 2026",
+        status: "Completed",
+        contributors: [
+            {
+                name: "Parteek Garg",
+                role: "Team Lead · Frontend Engineering · API Integration",
+                githubUsername: "parteek1907",
+                githubUrl: "https://github.com/parteek1907",
+                linkedinUrl: "https://www.linkedin.com/in/parteek1907/"
+            },
+            {
+                name: "Aditya Tanwar",
+                role: "Backend Engineering · Technical Research",
+                githubUsername: "adityaa6060",
+                githubUrl: "https://github.com/adityaa6060",
+                linkedinUrl: "https://www.linkedin.com/in/aditya-tanwar-34980b376"
+            },
+            {
+                name: "Darsh Ohri",
+                role: "Frontend Engineering · Technical Research",
+                githubUsername: "darshohri",
+                githubUrl: "https://github.com/darshohri",
+                linkedinUrl: "https://www.linkedin.com/in/darsh-ohri/"
+            },
+            {
+                name: "Nipun",
+                role: "Backend Engineering",
+                githubUsername: "nipunn-git",
+                githubUrl: "https://github.com/nipunn-git",
+                linkedinUrl: "https://www.linkedin.com/in/nipun-712b2536b/"
+            }
+        ]
+    },
+    {
+        slug: "crosscheck",
+        title: "CrossCheck",
+        label: "HACKATHON PROJECT",
+        description: "A multilingual financial fraud response platform that transforms scam reports submitted through WhatsApp voice notes, messages, images, and links into structured incident reports. CrossCheck aims to accelerate escalation to banks and relevant cybercrime authorities during the critical golden hour, helping victims initiate recovery procedures before funds become harder to trace.",
+        detailedDescription: "CrossCheck addresses a critical gap in India's digital financial safety ecosystem: victims of OTP fraud, UPI scams, phishing, and social engineering often struggle to report incidents quickly, particularly when language barriers, unfamiliar reporting procedures, and incomplete documentation delay action. The platform accepts conversational reports through WhatsApp, allowing users to describe what happened in any of 11 supported Indian languages through voice notes or text. The objective is to reduce reporting friction by meeting victims within a familiar communication interface rather than requiring them to navigate complex reporting portals.\n\nThe processing pipeline converts incoming voice or text reports into normalized incident data, identifying relevant fields such as fraud category, transaction amount, incident timeline, bank details, and available transaction references. An analysis layer classifies the reported incident, structures the narrative into a consistent report, and determines the appropriate escalation path. The resulting report is intended for delivery to the relevant bank and cybercrime authorities through supported communication channels, with the National Cyber Crime Reporting Helpline 1930 incorporated into the urgent-response workflow. The system is designed around golden-hour intervention: shortening the path from victim disclosure to actionable reporting. Automated submission, integrations, and recovery outcomes depend on the availability of authorized institutional interfaces and operational validation; the platform does not independently guarantee that funds will be frozen or recovered.",
+        learned: "The project highlights the engineering trade-offs involved in multilingual NLP, reliable information extraction, privacy-aware incident processing, and the distinction between generating a report and completing a verified institutional escalation.",
+        tags: [
+            "Next.js",
+            "TypeScript",
+            "WhatsApp Business API",
+            "Natural Language Processing",
+            "Speech-to-Text",
+            "LLM Integration",
+            "Financial Cybersecurity",
+            "Workflow Automation"
+        ],
+        statChips: [
+            "11 Languages",
+            "WhatsApp Interface",
+            "Golden Hour Priority",
+            "End-to-End Workflow"
+        ],
+        githubUrl: "https://github.com/parteek1907/CrossCheck",
+        liveUrl: "https://crosschecknow.vercel.app/",
+        gradient: "linear-gradient(135deg, #0F172A, #1E293B)",
+        heroImage: "/CrossCheck/LandingPage.png",
+        screenshots: [
+            "/CrossCheck/LandingPage.png",
+            "/CrossCheck/Dashboard.png",
+            "/CrossCheck/WhatsppBot.png",
+            "/CrossCheck/Report.jpeg",
+            "/CrossCheck/SafeWord.png"
+        ],
+        keyMetrics: [
+            {
+                label: "Supported Languages",
+                value: "11"
+            },
+            {
+                label: "Primary Interface",
+                value: "WhatsApp"
+            },
+            {
+                label: "Response Priority",
+                value: "Golden Hour"
+            },
+            {
+                label: "Reporting Workflow",
+                value: "End-to-End"
+            }
+        ],
+        features: [
+            "Multilingual incident intake through WhatsApp voice notes and text messages, designed to reduce language and accessibility barriers.",
+            "Structured extraction of fraud category, transaction amount, incident timeline, and supporting transaction details from conversational reports.",
+            "AI-assisted scam classification and report generation for OTP fraud, UPI scams, phishing, and other financial fraud scenarios.",
+            "Escalation workflow designed to route incident reports to relevant banks and cybercrime authorities through supported communication channels.",
+            "Golden-hour response guidance that prioritizes urgent next steps, including contacting India's 1930 cybercrime helpline when applicable."
+        ],
+        challenges: [
+            "Converting unstructured, multilingual victim narratives into consistent incident records while preserving critical details and handling incomplete or ambiguous information.",
+            "Designing an urgency-aware reporting workflow that identifies relevant recipients and prepares actionable documentation without overstating the system's authority or recovery guarantees.",
+            "Reducing reporting friction through a familiar WhatsApp-based interface while accounting for privacy, sensitive financial information, institutional integration constraints, and delivery verification."
+        ],
+        architectureDiagram: "/CrossCheck/SystemArchitecture.png",
+        timeline: "10 Hours",
+        year: "Oct 2026",
+        status: "Completed",
+        contributors: [
+            {
+                name: "Parteek Garg",
+                role: "Frontend Engineering · WhatsApp Agent Development",
+                githubUsername: "parteek1907",
+                githubUrl: "https://github.com/parteek1907",
+                linkedinUrl: "https://www.linkedin.com/in/parteek1907/"
+            },
+            {
+                name: "Darsh Ohri",
+                role: "Backend Engineering · Technical Research",
+                githubUsername: "darshohri",
+                githubUrl: "https://github.com/darshohri",
+                linkedinUrl: "https://www.linkedin.com/in/darsh-ohri/"
+            }
+        ]
+    },
+    {
         slug: "ziro",
         label: "HACKATHON PROJECT · Team Lead",
         title: "Ziro",
@@ -165,7 +360,37 @@ export const featuredProjects: FeaturedProject[] = [
         architectureDiagram: "/Ziro/SystemArchitecture.png",
         timeline: "24 Hours",
         year: "Sept 2026",
-        status: "Completed"
+        status: "Completed",
+        contributors: [
+            {
+                name: "Parteek Garg",
+                role: "Team Lead · Frontend Engineering · Technical Research · Product Presentation",
+                githubUsername: "parteek1907",
+                githubUrl: "https://github.com/parteek1907",
+                linkedinUrl: "https://www.linkedin.com/in/parteek1907/"
+            },
+            {
+                name: "Aditya Tanwar",
+                role: "Backend Engineering · Technical Research",
+                githubUsername: "adityaa6060",
+                githubUrl: "https://github.com/adityaa6060",
+                linkedinUrl: "https://www.linkedin.com/in/aditya-tanwar-34980b376"
+            },
+            {
+                name: "Darsh Ohri",
+                role: "Frontend Engineering · Technical Research",
+                githubUsername: "darshohri",
+                githubUrl: "https://github.com/darshohri",
+                linkedinUrl: "https://www.linkedin.com/in/darsh-ohri/"
+            },
+            {
+                name: "Nipun",
+                role: "Backend Engineering",
+                githubUsername: "nipunn-git",
+                githubUrl: "https://github.com/nipunn-git",
+                linkedinUrl: "https://www.linkedin.com/in/nipun-712b2536b/"
+            }
+        ]
     },
     {
         slug: "sanket",
@@ -206,7 +431,44 @@ export const featuredProjects: FeaturedProject[] = [
         architectureDiagram: "/Sanket/SystemArchitecture.png",
         timeline: "2026 Cycle",
         year: "September 2026",
-        status: "Completed"
+        status: "Completed",
+        contributors: [
+            {
+                name: "Parteek Garg",
+                role: "Android Application Development · Technical Research",
+                githubUsername: "parteek1907",
+                githubUrl: "https://github.com/parteek1907",
+                linkedinUrl: "https://www.linkedin.com/in/parteek1907/"
+            },
+            {
+                name: "Aditya Tanwar",
+                role: "Android Application Development · Technical Research",
+                githubUsername: "adityaa6060",
+                githubUrl: "https://github.com/adityaa6060",
+                linkedinUrl: "https://www.linkedin.com/in/aditya-tanwar-34980b376"
+            },
+            {
+                name: "Darsh Ohri",
+                role: "Technical Research · Technical Analysis",
+                githubUsername: "darshohri",
+                githubUrl: "https://github.com/darshohri",
+                linkedinUrl: "https://www.linkedin.com/in/darsh-ohri/"
+            },
+            {
+                name: "Jasmine Rai",
+                role: "Team Lead · Product Presentation",
+                githubUsername: "jasmineraiiii",
+                githubUrl: "https://github.com/jasmineraiiii",
+                linkedinUrl: "https://www.linkedin.com/in/jasmine-rai-a7a110361/"
+            },
+            {
+                name: "Nipun",
+                role: "Product Presentation · Technical Research",
+                githubUsername: "nipunn-git",
+                githubUrl: "https://github.com/nipunn-git",
+                linkedinUrl: "https://www.linkedin.com/in/nipun-712b2536b/"
+            }
+        ]
     },
     {
         slug: "finwise",
@@ -250,7 +512,37 @@ export const featuredProjects: FeaturedProject[] = [
         architectureDiagram: "/FinWiseAI/SystemArchitecture.png",
         timeline: "48 Hours",
         year: "Aug 2026",
-        status: "Completed"
+        status: "Completed",
+        contributors: [
+            {
+                name: "Parteek Garg",
+                role: "Team Lead · Frontend Engineering · API Integration",
+                githubUsername: "parteek1907",
+                githubUrl: "https://github.com/parteek1907",
+                linkedinUrl: "https://www.linkedin.com/in/parteek1907/"
+            },
+            {
+                name: "Aditya Tanwar",
+                role: "Backend Engineering · Technical Research",
+                githubUsername: "adityaa6060",
+                githubUrl: "https://github.com/adityaa6060",
+                linkedinUrl: "https://www.linkedin.com/in/aditya-tanwar-34980b376"
+            },
+            {
+                name: "Darsh Ohri",
+                role: "Frontend Engineering · Technical Research",
+                githubUsername: "darshohri",
+                githubUrl: "https://github.com/darshohri",
+                linkedinUrl: "https://www.linkedin.com/in/darsh-ohri/"
+            },
+            {
+                name: "Nipun",
+                role: "Backend Engineering",
+                githubUsername: "nipunn-git",
+                githubUrl: "https://github.com/nipunn-git",
+                linkedinUrl: "https://www.linkedin.com/in/nipun-712b2536b/"
+            }
+        ]
     },
     {
         slug: "greentrace",
@@ -334,7 +626,44 @@ export const featuredProjects: FeaturedProject[] = [
         architectureDiagram: "/Lumiere/SystemArchitecture.png",
         timeline: "30 Hours",
         year: "10-11 April 2026",
-        status: "Completed"
+        status: "Completed",
+        contributors: [
+            {
+                name: "Parteek Garg",
+                role: "Team Lead · Backend Engineering · Database Architecture",
+                githubUsername: "parteek1907",
+                githubUrl: "https://github.com/parteek1907",
+                linkedinUrl: "https://www.linkedin.com/in/parteek1907/"
+            },
+            {
+                name: "Aditya Tanwar",
+                role: "Frontend Engineering",
+                githubUsername: "adityaa6060",
+                githubUrl: "https://github.com/adityaa6060",
+                linkedinUrl: "https://www.linkedin.com/in/aditya-tanwar-34980b376"
+            },
+            {
+                name: "Darsh Ohri",
+                role: "Backend Engineering",
+                githubUsername: "darshohri",
+                githubUrl: "https://github.com/darshohri",
+                linkedinUrl: "https://www.linkedin.com/in/darsh-ohri/"
+            },
+            {
+                name: "Dhruv Goyal",
+                role: "AI Model Training · API Integration",
+                githubUsername: "dhruuvv-git",
+                githubUrl: "https://github.com/dhruuvv-git",
+                linkedinUrl: "https://www.linkedin.com/in/dhruv-goyal-40191b357/"
+            },
+            {
+                name: "Nipun",
+                role: "Frontend Engineering · Technical Research",
+                githubUsername: "nipunn-git",
+                githubUrl: "https://github.com/nipunn-git",
+                linkedinUrl: "https://www.linkedin.com/in/nipun-712b2536b/"
+            }
+        ]
     },
     {
         slug: "veralon",

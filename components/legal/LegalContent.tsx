@@ -118,6 +118,19 @@ export function ChangelogContent() {
         <div className="space-y-10" style={{ color: "var(--color-text-secondary)" }}>
 
             <section>
+                <H>v1.6.0 — October 2026</H>
+                <Sub>The Editorial Architecture &amp; Experience Polish Update</Sub>
+                <ul className="list-disc pl-5 space-y-1.5">
+                    <li><strong>Editorial Hero Redesign:</strong> Re-architected the Hero section into a high-contrast editorial layout with serif headline typography, clean action triggers, and a single-viewport fit.</li>
+                    <li><strong>"Currently Building" Module:</strong> Integrated an architectural showcase block highlighting active engineering focus in Full-stack systems, AI, and FinTech.</li>
+                    <li><strong>Living Scroll Micro-Animation:</strong> Built a custom pulsating light-beam scroll indicator with floating micro-interactions and smooth section transition.</li>
+                    <li><strong>Project Team &amp; Contributor System:</strong> Upgraded project cards and modals with lazy-loaded GitHub avatars, verified roles, social profile links, and portal rendering to prevent stacking context bleed.</li>
+                    <li><strong>Smooth Collapse Experience:</strong> Solved scroll-plunge glitch on "Show less" toggle across projects and hackathons by scrolling upward before unmounting off-screen elements.</li>
+                    <li><strong>Hackathon Timeline Journey:</strong> Added HackShift-IIITD and AI Ideathon, arranged reverse-chronological event flow, and refined timeline typography and triggers.</li>
+                </ul>
+            </section>
+
+            <section>
                 <H>v1.5.0 — September 2026</H>
                 <Sub>The Hackathon Expansion</Sub>
                 <ul className="list-disc pl-5 space-y-1.5">
