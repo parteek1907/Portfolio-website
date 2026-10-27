@@ -1,0 +1,241 @@
+.calendarFlyout {
+	position: fixed;
+	bottom: 58px;
+	right: 12px;
+	z-index: 99995;
+	width: 360px;
+	max-width: calc(100vw - 24px);
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	background-color: #212121;
+	background-image: url('/images/darknoice.png');
+	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(24px);
+	color: #ffffff;
+	user-select: none;
+	overflow: hidden;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	overscroll-behavior: contain;
+}
+
+.topSection {
+	padding: 18px 20px 14px 20px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.topSection h2 {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #ffffff;
+	margin: 0;
+	letter-spacing: -0.01em;
+}
+
+.topSection .liveTime {
+	font-size: 0.76rem;
+	color: #a0a0a0;
+	margin-top: 2px;
+	font-variant-numeric: tabular-nums;
+}
+
+.collapseBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	color: #cccccc;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.collapseBtn:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: #ffffff;
+}
+
+.monthNav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 18px 6px 18px;
+}
+
+.monthTitle {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.monthTitle span {
+	font-size: 0.88rem;
+	font-weight: 600;
+	color: #f0f0f0;
+}
+
+.todayBtn {
+	font-size: 0.7rem;
+	padding: 2px 8px;
+	border-radius: 4px;
+	background-color: rgba(0, 120, 212, 0.2);
+	border: 1px solid rgba(0, 120, 212, 0.4);
+	color: #60cdff;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.todayBtn:hover {
+	background-color: rgba(0, 120, 212, 0.35);
+}
+
+.navArrows {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.arrowBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	color: #cccccc;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.arrowBtn:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: #ffffff;
+}
+
+.gridContainer {
+	padding: 8px 16px 16px 16px;
+}
+
+.weekHeader {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	margin-bottom: 6px;
+	text-align: center;
+}
+
+.weekHeaderCell {
+	font-size: 0.72rem;
+	font-weight: 600;
+	color: #888888;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.daysGrid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 2px;
+}
+
+.dayCell {
+	position: relative;
+	height: 38px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.8rem;
+	cursor: pointer;
+	border-radius: 50%;
+	transition: background-color 0.12s ease, transform 0.08s ease;
+	border: 1px solid transparent;
+}
+
+.dayCell:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.currentMonth {
+	color: #f5f5f5;
+	font-weight: 500;
+}
+
+.otherMonth {
+	color: #555555;
+	font-weight: 400;
+}
+
+.todayCell {
+	background-color: #0078D4 !important;
+	color: #ffffff !important;
+	font-weight: 700 !important;
+	box-shadow: 0 0 10px rgba(0, 120, 212, 0.5);
+}
+
+.selectedCell {
+	border: 2px solid #4cc2ff !important;
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.focusSection {
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	background-color: rgba(0, 0, 0, 0.2);
+	padding: 12px 18px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.focusLeft {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.focusIcon {
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background-color: rgba(76, 194, 255, 0.15);
+	color: #4cc2ff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.9rem;
+}
+
+.focusText h4 {
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: #ffffff;
+	margin: 0;
+}
+
+.focusText p {
+	font-size: 0.68rem;
+	color: #888888;
+	margin: 0;
+}
+
+.focusBtn {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 12px;
+	border-radius: 6px;
+	background-color: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	color: #ffffff;
+	font-size: 0.72rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.focusBtn:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+}

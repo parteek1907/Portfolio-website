@@ -6,6 +6,7 @@ import { useWindows, APP_REGISTRY } from "./WindowsContext";
 import DraggableWindow from "./DraggableWindow";
 import WindowsTaskbar from "./WindowsTaskbar";
 import WindowsStartMenu from "./WindowsStartMenu";
+import WindowsCalendar from "./WindowsCalendar";
 import WindowsError from "./WindowsError";
 import WindowsBluescreen from "./WindowsBluescreen";
 import WindowsBootScreen from "./WindowsBootScreen";
@@ -207,6 +208,9 @@ export default function WindowsDesktop() {
 
       {/* Windows 11 Start Menu Flyout */}
       <WindowsStartMenu />
+
+      {/* Windows 11 Real Calendar Flyout */}
+      <WindowsCalendar />
 
       {/* Centered Windows 11 Taskbar */}
       <WindowsTaskbar />

@@ -110,6 +110,7 @@ interface WindowsContextValue {
   windows: Record<AppId, WindowState>;
   activeAppId: AppId | null;
   isStartOpen: boolean;
+  isCalendarOpen: boolean;
   errors: ErrorType[];
   bluescreen: boolean;
   enterWindowsMode: () => void;
@@ -123,6 +124,7 @@ interface WindowsContextValue {
   toggleApp: (id: AppId) => void;
   updatePosition: (id: AppId, pos: { x: number; y: number }) => void;
   setStartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setCalendarOpen: React.Dispatch<React.SetStateAction<boolean>>;
   triggerError: (appName: string) => void;
   dismissError: (index: number) => void;
   triggerBluescreen: () => void;
@@ -134,6 +136,7 @@ const WindowsContext = createContext<WindowsContextValue | null>(null);
 export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const [isWindowsMode, setIsWindowsMode] = useState(false);
   const [isStartOpen, setStartOpen] = useState(false);
+  const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [activeAppId, setActiveAppId] = useState<AppId | null>(null);
   const [topZIndex, setTopZIndex] = useState(100);
   const [errors, setErrors] = useState<ErrorType[]>([]);
@@ -239,6 +242,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const exitWindowsMode = useCallback(() => {
     setIsWindowsMode(false);
     setStartOpen(false);
+    setCalendarOpen(false);
     setBluescreen(false);
     if (typeof window !== "undefined") {
       const url = window.location.pathname;
@@ -267,6 +271,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
 
   const openApp = useCallback((id: AppId) => {
     setStartOpen(false);
+    setCalendarOpen(false);
     setTopZIndex((current) => {
       const nextZ = current + 1;
       setWindows((prev) => {
@@ -409,6 +414,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
         windows,
         activeAppId,
         isStartOpen,
+        isCalendarOpen,
         errors,
         bluescreen,
         enterWindowsMode,
@@ -422,6 +428,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
         toggleApp,
         updatePosition,
         setStartOpen,
+        setCalendarOpen,
         triggerError,
         dismissError,
         triggerBluescreen,

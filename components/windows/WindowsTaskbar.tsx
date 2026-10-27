@@ -2,8 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { AiOutlineWifi } from "react-icons/ai";
-import { FiVolume2 } from "react-icons/fi";
+import { 
+  IoWifi, 
+  IoVolumeHigh, 
+  IoBatteryCharging,
+  IoChevronUp 
+} from "react-icons/io5";
 import { 
   SiGithub, 
   SiX, 
@@ -49,9 +53,18 @@ const taskbarSocials = [
 ];
 
 export default function WindowsTaskbar() {
-  const { isStartOpen, setStartOpen } = useWindows();
+  const { 
+    isStartOpen, 
+    setStartOpen, 
+    isCalendarOpen, 
+    setCalendarOpen,
+    windows,
+    minimizeApp
+  } = useWindows();
+
   const [hourStr, setHourStr] = useState("00:00 PM");
   const [dateStr, setDateStr] = useState("1/1/1970");
+  const [fullDateTitle, setFullDateTitle] = useState("");
 
   useEffect(() => {
     const updateTime = () => {
@@ -63,11 +76,41 @@ export default function WindowsTaskbar() {
         })
       );
       setDateStr(now.toLocaleDateString(undefined));
+      setFullDateTitle(
+        now.toLocaleDateString(undefined, {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      );
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleToggleStart = () => {
+    if (!isStartOpen) {
+      setCalendarOpen(false);
+    }
+    setStartOpen(!isStartOpen);
+  };
+
+  const handleToggleCalendar = () => {
+    if (!isCalendarOpen) {
+      setStartOpen(false);
+    }
+    setCalendarOpen(!isCalendarOpen);
+  };
+
+  const handleShowDesktop = () => {
+    Object.keys(windows).forEach((id) => {
+      if (windows[id as keyof typeof windows].isOpen && !windows[id as keyof typeof windows].isMinimized) {
+        minimizeApp(id as any);
+      }
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -76,7 +119,7 @@ export default function WindowsTaskbar() {
         {/* Windows Start Button */}
         <div
           className={`${styles.icon} ${isStartOpen ? styles.activeIcon : ""}`}
-          onClick={() => setStartOpen(!isStartOpen)}
+          onClick={handleToggleStart}
           title="Start"
         >
           <Image
@@ -110,20 +153,51 @@ export default function WindowsTaskbar() {
         })}
       </section>
 
-      {/* Right Toolbar: System Tray, Language, Audio, Wifi, Live Clock */}
+      {/* Right Toolbar: System Tray with Properly Sized Icons & Interactive Calendar */}
       <section className={styles.toolbarContainer}>
-        <div className={styles.language}>
+        {/* Hidden Icons Caret */}
+        <div className={styles.hiddenIcons} title="Show hidden icons">
+          <IoChevronUp size={14} />
+        </div>
+
+        {/* Language Badge */}
+        <div className={styles.language} title="Keyboard layout: English (United States)">
           <p>ENG</p>
         </div>
-        <div className={styles.icon} title="Internet & Sound">
-          <AiOutlineWifi />
-          <FiVolume2 />
+
+        {/* Quick Settings System Cluster: WiFi, Volume, Battery */}
+        <div
+          className={styles.systemCluster}
+          title="Internet: Connected &middot; Speakers: 100% &middot; Battery: 100% (Plugged in)"
+        >
+          <div className={styles.trayIcon}>
+            <IoWifi size={18} />
+          </div>
+          <div className={styles.trayIcon}>
+            <IoVolumeHigh size={18} />
+          </div>
+          <div className={styles.trayIcon}>
+            <IoBatteryCharging size={20} />
+          </div>
         </div>
-        <div className={styles.dateIcons} title="Date & Time">
-          <p>{hourStr}</p>
-          <p>{dateStr}</p>
+
+        {/* Live Date & Time Button (Click opens real Windows 11 Calendar) */}
+        <div
+          className={`${styles.dateTimeCluster} ${isCalendarOpen ? styles.activeCluster : ""}`}
+          title={`${fullDateTitle} - Click to open Calendar`}
+          onClick={handleToggleCalendar}
+          data-calendar-toggle="true"
+        >
+          <p className={styles.timeText}>{hourStr}</p>
+          <p className={styles.dateText}>{dateStr}</p>
         </div>
-        <div className={styles.showDesktop} title="Desktop" />
+
+        {/* Show Desktop Sliver */}
+        <div 
+          className={styles.showDesktop} 
+          title="Show desktop" 
+          onClick={handleShowDesktop}
+        />
       </section>
     </div>
   );

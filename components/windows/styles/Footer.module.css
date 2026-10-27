@@ -95,62 +95,130 @@
 	background-color: rgba(255, 255, 255, 0.5);
 }
 
-.dateIcons {
-	flex-direction: column;
-	align-items: flex-end;
-	font-size: 0.65rem;
-	padding: 4px 8px;
-}
-
-.dateIcons p {
-	font-weight: 600;
-	font-size: 0.7rem;
-	color: #f9f9f9;
-	margin: 0;
-	line-height: 1.2;
-}
-
-.language p {
-	padding-right: 3px;
-	padding-left: 3px;
-	font-weight: 400;
-	font-size: 0.65rem;
-	color: #f9f9f9;
-	margin: 0;
-}
-
-.icon:not(:active) img {
-	transition: all 0.1s ease-in-out;
-}
-
-.icon:hover,
-.dateIcons:hover,
-.language:hover {
-	background-color: #2e2e2e;
-}
-
-.icon:active img {
-	transform: scale(0.85);
-}
-
 .toolbarContainer {
 	position: absolute;
 	right: 0;
 	display: flex;
 	align-items: center;
-	gap: 4px;
-	height: 41px;
-	margin-right: 8px;
+	gap: 3px;
+	height: 100%;
+	margin-right: 4px;
 	color: #f9f9f9;
-	font-size: 1.1rem;
+}
+
+.hiddenIcons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 38px;
+	border-radius: 6px;
+	cursor: pointer;
+	color: #cccccc;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.hiddenIcons:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+	color: #ffffff;
+}
+
+.systemCluster {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: 38px;
+	padding: 0 10px;
+	border-radius: 6px;
+	cursor: pointer;
+	color: #f0f0f0;
+	transition: background-color 0.15s ease;
+}
+
+.systemCluster:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.trayIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.15s ease;
+}
+
+.systemCluster:hover .trayIcon {
+	transform: scale(1.06);
+}
+
+.dateTimeCluster {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	height: 38px;
+	padding: 2px 10px;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.dateTimeCluster:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.activeCluster {
+	background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.timeText {
+	font-weight: 500;
+	font-size: 0.76rem;
+	color: #ffffff;
+	margin: 0;
+	line-height: 1.15;
+	font-variant-numeric: tabular-nums;
+}
+
+.dateText {
+	font-weight: 400;
+	font-size: 0.70rem;
+	color: #d0d0d0;
+	margin: 0;
+	line-height: 1.15;
+	font-variant-numeric: tabular-nums;
+}
+
+.language {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 38px;
+	padding: 0 8px;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.language:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.language p {
+	font-weight: 500;
+	font-size: 0.70rem;
+	color: #f0f0f0;
+	margin: 0;
+	letter-spacing: 0.02em;
 }
 
 .showDesktop {
 	width: 6px;
-	height: 34px;
+	height: 36px;
 	border-left: 1px solid rgba(255, 255, 255, 0.15);
 	cursor: pointer;
-	margin-left: 4px;
+	margin-left: 3px;
+	border-radius: 0 4px 4px 0;
+	transition: background-color 0.15s ease;
 }
 
 .showDesktop:hover {
