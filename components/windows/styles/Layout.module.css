@@ -11,8 +11,18 @@
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 	overscroll-behavior: none;
+}
+
+.container *,
+.container :is(h1, h2, h3, h4, h5, h6, p, span, button, input, textarea, a, div, label, li, select, option, strong, b, em, i) {
+	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Explicit monospace preservation for terminal, code, and hashes */
+.container :is(pre, code, [class*="font-mono"], [class*="terminal"], [class*="Terminal"]) {
+	font-family: Consolas, "Cascadia Code", "Courier New", monospace !important;
 }
 
 .desktopArea {

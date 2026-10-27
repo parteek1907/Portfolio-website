@@ -41,7 +41,10 @@ export default function WindowsBootScreen({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="fixed inset-0 z-[9999999] bg-[#000000] flex flex-col items-center justify-between py-16 px-6 select-none overflow-hidden"
-          style={{ cursor: "default" }}
+          style={{ 
+            cursor: "default",
+            fontFamily: "'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" 
+          }}
         >
           {/* Top Spacer */}
           <div className="h-6" />

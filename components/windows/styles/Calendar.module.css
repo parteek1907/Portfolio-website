@@ -14,8 +14,12 @@
 	color: #ffffff;
 	user-select: none;
 	overflow: hidden;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 	overscroll-behavior: contain;
+}
+
+.calendarFlyout :is(h1, h2, h3, h4, h5, h6, p, span, button, div) {
+	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .topSection {

@@ -43,7 +43,7 @@ export default function SkillsApp() {
   const totalSkillsCount = expertise.reduce((acc, curr) => acc + curr.technologies.length, 0);
 
   return (
-    <div className="h-full flex flex-col bg-[#191919] text-white select-text overflow-hidden min-h-0 font-sans">
+    <div className="h-full flex flex-col bg-[#191919] text-white select-text overflow-hidden min-h-0">
       {/* Top Windows 11 App Bar */}
       <div className="px-5 py-3.5 border-b border-[#323232] bg-[#212121] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
         <div>
