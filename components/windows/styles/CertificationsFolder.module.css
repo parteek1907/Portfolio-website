@@ -1,0 +1,513 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #191919;
+  color: #ffffff;
+  user-select: none;
+  overflow: hidden;
+  font-family: var(--font-windows), "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  min-height: 0;
+}
+
+/* Command Bar (Windows 11 Ribbon) */
+.commandBar {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 10px;
+  background-color: #202020;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 4px;
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.commandBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #e0e0e0;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+  white-space: nowrap;
+}
+
+.commandBtn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.commandBtn:active {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.commandBtnDisabled {
+  opacity: 0.45;
+  cursor: default !important;
+  pointer-events: none;
+}
+
+.commandIconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  color: #cccccc;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.commandIconBtn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.12);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* Navigation / Breadcrumb Bar */
+.navigateBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 4px 10px;
+  background-color: #191919;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.navArrows {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #888888;
+}
+
+.navArrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.navArrowBtn:hover:not(.navArrowDisabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.navArrowDisabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.addressBar {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  height: 30px;
+  padding: 0 8px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  font-size: 12px;
+  gap: 6px;
+  min-width: 0;
+}
+
+.addressBar:focus-within {
+  border-color: #0078D4;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.breadcrumbSegment {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #cccccc;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.breadcrumbSegment:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 220px;
+  max-width: 32%;
+  height: 30px;
+  padding: 0 10px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  font-size: 12px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.searchBox:focus-within {
+  border-color: #0078D4;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.searchBox input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 12px;
+  width: 100%;
+}
+
+.searchBox input::placeholder {
+  color: #777777;
+}
+
+/* Main Split View */
+.mainSplit {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 190px;
+  background-color: rgba(28, 28, 28, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 6px;
+  overflow-y: auto;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.treeHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #cccccc;
+  cursor: pointer;
+}
+
+.treeHeader:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.treeItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px 5px 22px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #cccccc;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.treeItem:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.treeItemActive {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.treeSubItem {
+  padding-left: 36px;
+}
+
+/* File Listing Area */
+.fileContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background-color: #191919;
+}
+
+.scrollArea {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 12px;
+  overscroll-behavior: contain;
+}
+
+/* Details Table View */
+.detailsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  font-weight: 600;
+  color: #888888;
+  letter-spacing: 0.3px;
+  user-select: none;
+}
+
+.tableHeaderCol {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.tableHeaderCol:hover {
+  color: #ffffff;
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s ease, border-color 0.1s ease;
+  border: 1px solid transparent;
+  color: #e0e0e0;
+}
+
+.tableRow:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.tableRowSelected {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+/* Large Icons Grid View */
+.iconsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 16px;
+  padding: 10px;
+}
+
+.gridItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.gridItem:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.gridItemSelected {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.gridItemName {
+  font-size: 11px;
+  color: #e0e0e0;
+  margin-top: 8px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+/* Status Bar */
+.statusBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 26px;
+  padding: 0 12px;
+  background-color: #1e1e1e;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  color: #888888;
+  flex-shrink: 0;
+}
+
+.statusViewBtns {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.statusViewBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: #888888;
+}
+
+.statusViewBtn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.statusViewBtnActive {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+/* Right-Click Context Menu */
+.contextMenu {
+  position: fixed;
+  background-color: #2b2b2b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 6px;
+  min-width: 170px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  z-index: 99999;
+}
+
+.contextMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+
+.contextMenuItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Properties Dialog Modal */
+.propertiesOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+}
+
+.propertiesDialog {
+  width: 360px;
+  background-color: #202020;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.propertiesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #2b2b2b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.propertiesBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.propertiesFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 16px;
+  background-color: #1e1e1e;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dialogBtn {
+  padding: 5px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dialogBtn:hover {
+  background-color: #383838;
+}
+
+.dialogBtnPrimary {
+  background-color: #0078D4;
+  border-color: #0078D4;
+}
+
+.dialogBtnPrimary:hover {
+  background-color: #106ebe;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+  .searchBox {
+    display: none;
+  }
+}

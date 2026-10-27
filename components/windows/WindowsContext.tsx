@@ -52,13 +52,13 @@ export const APP_REGISTRY: DesktopAppDef[] = [
   {
     id: "certifications",
     title: "Certifications",
-    description: "Cisco, IBM, Oracle & industry credentials with verification",
-    iconPath: "/icons/documents/documents.png",
+    description: "Folder with verified credentials in PDF format",
+    iconPath: "/icons/folder/folder.png",
     iconBg: "bg-[#2b2b2b]",
     pinnedToTaskbar: true,
     pinnedToStart: true,
     category: "Credentials",
-    defaultSize: { width: 800, height: 560 },
+    defaultSize: { width: 880, height: 560 },
   },
   {
     id: "github",

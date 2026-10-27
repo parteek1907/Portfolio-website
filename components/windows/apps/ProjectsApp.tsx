@@ -33,10 +33,12 @@ import { SiMaterialdesignicons } from "react-icons/si";
 import { VscSearch, VscSymbolProperty } from "react-icons/vsc";
 import { ExternalLink, Github, Sparkles, CheckCircle2 } from "lucide-react";
 import { featuredProjects, FeaturedProject } from "@/lib/data";
+import { useWindows } from "../WindowsContext";
 import styles from "../styles/FileExplorer.module.css";
 import gridStyles from "../styles/GridList.module.css";
 
 export default function ProjectsApp() {
+  const { openApp } = useWindows();
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"icons" | "details">("icons");
   const [searchQuery, setSearchQuery] = useState("");
@@ -250,6 +252,15 @@ export default function ProjectsApp() {
               <div className={styles.navigationItem} onClick={() => setSelectedSlug(null)}>
                 <Image src="/icons/documents/documents_small.png" alt="Documents" width={15} height={15} />
                 <span>Documents</span>
+              </div>
+              <div 
+                className={styles.navigationItem} 
+                style={{ paddingLeft: "34px" }}
+                onClick={() => openApp("certifications")}
+                title="Open Certifications Folder"
+              >
+                <Image src="/icons/folder/folder.png" alt="Certifications" width={14} height={14} />
+                <span>Certifications</span>
               </div>
             </>
           )}

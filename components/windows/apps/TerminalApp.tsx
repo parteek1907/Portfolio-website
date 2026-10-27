@@ -122,13 +122,17 @@ Creator of Veralon, Campus Care, and DNA Encoding.`,
           break;
 
         case "certifications":
+          openApp("certifications");
           setHistory((prev) => [
             ...prev,
             {
               input: trimmed,
-              response: certifications
-                .map((c) => `• ${c.title} - ${c.issuer} (ID: ${c.credentialId})`)
-                .join("\n"),
+              response: `Opening Certifications folder (This PC > Documents > Certifications)...
+• Cisco - Data Analytics Essentials.pdf (217 KB)
+• IBM - Machine Learning for Data Science Projects.pdf (70 KB)
+• Oracle - Cloud Infrastructure 2025 AI Foundations.pdf (874 KB)
+• Oracle - Cloud Infrastructure 2025 Foundations.pdf (874 KB)
+• Simplilearn - Introduction to Generative AI.pdf (602 KB)`,
             },
           ]);
           break;

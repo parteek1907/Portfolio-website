@@ -183,15 +183,15 @@ export default function WindowsStartMenu() {
                     }}
                   >
                     <Image
-                      src="/icons/documents/documents.png"
+                      src="/icons/folder/folder.png"
                       alt="Certifications"
                       width={28}
                       height={28}
                       unoptimized
                     />
                     <div>
-                      <p>Cisco &amp; IBM Credentials</p>
-                      <span>5 Verified Badges</span>
+                      <p>Certifications Folder</p>
+                      <span>5 PDF Credentials</span>
                     </div>
                   </div>
 
