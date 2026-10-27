@@ -9,7 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             defaultTheme="dark"
             themes={["light", "dark"]}
             enableSystem={false}
-            disableTransitionOnChange={false}
+            disableTransitionOnChange={true}
             storageKey="theme"
         >
             {children}

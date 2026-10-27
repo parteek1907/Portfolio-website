@@ -124,7 +124,7 @@ function LegalModalInner() {
                                                 {modalData.title}
                                             </h2>
                                             <p className="text-xs mt-2 tracking-widest uppercase" style={{ color: "var(--color-text-secondary)", fontFamily: "var(--font-ui)", letterSpacing: "0.15em" }}>
-                                                Last updated — September 2026
+                                                Last updated — October 2026
                                             </p>
                                         </motion.div>
                                     </AnimatePresence>

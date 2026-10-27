@@ -14,6 +14,7 @@ import {
   Waves,
 } from "lucide-react"
 import { useTheme } from "next-themes"
+import { executeThemeTransition } from "@/lib/themeTransition"
 
 import { cn } from "@/lib/utils"
 import {
@@ -80,6 +81,18 @@ export function Theme({
 
   if (!isMounted) return null
 
+  const handleToggle = (
+    e: React.MouseEvent<HTMLElement> | null,
+    targetTheme: string
+  ) => {
+    executeThemeTransition({
+      event: e,
+      nextTheme: targetTheme,
+      setTheme,
+      duration: 1250,
+    })
+  }
+
   if (variant === "button") {
     function isTheme(value: unknown): value is Theme {
       return (
@@ -95,9 +108,9 @@ export function Theme({
 
     return (
       <motion.button
-        onClick={() => setTheme(nextTheme)}
+        onClick={(e) => handleToggle(e, nextTheme)}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-lg transition-all duration-200",
+          "relative inline-flex items-center justify-center gap-2 rounded-lg transition-all duration-200",
           "bg-transparent text-[var(--color-foreground)]",
           "hover:scale-105 hover:bg-white/10 active:scale-95",
           sizeClasses[size],
@@ -108,9 +121,9 @@ export function Theme({
       >
         <motion.div
           key={safeTheme}
-          initial={{ rotate: -180, opacity: 0 }}
-          animate={{ rotate: 0, opacity: 1 }}
-          transition={{ duration: 0.3 }}
+          initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
+          animate={{ rotate: 0, scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
         >
           <Icon size={iconSizes[size]} />
         </motion.div>
@@ -126,7 +139,7 @@ export function Theme({
 
     return (
       <motion.button
-        onClick={() => setTheme(isLight ? "dark" : "light")}
+        onClick={(e) => handleToggle(e, isLight ? "dark" : "light")}
         className={cn(
           "relative inline-flex items-center rounded-full border-2 transition-all duration-300",
           "border-[var(--color-border)] bg-[var(--color-muted)]",
@@ -238,7 +251,7 @@ export function Theme({
               return (
                 <DropdownMenuItem
                   key={themeOption}
-                  onClick={() => setTheme(themeOption)}
+                  onClick={(e) => handleToggle(e, themeOption)}
                   className={cn(
                     "flex items-center justify-between gap-2 px-3 py-2",
                     isSelected && "bg-[var(--color-primary)] text-white"
@@ -263,7 +276,11 @@ export function Theme({
 
   if (variant === "tabs") {
     return (
-      <Tabs value={theme} onValueChange={setTheme} className={cn(className)}>
+      <Tabs
+        value={theme}
+        onValueChange={(val) => handleToggle(null, val)}
+        className={cn(className)}
+      >
         <TabsList
           className={cn(
             "inline-flex items-center rounded-lg border p-1",
@@ -312,7 +329,7 @@ export function Theme({
       <div className={cn("flex justify-center", className)}>
         <RadioGroup
           value={theme}
-          onValueChange={(value) => setTheme(value as Theme)}
+          onValueChange={(value) => handleToggle(null, value as Theme)}
           className="flex gap-2"
         >
           {themes.map((themeOption) => {
@@ -422,8 +439,8 @@ export function Theme({
                 return (
                   <motion.button
                     key={themeOption}
-                    onClick={() => {
-                      setTheme(themeOption)
+                    onClick={(e) => {
+                      handleToggle(e, themeOption)
                       setIsOpen(false)
                     }}
                     className={cn(

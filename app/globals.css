@@ -73,7 +73,6 @@ body {
   font-weight: 400;
   line-height: 1.7;
   overflow-x: hidden;
-  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 /* =========================================
@@ -288,16 +287,27 @@ textarea:focus-visible {
 }
 
 /* =========================================
-   GLOBAL TRANSITIONS (smooth theme swap)
+   VIEW TRANSITIONS (Circular Theme Reveal)
+   Butter-smooth circular curve expanding outward from clicked button
    ========================================= */
 
-*, *::before, *::after {
-  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.2s ease, box-shadow 0.35s ease;
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
-/* Exclude elements where transition interferes with animations */
-canvas, video, svg, img,
-[class*="animate-"], [class*="transition-"],
-.framer-motion, [style*="transform"] {
-  transition: none;
+::view-transition-old(root) {
+  z-index: 1;
 }
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* While circular clip-path transition is active, prevent individual element transitions */
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: none !important;
+}

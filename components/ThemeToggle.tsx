@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { executeThemeTransition } from "@/lib/themeTransition";
 
 export default function ThemeToggle() {
     const [theme, setTheme] = useState<"light" | "dark">("dark");
@@ -12,16 +13,14 @@ export default function ThemeToggle() {
         setTheme(current === "dark" ? "dark" : "light");
     }, []);
 
-    const toggle = () => {
+    const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
         const next = theme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("theme", next);
-
-        // Update color-scheme meta for native UI elements
-        const meta = document.querySelector('meta[name="color-scheme"]');
-        if (meta) meta.setAttribute("content", next);
-
-        setTheme(next);
+        executeThemeTransition({
+            event: e,
+            nextTheme: next,
+            setTheme: (t) => setTheme(t as "light" | "dark"),
+            duration: 1250,
+        });
     };
 
     if (!mounted) return null;
