@@ -36,6 +36,16 @@ export default function WindowsDesktop() {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const [recycleDeleted, setRecycleDeleted] = useState(false);
   const [isBooting, setIsBooting] = useState(true);
+  const [isMobileScreen, setIsMobileScreen] = useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobileScreen(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   React.useEffect(() => {
     if (isWindowsMode) {
@@ -43,7 +53,7 @@ export default function WindowsDesktop() {
     }
   }, [isWindowsMode]);
 
-  if (!isWindowsMode) return null;
+  if (!isWindowsMode || isMobileScreen) return null;
 
   return (
     <>

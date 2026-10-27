@@ -166,28 +166,8 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                {/* Mobile Right Controls: Quick Windows Button + Hamburger */}
-                <div className="md:hidden flex items-center gap-2.5">
-                    <button
-                        type="button"
-                        onClick={() => enterWindowsMode()}
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border cursor-pointer"
-                        style={{
-                            background: isDark ? "rgba(0, 120, 212, 0.15)" : "rgba(0, 120, 212, 0.08)",
-                            borderColor: isDark ? "rgba(0, 120, 212, 0.35)" : "rgba(0, 120, 212, 0.22)",
-                            color: isDark ? "#60cdff" : "#0067b8",
-                        }}
-                        aria-label="Switch to Windows Experience"
-                    >
-                        <div className="grid grid-cols-2 gap-[2px] w-3 h-3">
-                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
-                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
-                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
-                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
-                        </div>
-                        <span>Windows OS</span>
-                    </button>
-
+                {/* Mobile Right Controls: Hamburger Menu */}
+                <div className="md:hidden flex items-center">
                     <button
                         className="transition-colors p-1"
                         style={{ color: "var(--color-text-secondary)" }}
@@ -240,30 +220,6 @@ export default function Navbar() {
                                 </a>
                             )
                         })}
-
-                        <div className="pt-2 border-t border-[var(--color-border)]">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setIsOpen(false);
-                                    enterWindowsMode();
-                                }}
-                                className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wide transition-all border cursor-pointer"
-                                style={{
-                                    background: isDark ? "rgba(0, 120, 212, 0.16)" : "rgba(0, 120, 212, 0.09)",
-                                    borderColor: isDark ? "rgba(0, 120, 212, 0.35)" : "rgba(0, 120, 212, 0.22)",
-                                    color: isDark ? "#60cdff" : "#0067b8",
-                                }}
-                            >
-                                <div className="grid grid-cols-2 gap-[2px] w-3.5 h-3.5">
-                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                                </div>
-                                <span>Launch Windows Experience</span>
-                            </button>
-                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

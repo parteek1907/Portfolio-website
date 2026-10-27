@@ -158,15 +158,28 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     return initial as Record<AppId, WindowState>;
   });
 
-  // Check URL query on mount (?view=windows or #windows)
+  // Check URL query on mount (?view=windows or #windows) - Only allowed on desktop (>= 768px)
   useEffect(() => {
     if (typeof window !== "undefined") {
+      if (window.innerWidth < 768) return;
       const params = new URLSearchParams(window.location.search);
       if (params.get("view") === "windows" || window.location.hash === "#windows") {
         setIsWindowsMode(true);
       }
     }
   }, []);
+
+  // Automatically exit Windows mode if screen is resized down to mobile (< 768px)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleResize = () => {
+      if (window.innerWidth < 768 && isWindowsMode) {
+        setIsWindowsMode(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isWindowsMode]);
 
   // Sync body and documentElement scroll locking when in Windows Mode
   const scrollPosRef = useRef(0);
@@ -192,6 +205,11 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   }, [isWindowsMode]);
 
   const enterWindowsMode = useCallback(() => {
+    // Windows OS is completely disabled on mobile devices (< 768px)
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      return;
+    }
+
     setIsWindowsMode(true);
     setStartOpen(false);
     // If no app is open, automatically open About Me to welcome the user
