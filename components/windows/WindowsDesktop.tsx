@@ -7,20 +7,23 @@ import DraggableWindow from "./DraggableWindow";
 import WindowsTaskbar from "./WindowsTaskbar";
 import WindowsStartMenu from "./WindowsStartMenu";
 import WindowsCalendar from "./WindowsCalendar";
+import dynamic from "next/dynamic";
 import WindowsError from "./WindowsError";
 import WindowsBluescreen from "./WindowsBluescreen";
 import WindowsBootScreen from "./WindowsBootScreen";
-import AboutApp from "./apps/AboutApp";
-import ProjectsApp from "./apps/ProjectsApp";
-import SkillsApp from "./apps/SkillsApp";
-import CertificationsApp from "./apps/CertificationsApp";
-import HackathonsApp from "./apps/HackathonsApp";
-import GithubApp from "./apps/GithubApp";
-import ResumeApp from "./apps/ResumeApp";
-import ContactApp from "./apps/ContactApp";
-import TerminalApp from "./apps/TerminalApp";
 import layoutStyles from "./styles/Layout.module.css";
 import iconStyles from "./styles/Icons.module.css";
+
+// Lazy-load applications on demand to keep initial boot and overall website feather-light
+const AboutApp = dynamic(() => import("./apps/AboutApp"), { ssr: false });
+const ProjectsApp = dynamic(() => import("./apps/ProjectsApp"), { ssr: false });
+const SkillsApp = dynamic(() => import("./apps/SkillsApp"), { ssr: false });
+const CertificationsApp = dynamic(() => import("./apps/CertificationsApp"), { ssr: false });
+const HackathonsApp = dynamic(() => import("./apps/HackathonsApp"), { ssr: false });
+const GithubApp = dynamic(() => import("./apps/GithubApp"), { ssr: false });
+const ResumeApp = dynamic(() => import("./apps/ResumeApp"), { ssr: false });
+const ContactApp = dynamic(() => import("./apps/ContactApp"), { ssr: false });
+const TerminalApp = dynamic(() => import("./apps/TerminalApp"), { ssr: false });
 
 export default function WindowsDesktop() {
   const {
@@ -60,11 +63,14 @@ export default function WindowsDesktop() {
     <>
       {isBooting && (
         <WindowsBootScreen
-          durationMs={5500}
+          durationMs={5000}
           onComplete={() => setIsBooting(false)}
         />
       )}
-      <div className={layoutStyles.container} data-lenis-prevent="true">
+      <div 
+        className={layoutStyles.container} 
+        data-lenis-prevent="true"
+      >
       {/* Desktop Space (Above Taskbar) */}
       <div
         className={layoutStyles.desktopArea}

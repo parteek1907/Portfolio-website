@@ -36,11 +36,11 @@ export default function WindowsBootScreen({
       {visible && (
         <motion.div
           key="windows-boot"
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999999] bg-black flex flex-col items-center justify-between py-16 px-6 select-none overflow-hidden"
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="fixed inset-0 z-[9999999] bg-[#000000] flex flex-col items-center justify-between py-16 px-6 select-none overflow-hidden"
           style={{ cursor: "default" }}
         >
           {/* Top Spacer */}
@@ -74,22 +74,13 @@ export default function WindowsBootScreen({
           </div>
 
           {/* Bottom Minimal Hint */}
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center">
             <button
               onClick={handleFullscreenRequest}
-              className="text-[13px] text-neutral-400 hover:text-neutral-200 transition-colors tracking-wide font-normal cursor-pointer bg-transparent border-none outline-none py-1 px-3 rounded hover:bg-white/5"
+              className="text-[13px] text-neutral-400 hover:text-neutral-200 transition-colors tracking-wide font-normal cursor-pointer bg-transparent border-none outline-none py-1.5 px-4 rounded hover:bg-white/5"
               title="Click or press F11 for full screen mode"
             >
               Click F11 for better experience
-            </button>
-            <button
-              onClick={() => {
-                setVisible(false);
-                setTimeout(onComplete, 400);
-              }}
-              className="text-[11px] text-neutral-600 hover:text-neutral-400 transition-colors tracking-wider uppercase cursor-pointer"
-            >
-              Skip
             </button>
           </div>
 
