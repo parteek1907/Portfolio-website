@@ -9,7 +9,7 @@ PARTEEK GARG - ENGINEERING & PROFILE NOTES
 =====================================================
 
 [INTRODUCTION]
-I am a first-year B.Tech Computer Science and Engineering student 
+I am a second-year B.Tech Computer Science and Engineering student 
 at NMIMS Chandigarh building full-stack software systems and exploring 
 Data Science and Artificial Intelligence. Creator of Veralon, Campus Care, 
 and DNA Encoding.
@@ -18,7 +18,7 @@ and DNA Encoding.
 Institution: Narsee Monjee Institute of Management Studies (NMIMS), Chandigarh
 Degree:      Bachelor of Technology (B.Tech)
 Major:       Computer Science & Engineering
-Timeline:    2024 - 2028
+Timeline:    2025 - 2029
 
 [CURRENT FOCUS & INTERESTS]
 • Full-Stack Architecture: Next.js, React, Node.js, TypeScript, PostgreSQL

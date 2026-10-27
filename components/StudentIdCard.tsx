@@ -247,6 +247,7 @@ export default function StudentIdCard() {
                             {/* Course */}
                             <p className="text-[12px] font-medium text-center leading-snug" style={{ color: isLight ? "#333" : "#C4C4C4" }}>
                                 B.Tech Computer Science<br />(Data Science)
+                                <span className="text-[10px] opacity-75 mt-0.5 block font-mono">2025 &ndash; 2029</span>
                             </p>
                             
                             {/* Subtle Divider */}

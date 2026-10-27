@@ -71,7 +71,7 @@ export default function TerminalApp() {
             {
               input: trimmed,
               response: `Parteek Garg
-First-year B.Tech CSE student at NMIMS Chandigarh (2024-2028).
+Second-year B.Tech CSE student at NMIMS Chandigarh (2025-2029).
 Building full-stack systems and exploring Data Science & AI.
 Creator of Veralon, Campus Care, and DNA Encoding.`,
             },
@@ -163,7 +163,7 @@ Creator of Veralon, Campus Care, and DNA Encoding.`,
             ...prev,
             {
               input: trimmed,
-              response: `parteek (NMIMS Chandigarh B.Tech CSE '28)`,
+              response: `parteek (NMIMS Chandigarh B.Tech CSE '29)`,
             },
           ]);
           break;

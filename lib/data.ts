@@ -821,7 +821,7 @@ export const expertise = [
 export const aboutMe = {
     tagline: "Architecting Intelligence & Full-Stack Systems",
     heroDescription: "Computer Science student exploring software engineering, data science, and AI through hands-on projects, continuous learning, and thoughtful problem-solving.",
-    description: "I am a B.Tech CSE student at NMIMS Chandigarh, focused on building strong fundamentals in programming, problem-solving, and data-driven architecture. I am currently exploring Data Science and AI through structured learning and hands-on practice, with the goal of transitioning into scalable, data-driven applications and impactful real-world engineering."
+    description: "I am a second-year B.Tech CSE student at NMIMS Chandigarh (2025–2029), focused on building strong fundamentals in programming, problem-solving, and data-driven architecture. I am currently exploring Data Science and AI through structured learning and hands-on practice, with the goal of transitioning into scalable, data-driven applications and impactful real-world engineering."
 };
 
 export const socialLinks = {

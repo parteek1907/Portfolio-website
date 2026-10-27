@@ -73,7 +73,7 @@ export default function ResumeApp() {
                 Full-Stack Systems Engineer &middot; B.Tech CSE (Data Science)
               </p>
               <p className="text-xs text-[#cccccc] mt-2 max-w-lg leading-relaxed">
-                First-year engineering student building verified full-stack applications, graph talent discovery systems, and financial AI infrastructure.
+                Second-year engineering student building verified full-stack applications, graph talent discovery systems, and financial AI infrastructure.
               </p>
             </div>
             <div className="text-xs text-[#888888] space-y-1 text-left sm:text-right shrink-0">
@@ -93,7 +93,7 @@ export default function ResumeApp() {
                 <h3 className="text-sm font-semibold text-white">Bachelor of Technology &ndash; Computer Science and Engineering</h3>
                 <p className="text-xs text-[#cccccc] mt-0.5">Specialization in Data Science &middot; NMIMS Chandigarh</p>
               </div>
-              <span className="text-xs font-medium text-[#aaaaaa] bg-[#191919] border border-[#383838] px-2 py-0.5 rounded">2024 &ndash; 2028</span>
+              <span className="text-xs font-medium text-[#aaaaaa] bg-[#191919] border border-[#383838] px-2 py-0.5 rounded">2025 &ndash; 2029</span>
             </div>
           </div>
 
