@@ -104,26 +104,6 @@ export default function WindowsDesktop() {
               />
               <p>Recycle Bin</p>
             </div>
-
-            {/* Exit to Portfolio Website */}
-            <div
-              className={`${iconStyles.item} ${selectedIcon === "thispc" ? iconStyles.selected : ""}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                exitWindowsMode();
-              }}
-              title="Return to standard portfolio website"
-            >
-              <Image
-                src="/icons/this-pc/this-pc.png"
-                alt="This PC"
-                width={40}
-                height={40}
-                unoptimized
-                draggable={false}
-              />
-              <p>Exit OS</p>
-            </div>
           </div>
         </div>
 

@@ -201,11 +201,34 @@ button, a, [role="button"] {
   cursor: pointer;
 }
 
-/* Hide default cursor on non-touch devices */
+/* Hide default cursor on non-touch devices in portfolio mode */
 @media (pointer: fine) {
-  * {
+  body:not(.windows-mode-active) * {
     cursor: none !important;
   }
+}
+
+/* In Windows Mode: Authentic native operating system cursor */
+body.windows-mode-active,
+body.windows-mode-active * {
+  cursor: default !important;
+}
+
+body.windows-mode-active a,
+body.windows-mode-active button,
+body.windows-mode-active [role="button"],
+body.windows-mode-active [class*="item"],
+body.windows-mode-active [class*="icon"],
+body.windows-mode-active [class*="cursor-pointer"],
+body.windows-mode-active [class*="tile"],
+body.windows-mode-active [class*="pinnedTile"],
+body.windows-mode-active [class*="recommendedTile"] {
+  cursor: pointer !important;
+}
+
+body.windows-mode-active input[type="text"],
+body.windows-mode-active textarea {
+  cursor: text !important;
 }
 
 /* Focus */

@@ -4,22 +4,52 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { AiOutlineWifi } from "react-icons/ai";
 import { FiVolume2 } from "react-icons/fi";
-import { ArrowLeft } from "lucide-react";
-import { useWindows, APP_REGISTRY } from "./WindowsContext";
-import { AppId } from "./types";
+import { 
+  SiGithub, 
+  SiX, 
+  SiInstagram, 
+  SiLeetcode 
+} from "react-icons/si";
+import { FaLinkedin } from "react-icons/fa";
+import { socialLinks } from "@/lib/data";
+import { useWindows } from "./WindowsContext";
 import styles from "./styles/Footer.module.css";
 
-export default function WindowsTaskbar() {
-  const {
-    windows,
-    activeAppId,
-    isStartOpen,
-    setStartOpen,
-    toggleApp,
-    exitWindowsMode,
-    triggerError,
-  } = useWindows();
+const taskbarSocials = [
+  {
+    name: "GitHub",
+    href: socialLinks.github,
+    icon: SiGithub,
+    color: "#ffffff",
+  },
+  {
+    name: "LinkedIn",
+    href: socialLinks.linkedin,
+    icon: FaLinkedin,
+    color: "#0a66c2",
+  },
+  {
+    name: "X (Twitter)",
+    href: socialLinks.twitter,
+    icon: SiX,
+    color: "#ffffff",
+  },
+  {
+    name: "Instagram",
+    href: socialLinks.instagram,
+    icon: SiInstagram,
+    color: "#e1306c",
+  },
+  {
+    name: "LeetCode",
+    href: socialLinks.leetcode,
+    icon: SiLeetcode,
+    color: "#ffa116",
+  },
+];
 
+export default function WindowsTaskbar() {
+  const { isStartOpen, setStartOpen } = useWindows();
   const [hourStr, setHourStr] = useState("00:00 PM");
   const [dateStr, setDateStr] = useState("1/1/1970");
 
@@ -41,19 +71,7 @@ export default function WindowsTaskbar() {
 
   return (
     <div className={styles.container}>
-      {/* Left Tray: Quick Return to Portfolio */}
-      <div className={styles.leftContainer}>
-        <button
-          onClick={exitWindowsMode}
-          className={styles.portfolioBtn}
-          title="Return to standard portfolio website"
-        >
-          <ArrowLeft size={14} className="text-sky-400" />
-          <span>Portfolio Mode</span>
-        </button>
-      </div>
-
-      {/* Center: Windows 11 Taskbar Icons */}
+      {/* Center: Windows Start + Social Links */}
       <section className={styles.iconContainer}>
         {/* Windows Start Button */}
         <div
@@ -70,88 +88,26 @@ export default function WindowsTaskbar() {
           />
         </div>
 
-        {/* Pinned & Running Apps */}
-        {APP_REGISTRY.map((app) => {
-          const win = windows[app.id];
-          const isRunning = win?.isOpen;
-          const isActive = activeAppId === app.id && !win?.isMinimized;
+        {/* Divider */}
+        <div className="w-px h-6 bg-white/10 mx-1" />
 
+        {/* Only Social Links in Taskbar */}
+        {taskbarSocials.map((social) => {
+          const Icon = social.icon;
           return (
-            <div
-              key={app.id}
-              className={`${styles.icon} ${isActive ? styles.activeIcon : ""}`}
-              onClick={() => toggleApp(app.id)}
-              title={app.title}
+            <a
+              key={social.name}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.icon}
+              title={social.name}
+              aria-label={social.name}
             >
-              <Image
-                src={app.iconPath}
-                width={24}
-                height={24}
-                alt={app.title}
-                draggable={false}
-              />
-              {isActive && <div className={styles.activeIndicator} />}
-              {isRunning && !isActive && <div className={styles.openIndicator} />}
-            </div>
+              <Icon size={20} className="transition-transform group-hover:scale-110" />
+            </a>
           );
         })}
-
-        {/* Authentic Kasperi Easter Egg Apps */}
-        <div
-          className={styles.icon}
-          onClick={() => triggerError("Firefox")}
-          title="Firefox"
-        >
-          <Image
-            src="/icons/firefox/firefox.png"
-            width={24}
-            height={24}
-            alt="Firefox"
-            draggable={false}
-          />
-        </div>
-
-        <div
-          className={styles.icon}
-          onClick={() => triggerError("Spotify")}
-          title="Spotify"
-        >
-          <Image
-            src="/icons/spotify/spotify.png"
-            width={24}
-            height={24}
-            alt="Spotify"
-            draggable={false}
-          />
-        </div>
-
-        <div
-          className={styles.icon}
-          onClick={() => triggerError("Steam")}
-          title="Steam"
-        >
-          <Image
-            src="/icons/steam/steam.png"
-            width={24}
-            height={24}
-            alt="Steam"
-            draggable={false}
-          />
-        </div>
-
-        <div
-          className={styles.icon}
-          onClick={() => triggerError("Discord")}
-          title="Discord"
-        >
-          <Image
-            src="/icons/discord/discord.png"
-            width={24}
-            height={24}
-            alt="Discord"
-            draggable={false}
-          />
-        </div>
       </section>
 
       {/* Right Toolbar: System Tray, Language, Audio, Wifi, Live Clock */}
@@ -163,25 +119,11 @@ export default function WindowsTaskbar() {
           <AiOutlineWifi />
           <FiVolume2 />
         </div>
-        <div
-          className={styles.dateIcons}
-          onClick={() => toggleApp("hackathons")}
-          title="Date & Time"
-        >
+        <div className={styles.dateIcons} title="Date & Time">
           <p>{hourStr}</p>
           <p>{dateStr}</p>
         </div>
-        <div
-          className={styles.showDesktop}
-          onClick={() => {
-            APP_REGISTRY.forEach((a) => {
-              if (windows[a.id]?.isOpen && !windows[a.id]?.isMinimized) {
-                toggleApp(a.id);
-              }
-            });
-          }}
-          title="Show Desktop"
-        />
+        <div className={styles.showDesktop} title="Desktop" />
       </section>
     </div>
   );

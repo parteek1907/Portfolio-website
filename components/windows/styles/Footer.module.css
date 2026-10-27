@@ -65,6 +65,8 @@
 .icon {
 	width: 40px;
 	height: 40px;
+	color: #fff;
+	text-decoration: none;
 }
 
 .activeIcon {

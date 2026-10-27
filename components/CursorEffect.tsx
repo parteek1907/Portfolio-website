@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useWindows } from "@/components/windows/WindowsContext";
 
 export default function CursorEffect() {
+    const { isWindowsMode } = useWindows();
     const innerRef = useRef<HTMLDivElement>(null);
     const outerRef = useRef<HTMLDivElement>(null);
     const linesRef = useRef<HTMLDivElement>(null);
@@ -147,8 +149,8 @@ export default function CursorEffect() {
         };
     }, [isTouchDevice]);
 
-    // Don't render on touch devices or during SSR detection
-    if (isTouchDevice || isTouchDevice === null) return null;
+    // Don't render on touch devices, during SSR detection, or in Windows Mode
+    if (isTouchDevice || isTouchDevice === null || isWindowsMode) return null;
 
     const lineAngles = [0, 90, 180, 270];
 
