@@ -8,6 +8,7 @@ import WindowsTaskbar from "./WindowsTaskbar";
 import WindowsStartMenu from "./WindowsStartMenu";
 import WindowsError from "./WindowsError";
 import WindowsBluescreen from "./WindowsBluescreen";
+import WindowsBootScreen from "./WindowsBootScreen";
 import AboutApp from "./apps/AboutApp";
 import ProjectsApp from "./apps/ProjectsApp";
 import SkillsApp from "./apps/SkillsApp";
@@ -34,11 +35,25 @@ export default function WindowsDesktop() {
 
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const [recycleDeleted, setRecycleDeleted] = useState(false);
+  const [isBooting, setIsBooting] = useState(true);
+
+  React.useEffect(() => {
+    if (isWindowsMode) {
+      setIsBooting(true);
+    }
+  }, [isWindowsMode]);
 
   if (!isWindowsMode) return null;
 
   return (
-    <div className={layoutStyles.container}>
+    <>
+      {isBooting && (
+        <WindowsBootScreen
+          durationMs={5500}
+          onComplete={() => setIsBooting(false)}
+        />
+      )}
+      <div className={layoutStyles.container}>
       {/* Desktop Space (Above Taskbar) */}
       <div
         className={layoutStyles.desktopArea}
@@ -181,5 +196,6 @@ export default function WindowsDesktop() {
       {/* Centered Windows 11 Taskbar */}
       <WindowsTaskbar />
     </div>
+    </>
   );
 }
