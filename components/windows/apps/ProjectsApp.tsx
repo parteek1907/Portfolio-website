@@ -96,7 +96,7 @@ export default function ProjectsApp() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-[#191919] text-white select-none overflow-hidden font-sans">
+    <div className="w-full h-full flex flex-col bg-[#191919] text-white select-none overflow-hidden font-sans min-h-0">
       {/* Top Windows 11 Ribbon / Command Bar */}
       <div className={styles.top}>
         <section className={styles.manage}>

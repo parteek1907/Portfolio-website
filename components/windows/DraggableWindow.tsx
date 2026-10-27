@@ -90,15 +90,16 @@ export default function DraggableWindow({ id, children }: DraggableWindowProps) 
           exit={{ opacity: 0, scale: 0.92 }}
           transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
           onPointerDown={() => bringToFront(id)}
+          data-lenis-prevent="true"
           style={{
             zIndex: win.zIndex,
             position: "absolute",
             left: isEffectiveMaximized ? 0 : win.position.x,
             top: isEffectiveMaximized ? 0 : win.position.y,
             width: isEffectiveMaximized ? "100%" : `${win.size.width}px`,
-            height: isEffectiveMaximized ? "calc(100% - 50px)" : `${win.size.height}px`,
+            height: isEffectiveMaximized ? "100%" : `${win.size.height}px`,
             maxWidth: isEffectiveMaximized ? "100%" : "calc(100vw - 20px)",
-            maxHeight: isEffectiveMaximized ? "calc(100% - 50px)" : "calc(100vh - 70px)",
+            maxHeight: isEffectiveMaximized ? "100%" : "calc(100% - 20px)",
           }}
           className={`${styles.container} ${isEffectiveMaximized ? styles.maximized : ""} ${
             !isDragging ? styles.animatedWindow : ""
@@ -164,7 +165,7 @@ export default function DraggableWindow({ id, children }: DraggableWindowProps) 
             </nav>
 
             {/* Window Content */}
-            <div className={styles.contentWrapper}>
+            <div className={styles.contentWrapper} data-lenis-prevent="true">
               {children}
             </div>
           </div>

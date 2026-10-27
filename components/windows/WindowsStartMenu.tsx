@@ -68,7 +68,7 @@ export default function WindowsStartMenu() {
       variants={slideVerticalAnimation}
       className={styles.overflow}
     >
-      <div className={styles.winMenu} ref={nodeRef}>
+      <div className={styles.winMenu} ref={nodeRef} data-lenis-prevent="true">
         <div className={styles.winMenuContainer}>
           {/* Search Input */}
           <div className={styles.winMenuSearch}>

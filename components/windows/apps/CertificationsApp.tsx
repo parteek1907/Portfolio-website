@@ -26,10 +26,10 @@ export default function CertificationsApp() {
   );
 
   return (
-    <div className="h-full flex flex-col md:flex-row bg-[#18181f] text-neutral-200 select-text overflow-hidden">
+    <div className="h-full flex flex-col md:flex-row bg-[#18181f] text-neutral-200 select-text overflow-hidden min-h-0">
       {/* Left List of Certifications */}
-      <div className="w-full md:w-80 border-b md:border-b-0 md:border-r border-white/5 bg-[#14151c] flex flex-col shrink-0">
-        <div className="p-3 border-b border-white/5">
+      <div className="w-full md:w-80 border-b md:border-b-0 md:border-r border-white/5 bg-[#14151c] flex flex-col shrink-0 min-h-0">
+        <div className="p-3 border-b border-white/5 shrink-0">
           <div className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
             <input
@@ -42,7 +42,7 @@ export default function CertificationsApp() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-2 space-y-1.5 custom-scrollbar max-h-52 md:max-h-none">
+        <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1.5 custom-scrollbar max-h-52 md:max-h-none overscroll-contain">
           {filteredCerts.map((cert) => {
             const isSelected = selectedCert.id === cert.id;
             return (
@@ -85,7 +85,7 @@ export default function CertificationsApp() {
 
       {/* Right Detail Pane */}
       {selectedCert ? (
-        <div className="flex-1 flex flex-col overflow-y-auto p-6 space-y-6 custom-scrollbar bg-[#18181f]">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto p-6 space-y-6 custom-scrollbar bg-[#18181f] overscroll-contain">
           {/* Header */}
           <div className="p-5 rounded-xl bg-gradient-to-r from-[#1f212f] to-[#161720] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">

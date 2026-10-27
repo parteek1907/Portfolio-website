@@ -121,11 +121,11 @@ export default function HackathonsApp() {
   const selectedEvent = HACKATHONS.find((h) => h.id === selectedId) || displayedHackathons[0];
 
   return (
-    <div className="h-full flex flex-col md:flex-row bg-[#18181f] text-neutral-200 select-text overflow-hidden">
+    <div className="h-full flex flex-col md:flex-row bg-[#18181f] text-neutral-200 select-text overflow-hidden min-h-0">
       {/* Left List */}
-      <div className="w-full md:w-84 border-b md:border-b-0 md:border-r border-white/5 bg-[#14151c] flex flex-col shrink-0">
+      <div className="w-full md:w-84 border-b md:border-b-0 md:border-r border-white/5 bg-[#14151c] flex flex-col shrink-0 min-h-0">
         {/* Header & Filter */}
-        <div className="p-4 border-b border-white/5 bg-gradient-to-r from-[#1c1d28] to-[#14151c]">
+        <div className="p-4 border-b border-white/5 bg-gradient-to-r from-[#1c1d28] to-[#14151c] shrink-0">
           <div className="flex items-center gap-2 mb-2">
             <Trophy size={16} className="text-amber-400" />
             <h2 className="text-sm font-bold text-white">Hackathon Track Record</h2>
@@ -155,7 +155,7 @@ export default function HackathonsApp() {
         </div>
 
         {/* List Items */}
-        <div className="flex-1 overflow-y-auto p-2 space-y-1.5 custom-scrollbar max-h-52 md:max-h-none">
+        <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1.5 custom-scrollbar max-h-52 md:max-h-none overscroll-contain">
           {displayedHackathons.map((h) => {
             const isSelected = selectedEvent?.id === h.id;
             return (
@@ -193,7 +193,7 @@ export default function HackathonsApp() {
 
       {/* Right Detailed Event View */}
       {selectedEvent ? (
-        <div className="flex-1 flex flex-col overflow-y-auto p-6 space-y-5 custom-scrollbar bg-[#18181f]">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto p-6 space-y-5 custom-scrollbar bg-[#18181f] overscroll-contain">
           {/* Header */}
           <div className="p-5 rounded-xl bg-gradient-to-r from-[#1f212f] to-[#161720] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>

@@ -77,7 +77,7 @@ export default function GithubApp() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-y-auto p-6 space-y-6 custom-scrollbar">
+    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-y-auto p-6 space-y-6 custom-scrollbar min-h-0 overscroll-contain">
       {/* Profile Header */}
       <div className="p-5 rounded-xl bg-gradient-to-r from-[#1c1e2b] via-[#181923] to-[#14151c] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">

@@ -12,6 +12,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	overscroll-behavior: none;
 }
 
 .desktopArea {
@@ -19,4 +20,5 @@
 	width: 100%;
 	height: calc(100vh - 50px);
 	overflow: hidden;
+	overscroll-behavior: none;
 }

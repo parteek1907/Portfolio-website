@@ -208,6 +208,28 @@ button, a, [role="button"] {
   }
 }
 
+/* In Windows Mode: Strict lock of body & html to prevent page scrollbar */
+html.windows-mode-active,
+body.windows-mode-active {
+  overflow: hidden !important;
+  height: 100vh !important;
+  width: 100vw !important;
+  max-height: 100vh !important;
+  overscroll-behavior: none !important;
+}
+
+/* Allow internal scrolling inside active Windows apps and controls */
+body.windows-mode-active [data-lenis-prevent],
+body.windows-mode-active [class*="contentWrapper"],
+body.windows-mode-active [class*="child"],
+body.windows-mode-active [class*="sidebar"],
+body.windows-mode-active [class*="textarea"],
+body.windows-mode-active [class*="overflow-y-auto"],
+body.windows-mode-active [class*="overflow-x-auto"],
+body.windows-mode-active textarea {
+  overscroll-behavior: contain !important;
+}
+
 /* In Windows Mode: Authentic native operating system cursor */
 body.windows-mode-active,
 body.windows-mode-active * {

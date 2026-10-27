@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import { AppId, WindowState, DesktopAppDef, ErrorType } from "./types";
 
 export const APP_REGISTRY: DesktopAppDef[] = [
@@ -168,15 +168,25 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Sync body scroll locking when in Windows Mode
+  // Sync body and documentElement scroll locking when in Windows Mode
+  const scrollPosRef = useRef(0);
   useEffect(() => {
     if (typeof document !== "undefined") {
       if (isWindowsMode) {
+        scrollPosRef.current = window.scrollY;
         document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
         document.body.classList.add("windows-mode-active");
+        document.documentElement.classList.add("windows-mode-active");
+        window.scrollTo(0, 0);
       } else {
         document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
         document.body.classList.remove("windows-mode-active");
+        document.documentElement.classList.remove("windows-mode-active");
+        if (scrollPosRef.current > 0) {
+          window.scrollTo(0, scrollPosRef.current);
+        }
       }
     }
   }, [isWindowsMode]);

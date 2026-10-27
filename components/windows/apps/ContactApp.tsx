@@ -70,9 +70,9 @@ export default function ContactApp() {
   };
 
   return (
-    <div className="h-full flex flex-col md:flex-row bg-[#18181f] text-neutral-200 select-text overflow-hidden">
+    <div className="h-full flex flex-col md:flex-row bg-[#18181f] text-neutral-200 select-text overflow-hidden min-h-0">
       {/* Left Mail Folder Navigation */}
-      <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-white/5 bg-[#14151c] flex flex-col shrink-0 p-4 space-y-4">
+      <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-white/5 bg-[#14151c] flex flex-col shrink-0 p-4 space-y-4 min-h-0 overflow-y-auto custom-scrollbar overscroll-contain">
         <div>
           <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500 block mb-2">
             Mail Folders
@@ -153,7 +153,7 @@ export default function ContactApp() {
       </div>
 
       {/* Right Compose Pane */}
-      <div className="flex-1 flex flex-col overflow-y-auto p-6 space-y-4 custom-scrollbar bg-[#18181f]">
+      <div className="flex-1 min-h-0 flex flex-col overflow-y-auto p-6 space-y-4 custom-scrollbar bg-[#18181f] overscroll-contain">
         <div className="border-b border-white/5 pb-3">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <Mail size={18} className="text-sky-400" /> Compose Message

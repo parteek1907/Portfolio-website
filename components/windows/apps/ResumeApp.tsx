@@ -17,7 +17,7 @@ export default function ResumeApp() {
   const [viewMode, setViewMode] = useState<"interactive" | "pdf">("interactive");
 
   return (
-    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-hidden">
+    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-hidden min-h-0">
       {/* Top Action Toolbar */}
       <div className="px-5 py-3 border-b border-white/5 bg-[#14151c] flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export default function ResumeApp() {
 
       {/* Main Content Area */}
       {viewMode === "interactive" ? (
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar max-w-4xl mx-auto w-full">
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-6 custom-scrollbar max-w-4xl mx-auto w-full overscroll-contain">
           {/* Header Card */}
           <div className="p-6 rounded-2xl bg-gradient-to-br from-[#1e202e] to-[#15161f] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>

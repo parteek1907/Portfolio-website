@@ -2,22 +2,26 @@
 
 import { useEffect } from "react";
 import { useLoading } from "@/components/LoadingContext";
+import { useWindows } from "@/components/windows/WindowsContext";
 import { useLenis } from "lenis/react";
 
 export default function ScrollLock() {
     const { isLoading } = useLoading();
+    const { isWindowsMode } = useWindows();
     const lenis = useLenis();
 
     useEffect(() => {
-        if (isLoading) {
-            // Lock scroll and reset position
+        if (isLoading || isWindowsMode) {
+            // Lock scroll and stop Lenis interception
             document.body.style.overflow = "hidden";
             document.documentElement.style.overflow = "hidden";
             
-            // Force scroll to top
-            window.scrollTo(0, 0);
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
+            if (isLoading) {
+                // Force scroll to top on initial page load
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            }
 
             lenis?.stop();
             
@@ -33,11 +37,13 @@ export default function ScrollLock() {
         }
 
         return () => {
-            document.body.style.overflow = "unset";
-            document.documentElement.style.overflow = "unset";
-            lenis?.start();
+            if (!isWindowsMode) {
+                document.body.style.overflow = "unset";
+                document.documentElement.style.overflow = "unset";
+                lenis?.start();
+            }
         };
-    }, [isLoading, lenis]);
+    }, [isLoading, isWindowsMode, lenis]);
 
     return null;
 }

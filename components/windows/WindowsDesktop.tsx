@@ -53,11 +53,16 @@ export default function WindowsDesktop() {
           onComplete={() => setIsBooting(false)}
         />
       )}
-      <div className={layoutStyles.container}>
+      <div className={layoutStyles.container} data-lenis-prevent="true">
       {/* Desktop Space (Above Taskbar) */}
       <div
         className={layoutStyles.desktopArea}
         onClick={() => setSelectedIcon(null)}
+        onWheel={(e) => {
+          if (e.target === e.currentTarget) {
+            e.stopPropagation();
+          }
+        }}
       >
         {/* Desktop Application Icons Grid */}
         <div className={iconStyles.container}>

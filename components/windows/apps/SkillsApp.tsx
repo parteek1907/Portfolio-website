@@ -43,7 +43,7 @@ export default function SkillsApp() {
   const totalSkillsCount = expertise.reduce((acc, curr) => acc + curr.technologies.length, 0);
 
   return (
-    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-hidden">
+    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-hidden min-h-0">
       {/* Top Header / Performance Monitor Bar */}
       <div className="p-5 border-b border-white/5 bg-gradient-to-r from-[#1c1d28] to-[#161720] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
         <div>
@@ -88,7 +88,7 @@ export default function SkillsApp() {
       </div>
 
       {/* Skills Grid */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar">
+      <div className="flex-1 min-h-0 overflow-y-auto p-5 space-y-5 custom-scrollbar overscroll-contain">
         {filteredExpertise.map((cat) => (
           <div key={cat.area} className="bg-[#1e1f2a]/60 rounded-xl p-4 border border-white/5 space-y-3">
             <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
