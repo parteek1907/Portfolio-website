@@ -77,19 +77,19 @@ export default function GithubApp() {
   };
 
   return (
-    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-y-auto p-6 space-y-6 custom-scrollbar min-h-0 overscroll-contain">
+    <div className="h-full flex flex-col bg-[#191919] text-[#cccccc] select-text overflow-y-auto p-6 space-y-5 custom-scrollbar min-h-0 overscroll-contain">
       {/* Profile Header */}
-      <div className="p-5 rounded-xl bg-gradient-to-r from-[#1c1e2b] via-[#181923] to-[#14151c] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-5 rounded-lg bg-[#202020] border border-[#323232] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-[#111218] border border-white/10 flex items-center justify-center p-3 text-white">
-            <Github size={32} />
+          <div className="w-12 h-12 rounded-full bg-[#191919] border border-[#383838] flex items-center justify-center p-2.5 text-white">
+            <Github size={28} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold text-white">Parteek Garg</h2>
-              <span className="text-xs font-mono text-neutral-400">@parteek1907</span>
+              <h2 className="text-base font-bold text-white">Parteek Garg</h2>
+              <span className="text-xs font-mono text-[#888888]">@parteek1907</span>
             </div>
-            <p className="text-xs text-neutral-400 mt-0.5">
+            <p className="text-xs text-[#aaaaaa] mt-0.5">
               Building open-source full-stack architectures, RAG pipelines, and hackathon platforms.
             </p>
           </div>
@@ -99,22 +99,22 @@ export default function GithubApp() {
           href={socialLinks.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2 rounded-lg text-xs font-medium bg-white/10 hover:bg-white/15 text-white transition-colors flex items-center gap-2 border border-white/10 shrink-0 self-start sm:self-auto"
+          className="px-3.5 py-1.5 rounded text-xs font-medium bg-[#2b2b2b] hover:bg-[#353535] text-white transition-colors flex items-center gap-2 border border-[#383838] shrink-0 self-start sm:self-auto"
         >
           <Github size={14} /> View GitHub Profile <ExternalLink size={12} />
         </a>
       </div>
 
       {/* Contribution Calendar */}
-      <div className="bg-[#1e1f2a]/60 rounded-xl p-5 border border-white/5 space-y-3 overflow-hidden">
+      <div className="bg-[#202020] rounded-lg p-4 border border-[#323232] space-y-3 overflow-hidden">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <GitCommit size={16} className="text-emerald-400" />
+            <GitCommit size={16} className="text-[#cccccc]" />
             <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
               Contribution Activity
             </h3>
           </div>
-          <span className="text-[11px] text-neutral-400">Public Commit History</span>
+          <span className="text-[11px] text-[#888888]">Public Commit History</span>
         </div>
 
         <div className="overflow-x-auto py-2 custom-scrollbar">
@@ -134,7 +134,7 @@ export default function GithubApp() {
       {/* Pinned Repositories Grid */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <FolderGit2 size={16} className="text-sky-400" />
+          <FolderGit2 size={16} className="text-[#cccccc]" />
           <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
             Pinned Repositories
           </h3>
@@ -147,21 +147,21 @@ export default function GithubApp() {
               href={repo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 rounded-xl bg-[#1e1f2a]/50 hover:bg-[#1e1f2a] border border-white/5 hover:border-sky-500/30 transition-all flex flex-col justify-between group"
+              className="p-4 rounded-lg bg-[#202020] hover:bg-[#252525] border border-[#323232] hover:border-[#444444] transition-all flex flex-col justify-between group"
             >
               <div>
-                <div className="flex items-center justify-between text-xs font-semibold text-sky-400 group-hover:text-sky-300">
+                <div className="flex items-center justify-between text-xs font-semibold text-white">
                   <span className="flex items-center gap-1.5 truncate">
-                    <Code2 size={14} /> {repo.name}
+                    <Code2 size={14} className="text-[#aaaaaa]" /> {repo.name}
                   </span>
-                  <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-1" />
+                  <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-1 text-[#aaaaaa]" />
                 </div>
-                <p className="text-xs text-neutral-400 mt-2 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-[#888888] mt-2 line-clamp-2 leading-relaxed">
                   {repo.desc}
                 </p>
               </div>
 
-              <div className="flex items-center gap-4 mt-3 pt-3 border-t border-white/5 text-[11px] text-neutral-400">
+              <div className="flex items-center gap-4 mt-3 pt-3 border-t border-[#323232] text-[11px] text-[#888888]">
                 <span className="flex items-center gap-1.5">
                   <span
                     className="w-2.5 h-2.5 rounded-full inline-block"

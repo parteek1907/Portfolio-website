@@ -11,8 +11,8 @@ import {
   Sparkles, 
   Globe, 
   Search,
-  CheckCircle,
-  BarChart3
+  Check,
+  Folder
 } from "lucide-react";
 
 export default function SkillsApp() {
@@ -20,12 +20,12 @@ export default function SkillsApp() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   const categoryIcons: Record<string, React.ReactNode> = {
-    "Programming Languages": <Terminal size={15} className="text-amber-400" />,
-    "Frontend": <Layout size={15} className="text-sky-400" />,
-    "Backend & Tools": <Server size={15} className="text-emerald-400" />,
-    "Databases": <Database size={15} className="text-violet-400" />,
-    "AI / Data Science": <Sparkles size={15} className="text-rose-400" />,
-    "Domains": <Globe size={15} className="text-cyan-400" />,
+    "Programming Languages": <Terminal size={14} className="text-neutral-400" />,
+    "Frontend": <Layout size={14} className="text-neutral-400" />,
+    "Backend & Tools": <Server size={14} className="text-neutral-400" />,
+    "Databases": <Database size={14} className="text-neutral-400" />,
+    "AI / Data Science": <Sparkles size={14} className="text-neutral-400" />,
+    "Domains": <Globe size={14} className="text-neutral-400" />,
   };
 
   const categories = ["All", ...expertise.map((e) => e.area)];
@@ -43,42 +43,42 @@ export default function SkillsApp() {
   const totalSkillsCount = expertise.reduce((acc, curr) => acc + curr.technologies.length, 0);
 
   return (
-    <div className="h-full flex flex-col bg-[#18181f] text-neutral-200 select-text overflow-hidden min-h-0">
-      {/* Top Header / Performance Monitor Bar */}
-      <div className="p-5 border-b border-white/5 bg-gradient-to-r from-[#1c1d28] to-[#161720] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+    <div className="h-full flex flex-col bg-[#191919] text-white select-text overflow-hidden min-h-0 font-sans">
+      {/* Top Windows 11 App Bar */}
+      <div className="px-5 py-3.5 border-b border-[#323232] bg-[#212121] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
         <div>
           <div className="flex items-center gap-2">
-            <BarChart3 size={18} className="text-sky-400" />
-            <h2 className="text-lg font-bold text-white">Technical Capabilities &amp; Stack</h2>
+            <Cpu size={16} className="text-neutral-300" />
+            <h2 className="text-sm font-semibold text-white">Installed Technologies &amp; Capabilities</h2>
           </div>
           <p className="text-xs text-neutral-400 mt-0.5">
-            Verified engineering competencies across {expertise.length} domains &middot; {totalSkillsCount} core tools
+            {expertise.length} Domains &middot; {totalSkillsCount} Verified Tools
           </p>
         </div>
 
-        {/* Search */}
+        {/* Windows Search Bar */}
         <div className="relative w-full sm:w-64">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+          <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400" />
           <input
             type="text"
-            placeholder="Search skills (e.g. Python, React)..."
+            placeholder="Search installed tools (e.g. Python, React)..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#13141b] border border-white/10 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-sky-500 transition-colors"
+            className="w-full bg-[#1c1c1c] border border-[#383838] focus:border-white rounded px-2.5 pl-8 py-1.5 text-xs text-white placeholder-neutral-500 focus:outline-none transition-colors"
           />
         </div>
       </div>
 
-      {/* Category Filter Chips */}
-      <div className="px-5 py-2.5 bg-[#14151c] border-b border-white/5 flex items-center gap-1.5 overflow-x-auto custom-scrollbar shrink-0">
+      {/* Category Filter Bar */}
+      <div className="px-5 py-2.5 bg-[#1c1c1c] border-b border-[#323232] flex items-center gap-1.5 overflow-x-auto custom-scrollbar shrink-0">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 border ${
               selectedCategory === cat
-                ? "bg-sky-500/20 text-sky-400 border border-sky-500/30"
-                : "bg-white/5 text-neutral-400 hover:text-neutral-200 border border-transparent"
+                ? "bg-[#333333] text-white border-[#484848]"
+                : "bg-[#252525] text-neutral-300 hover:text-white border-[#323232] hover:bg-[#2e2e2e]"
             }`}
           >
             {categoryIcons[cat]}
@@ -88,33 +88,33 @@ export default function SkillsApp() {
       </div>
 
       {/* Skills Grid */}
-      <div className="flex-1 min-h-0 overflow-y-auto p-5 space-y-5 custom-scrollbar overscroll-contain">
+      <div className="flex-1 min-h-0 overflow-y-auto p-5 space-y-4 custom-scrollbar overscroll-contain">
         {filteredExpertise.map((cat) => (
-          <div key={cat.area} className="bg-[#1e1f2a]/60 rounded-xl p-4 border border-white/5 space-y-3">
-            <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
+          <div key={cat.area} className="bg-[#202020] rounded border border-[#323232] p-4 space-y-3">
+            <div className="flex items-center justify-between border-b border-[#2d2d2d] pb-2.5">
               <div className="flex items-center gap-2">
-                <span className="p-1.5 rounded-lg bg-black/30 border border-white/5">
-                  {categoryIcons[cat.area] || <Cpu size={14} className="text-sky-400" />}
+                <span className="p-1.5 rounded bg-[#2b2b2b] border border-[#383838] text-neutral-300">
+                  {categoryIcons[cat.area] || <Folder size={14} />}
                 </span>
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
                   {cat.area}
                 </h3>
               </div>
-              <span className="text-[11px] font-medium text-neutral-500">
-                {cat.technologies.length} skills
+              <span className="text-[11px] text-neutral-400">
+                {cat.technologies.length} tools
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 pt-1">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
               {cat.technologies.map((tech) => (
                 <div
                   key={tech}
-                  className="px-3 py-2 rounded-lg bg-black/20 hover:bg-black/40 border border-white/5 hover:border-sky-500/30 transition-all flex items-center justify-between group"
+                  className="px-3 py-2 rounded bg-[#272727] hover:bg-[#2e2e2e] border border-[#353535] transition-colors flex items-center justify-between"
                 >
-                  <span className="text-xs text-neutral-200 font-medium group-hover:text-white transition-colors">
+                  <span className="text-xs text-neutral-200 font-medium">
                     {tech}
                   </span>
-                  <CheckCircle size={12} className="text-emerald-400/80 shrink-0" />
+                  <Check size={12} className="text-neutral-400 shrink-0" />
                 </div>
               ))}
             </div>

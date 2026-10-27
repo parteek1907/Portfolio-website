@@ -282,13 +282,13 @@ export default function ProjectsApp() {
             {selectedProject ? (
               /* Project Details View (Inside Project Folder) */
               <div className="p-4 space-y-4">
-                <div className="flex items-start justify-between border-b border-white/10 pb-4">
+                <div className="flex items-start justify-between border-b border-[#323232] pb-4">
                   <div>
                     <div className="flex items-center gap-2">
                       <Image src="/icons/folder/folder.png" alt="Folder" width={24} height={24} />
                       <h1 className="text-xl font-bold text-white tracking-tight">{selectedProject.title}</h1>
                       {selectedProject.label && (
-                        <span className="px-2 py-0.5 text-[10px] rounded bg-sky-500/20 text-sky-400 border border-sky-500/30">
+                        <span className="px-2 py-0.5 text-[10px] rounded bg-[#2b2b2b] text-[#cccccc] border border-[#383838]">
                           {selectedProject.label}
                         </span>
                       )}
@@ -304,7 +304,7 @@ export default function ProjectsApp() {
                         href={selectedProject.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded bg-sky-600 hover:bg-sky-500 text-xs font-semibold text-white flex items-center gap-1.5 shadow"
+                        className="px-3.5 py-1.5 rounded bg-[#0078D4] hover:bg-[#106ebe] text-xs font-semibold text-white flex items-center gap-1.5 shadow-sm transition-colors"
                       >
                         Live Demo <ExternalLink size={13} />
                       </a>
@@ -314,14 +314,14 @@ export default function ProjectsApp() {
                         href={selectedProject.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded bg-white/10 hover:bg-white/15 text-xs font-semibold text-white flex items-center gap-1.5 border border-white/10"
+                        className="px-3 py-1.5 rounded bg-[#2b2b2b] hover:bg-[#323232] text-xs font-semibold text-white flex items-center gap-1.5 border border-[#383838] transition-colors"
                       >
                         GitHub <Github size={13} />
                       </a>
                     )}
                     <button
                       onClick={() => setSelectedSlug(null)}
-                      className="px-3 py-1.5 rounded bg-white/5 hover:bg-white/10 text-xs text-neutral-300"
+                      className="px-3 py-1.5 rounded bg-[#2b2b2b] hover:bg-[#323232] text-xs text-neutral-300 border border-[#383838] transition-colors"
                     >
                       Up to Projects
                     </button>
@@ -330,7 +330,7 @@ export default function ProjectsApp() {
 
                 {/* Hero / Screenshot Preview */}
                 {selectedProject.heroImage && (
-                  <div className="relative w-full h-56 rounded-lg overflow-hidden border border-white/10 bg-black/40">
+                  <div className="relative w-full h-56 rounded overflow-hidden border border-[#323232] bg-[#141414]">
                     <Image
                       src={selectedProject.heroImage}
                       alt={selectedProject.title}
@@ -344,8 +344,8 @@ export default function ProjectsApp() {
                 {/* Description & Overview */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="md:col-span-2 space-y-3">
-                    <div className="p-3.5 rounded-lg bg-[#222228] border border-white/5">
-                      <h3 className="text-xs font-semibold text-sky-400 uppercase tracking-wider mb-1.5">
+                    <div className="p-3.5 rounded bg-[#202020] border border-[#323232]">
+                      <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-1.5">
                         Overview
                       </h3>
                       <p className="text-xs text-neutral-300 leading-relaxed">
@@ -354,14 +354,14 @@ export default function ProjectsApp() {
                     </div>
 
                     {selectedProject.features && selectedProject.features.length > 0 && (
-                      <div className="p-3.5 rounded-lg bg-[#222228] border border-white/5">
-                        <h3 className="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-2">
+                      <div className="p-3.5 rounded bg-[#202020] border border-[#323232]">
+                        <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-2">
                           Key Capabilities
                         </h3>
                         <ul className="space-y-1.5">
                           {selectedProject.features.map((feat, i) => (
                             <li key={i} className="text-xs text-neutral-300 flex items-start gap-2">
-                              <CheckCircle2 size={13} className="text-emerald-400 shrink-0 mt-0.5" />
+                              <CheckCircle2 size={13} className="text-neutral-400 shrink-0 mt-0.5" />
                               <span>{feat}</span>
                             </li>
                           ))}
@@ -372,15 +372,15 @@ export default function ProjectsApp() {
 
                   {/* Sidebar Metadata */}
                   <div className="space-y-3">
-                    <div className="p-3.5 rounded-lg bg-[#222228] border border-white/5">
-                      <h3 className="text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
+                    <div className="p-3.5 rounded bg-[#202020] border border-[#323232]">
+                      <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-2">
                         Technologies
                       </h3>
                       <div className="flex flex-wrap gap-1.5">
                         {selectedProject.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="px-2 py-0.5 rounded text-[11px] bg-white/5 text-neutral-300 border border-white/10"
+                            className="px-2 py-0.5 rounded text-[11px] bg-[#2b2b2b] text-neutral-300 border border-[#383838]"
                           >
                             {tag}
                           </span>
@@ -389,14 +389,14 @@ export default function ProjectsApp() {
                     </div>
 
                     {selectedProject.keyMetrics && (
-                      <div className="p-3.5 rounded-lg bg-[#222228] border border-white/5">
-                        <h3 className="text-xs font-semibold text-neutral-300 uppercase tracking-wider mb-2">
+                      <div className="p-3.5 rounded bg-[#202020] border border-[#323232]">
+                        <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-2">
                           Metrics &amp; Results
                         </h3>
                         <div className="grid grid-cols-2 gap-2">
                           {selectedProject.keyMetrics.map((m) => (
-                            <div key={m.label} className="p-2 rounded bg-black/30 text-center">
-                              <div className="text-sm font-bold text-sky-400">{m.value}</div>
+                            <div key={m.label} className="p-2 rounded bg-[#191919] border border-[#323232] text-center">
+                              <div className="text-sm font-bold text-white">{m.value}</div>
                               <div className="text-[10px] text-neutral-400">{m.label}</div>
                             </div>
                           ))}

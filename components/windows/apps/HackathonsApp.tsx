@@ -121,67 +121,67 @@ export default function HackathonsApp() {
   const selectedEvent = HACKATHONS.find((h) => h.id === selectedId) || displayedHackathons[0];
 
   return (
-    <div className="h-full flex flex-col md:flex-row bg-[#18181f] text-neutral-200 select-text overflow-hidden min-h-0">
+    <div className="h-full flex flex-col md:flex-row bg-[#191919] text-[#cccccc] select-text overflow-hidden min-h-0">
       {/* Left List */}
-      <div className="w-full md:w-84 border-b md:border-b-0 md:border-r border-white/5 bg-[#14151c] flex flex-col shrink-0 min-h-0">
+      <div className="w-full md:w-84 border-b md:border-b-0 md:border-r border-[#323232] bg-[#202020] flex flex-col shrink-0 min-h-0">
         {/* Header & Filter */}
-        <div className="p-4 border-b border-white/5 bg-gradient-to-r from-[#1c1d28] to-[#14151c] shrink-0">
+        <div className="p-3.5 border-b border-[#323232] shrink-0">
           <div className="flex items-center gap-2 mb-2">
-            <Trophy size={16} className="text-amber-400" />
-            <h2 className="text-sm font-bold text-white">Hackathon Track Record</h2>
+            <Trophy size={16} className="text-[#cccccc]" />
+            <h2 className="text-sm font-semibold text-white">Hackathon Track Record</h2>
           </div>
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => setFilter("all")}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
                 filter === "all"
-                  ? "bg-sky-500/20 text-sky-400 border border-sky-500/30"
-                  : "bg-white/5 text-neutral-400 hover:text-white border border-transparent"
+                  ? "bg-[#383838] text-white border border-[#484848]"
+                  : "bg-[#2b2b2b] text-[#aaaaaa] hover:text-white border border-[#383838]"
               }`}
             >
               All Events ({HACKATHONS.length})
             </button>
             <button
               onClick={() => setFilter("wins")}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer flex items-center gap-1 ${
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
                 filter === "wins"
-                  ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                  : "bg-white/5 text-neutral-400 hover:text-white border border-transparent"
+                  ? "bg-[#383838] text-white border border-[#484848]"
+                  : "bg-[#2b2b2b] text-[#aaaaaa] hover:text-white border border-[#383838]"
               }`}
             >
-              <Trophy size={12} className="text-amber-400" /> Victories ({HACKATHONS.filter((h) => h.isWinner).length})
+              <Trophy size={12} className="text-[#cccccc]" /> Victories ({HACKATHONS.filter((h) => h.isWinner).length})
             </button>
           </div>
         </div>
 
         {/* List Items */}
-        <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1.5 custom-scrollbar max-h-52 md:max-h-none overscroll-contain">
+        <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1 custom-scrollbar max-h-52 md:max-h-none overscroll-contain">
           {displayedHackathons.map((h) => {
             const isSelected = selectedEvent?.id === h.id;
             return (
               <button
                 key={h.id}
                 onClick={() => setSelectedId(h.id)}
-                className={`w-full text-left p-3 rounded-lg transition-all cursor-pointer border flex flex-col gap-1 ${
+                className={`w-full text-left p-2.5 rounded transition-colors cursor-pointer flex flex-col gap-1 ${
                   isSelected
-                    ? "bg-[#252736] border-sky-500/40 text-white shadow-sm"
-                    : "hover:bg-white/[0.04] border-transparent text-neutral-300"
+                    ? "bg-[#2b2b2b] text-white border-l-2 border-[#0078D4]"
+                    : "hover:bg-[#282828] text-[#cccccc] border-l-2 border-transparent"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-neutral-500 font-mono">{h.date}</span>
+                  <span className="text-[10px] text-[#777777] font-mono">{h.date}</span>
                   {h.isWinner ? (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center gap-1">
-                      <Trophy size={10} /> Winner
+                    <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#191919] text-white border border-[#383838] flex items-center gap-1">
+                      <Trophy size={10} className="text-[#cccccc]" /> Winner
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#191919] text-[#aaaaaa] border border-[#383838]">
                       Finalist
                     </span>
                   )}
                 </div>
-                <h4 className="text-xs font-semibold text-white">{h.name}</h4>
-                <div className="flex items-center justify-between text-[11px] text-neutral-400 mt-0.5">
+                <h4 className="text-xs font-medium text-white">{h.name}</h4>
+                <div className="flex items-center justify-between text-[11px] text-[#888888] mt-0.5">
                   <span>{h.project}</span>
                   <span>{h.venue.split(",")[0]}</span>
                 </div>
@@ -193,44 +193,44 @@ export default function HackathonsApp() {
 
       {/* Right Detailed Event View */}
       {selectedEvent ? (
-        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto p-6 space-y-5 custom-scrollbar bg-[#18181f] overscroll-contain">
-          {/* Header */}
-          <div className="p-5 rounded-xl bg-gradient-to-r from-[#1f212f] to-[#161720] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto p-6 space-y-5 custom-scrollbar bg-[#191919] overscroll-contain">
+          {/* Header Card */}
+          <div className="p-4 rounded-lg bg-[#202020] border border-[#323232] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-white/10 text-neutral-300">
+                <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#2b2b2b] text-[#cccccc] border border-[#383838]">
                   {selectedEvent.duration}
                 </span>
-                <span className="text-xs text-neutral-400">&middot;</span>
-                <span className="text-xs text-sky-400 font-medium">{selectedEvent.teams}</span>
+                <span className="text-xs text-[#777777]">&middot;</span>
+                <span className="text-xs text-[#aaaaaa] font-medium">{selectedEvent.teams}</span>
               </div>
-              <h2 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 {selectedEvent.name}
-                {selectedEvent.isWinner && <Trophy size={20} className="text-amber-400" />}
+                {selectedEvent.isWinner && <Trophy size={18} className="text-[#cccccc]" />}
               </h2>
-              <div className="flex items-center gap-4 mt-1.5 text-xs text-neutral-400">
+              <div className="flex items-center gap-4 mt-1 text-xs text-[#888888]">
                 <span className="flex items-center gap-1">
-                  <MapPin size={12} className="text-neutral-400" /> {selectedEvent.venue}
+                  <MapPin size={12} className="text-[#888888]" /> {selectedEvent.venue}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Calendar size={12} className="text-neutral-400" /> {selectedEvent.date}
+                  <Calendar size={12} className="text-[#888888]" /> {selectedEvent.date}
                 </span>
               </div>
             </div>
 
-            <div className="px-4 py-2.5 rounded-lg bg-black/30 border border-white/10 text-center sm:text-right shrink-0">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400 block">
+            <div className="px-4 py-2 rounded bg-[#191919] border border-[#323232] text-center sm:text-right shrink-0">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#888888] block">
                 Official Result
               </span>
-              <span className={`text-sm font-bold ${selectedEvent.isWinner ? "text-amber-400" : "text-sky-400"}`}>
+              <span className="text-sm font-semibold text-white">
                 {selectedEvent.result}
               </span>
             </div>
           </div>
 
           {/* Role & Leadership */}
-          <div className="bg-[#1e1f2a]/60 rounded-xl p-4 border border-white/5 space-y-2">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-sky-400">
+          <div className="bg-[#202020] rounded-lg p-4 border border-[#323232] space-y-1.5">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#aaaaaa]">
               Leadership &amp; Engineering Role
             </h3>
             <p className="text-sm font-medium text-white">{selectedEvent.role}</p>
@@ -238,35 +238,35 @@ export default function HackathonsApp() {
 
           {/* Project & Progression */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-[#1e1f2a]/50 rounded-xl p-4 border border-white/5 space-y-2">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+            <div className="bg-[#202020] rounded-lg p-4 border border-[#323232] space-y-2">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[#aaaaaa]">
                 Developed Platform
               </h4>
-              <div className="text-sm font-bold text-white flex items-center gap-1.5">
+              <div className="text-sm font-bold text-white">
                 {selectedEvent.project}
               </div>
-              <p className="text-xs text-neutral-300 leading-relaxed pt-1">
+              <p className="text-xs text-[#cccccc] leading-relaxed pt-1">
                 {selectedEvent.description}
               </p>
             </div>
 
-            <div className="bg-[#1e1f2a]/50 rounded-xl p-4 border border-white/5 space-y-2">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+            <div className="bg-[#202020] rounded-lg p-4 border border-[#323232] space-y-2">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[#aaaaaa]">
                 Competitive Progression
               </h4>
-              <p className="text-xs text-sky-300 font-mono bg-black/30 p-2.5 rounded-lg border border-white/5 leading-relaxed">
+              <p className="text-xs text-white font-mono bg-[#191919] p-2.5 rounded border border-[#323232] leading-relaxed">
                 {selectedEvent.progression}
               </p>
             </div>
           </div>
 
           {/* Key Takeaways */}
-          <div className="bg-[#1e1f2a]/40 rounded-xl p-4 border border-white/5 space-y-2">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-1.5">
-              <Sparkles size={14} className="text-sky-400" />
+          <div className="bg-[#202020] rounded-lg p-4 border border-[#323232] space-y-1.5">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#aaaaaa] flex items-center gap-1.5">
+              <Sparkles size={14} className="text-[#cccccc]" />
               Engineering Takeaway
             </h3>
-            <p className="text-xs text-neutral-300 leading-relaxed">
+            <p className="text-xs text-[#cccccc] leading-relaxed">
               {selectedEvent.takeaway}
             </p>
           </div>
