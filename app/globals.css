@@ -110,6 +110,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-link-ui:hover {
+  color: var(--color-text-primary) !important;
 }
 
 .button-ui {

@@ -252,8 +252,8 @@ export default function WindowsStartMenu() {
                     exitWindowsMode();
                   }}
                 >
-                  <AiOutlinePoweroff size={14} className="text-rose-400" />
-                  <span>Shut down</span>
+                  <AiOutlinePoweroff size={14} className="text-[#e81123]" />
+                  <span>Back to Portfolio</span>
                 </button>
                 <button
                   onClick={() => {

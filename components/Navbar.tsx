@@ -104,8 +104,8 @@ export default function Navbar() {
                 </div>
 
                 {/* Desktop Nav */}
-                <div className="hidden md:flex items-center gap-7">
-                    <nav className="flex items-center gap-7">
+                <div className="hidden md:flex items-center">
+                    <nav className="flex items-center gap-6 lg:gap-7">
                         {navLinks.map((link) => {
                             const isActive = `#${activeSection}` === link.href || (activeSection === "" && link.href === "#about");
                             return (
@@ -141,29 +141,27 @@ export default function Navbar() {
                                 </a>
                             );
                         })}
-                    </nav>
 
-                    {/* Windows Experience Action Button */}
-                    <button
-                        type="button"
-                        onClick={() => enterWindowsMode()}
-                        className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 border shadow-sm group hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
-                        style={{
-                            background: isDark ? "rgba(0, 120, 212, 0.15)" : "rgba(0, 120, 212, 0.08)",
-                            borderColor: isDark ? "rgba(0, 120, 212, 0.35)" : "rgba(0, 120, 212, 0.22)",
-                            color: isDark ? "#60cdff" : "#0067b8",
-                        }}
-                        title="Switch to interactive Windows 11 desktop experience (Parteek OS)"
-                        aria-label="Switch to Windows Experience"
-                    >
-                        <div className="grid grid-cols-2 gap-[2px] w-3.5 h-3.5 group-hover:rotate-6 transition-transform">
-                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
-                        </div>
-                        <span>Windows Experience</span>
-                    </button>
+                        {/* Subtle Windows Mode Nav Link */}
+                        <button
+                            type="button"
+                            onClick={() => enterWindowsMode()}
+                            className="group flex items-center gap-1.5 text-sm nav-link-ui transition-colors cursor-pointer bg-transparent border-none p-0 outline-none"
+                            style={{
+                                color: "var(--color-text-secondary)",
+                            }}
+                            title="Switch to Windows Mode"
+                            aria-label="Switch to Windows Mode"
+                        >
+                            <span className="grid grid-cols-2 gap-[1.5px] w-[9px] h-[9px] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <span className="bg-current rounded-[0.5px]" />
+                                <span className="bg-current rounded-[0.5px]" />
+                                <span className="bg-current rounded-[0.5px]" />
+                                <span className="bg-current rounded-[0.5px]" />
+                            </span>
+                            <span>Windows Mode</span>
+                        </button>
+                    </nav>
                 </div>
 
                 {/* Mobile Right Controls: Hamburger Menu */}
