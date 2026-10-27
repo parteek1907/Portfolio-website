@@ -22,6 +22,7 @@ import {
 import { FaLinkedin } from "react-icons/fa";
 import { socialLinks } from "@/lib/data";
 import { useWindows } from "./WindowsContext";
+import { useTaskbarClock } from "./useSystemEnvironment";
 import styles from "./styles/Footer.module.css";
 
 const taskbarSocials = [
@@ -207,16 +208,14 @@ export default function WindowsTaskbar() {
           </div>
         </div>
 
-        {/* Live Date & Time Button (Formatted via locale & timeZone) */}
-        <div
-          className={`${styles.dateTimeCluster} ${isCalendarOpen ? styles.activeCluster : ""}`}
-          title={`${env.fullDateStr} (${env.timeZone}) - Click to open Calendar`}
+        {/* Live Date & Time Button (Isolated so only the clock updates every second) */}
+        <TaskbarClock
+          isCalendarOpen={isCalendarOpen}
           onClick={handleToggleCalendar}
-          data-calendar-toggle="true"
-        >
-          <p className={styles.timeText}>{env.timeStr}</p>
-          <p className={styles.dateText}>{env.dateStr}</p>
-        </div>
+          locale={env.locale}
+          timeZone={env.timeZone}
+          fullDateStr={env.fullDateStr}
+        />
 
         {/* Show Desktop Sliver */}
         <div 
@@ -225,6 +224,34 @@ export default function WindowsTaskbar() {
           onClick={handleShowDesktop}
         />
       </section>
+    </div>
+  );
+}
+
+function TaskbarClock({
+  isCalendarOpen,
+  onClick,
+  locale,
+  timeZone,
+  fullDateStr,
+}: {
+  isCalendarOpen: boolean;
+  onClick: () => void;
+  locale: string;
+  timeZone: string;
+  fullDateStr: string;
+}) {
+  const { timeStr, dateStr } = useTaskbarClock(true, locale, timeZone);
+
+  return (
+    <div
+      className={`${styles.dateTimeCluster} ${isCalendarOpen ? styles.activeCluster : ""}`}
+      title={`${fullDateStr} (${timeZone}) - Click to open Calendar`}
+      onClick={onClick}
+      data-calendar-toggle="true"
+    >
+      <p className={styles.timeText}>{timeStr}</p>
+      <p className={styles.dateText}>{dateStr}</p>
     </div>
   );
 }

@@ -11,10 +11,8 @@ import { Providers } from "@/components/Providers";
 import DynamicTitle from "@/components/DynamicTitle";
 import LegalModal from "@/components/LegalModal";
 import SmoothScrolling from "@/components/SmoothScrolling";
-import dynamic from "next/dynamic";
 import { WindowsProvider } from "@/components/windows/WindowsContext";
-
-const WindowsDesktop = dynamic(() => import("@/components/windows/WindowsDesktop"));
+import WindowsDesktopLoader from "@/components/windows/WindowsDesktopLoader";
 
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-ui", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -92,7 +90,6 @@ export default function RootLayout({
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script dangerouslySetInnerHTML={{ __html: scrollScript }} />
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
       </head>
       <body className={`${oswald.variable} ${inter.variable} font-sans antialiased`} suppressHydrationWarning>
         <Providers>
@@ -108,7 +105,7 @@ export default function RootLayout({
               </SmoothScrolling>
               <SocialPill />
               <BackToTop />
-              <WindowsDesktop />
+              <WindowsDesktopLoader />
             </LoadingProvider>
           </WindowsProvider>
         </Providers>

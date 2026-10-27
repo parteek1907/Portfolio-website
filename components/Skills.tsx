@@ -1,24 +1,15 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { expertise } from "@/lib/data";
 
 export default function Skills() {
-    const [isDark, setIsDark] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
     });
-
-    useEffect(() => {
-        const checkTheme = () => setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-        return () => observer.disconnect();
-    }, []);
 
     return (
         <section
@@ -46,7 +37,7 @@ export default function Skills() {
 
                 <div className="flex flex-col gap-16 md:gap-20">
                     {expertise.map((item, index) => (
-                        <ExpertiseRow key={index} item={item} index={index} isDark={isDark} scrollYProgress={scrollYProgress} />
+                        <ExpertiseRow key={index} item={item} index={index} scrollYProgress={scrollYProgress} />
                     ))}
                 </div>
             </div>
@@ -54,7 +45,7 @@ export default function Skills() {
     );
 }
 
-function ExpertiseRow({ item, index, isDark, scrollYProgress }: { item: { area: string; technologies: string[] }, index: number, isDark: boolean, scrollYProgress: any }) {
+function ExpertiseRow({ item, index, scrollYProgress }: { item: { area: string; technologies: string[] }, index: number, scrollYProgress: any }) {
     const yTransform = useTransform(
         scrollYProgress,
         [0, 1],
@@ -95,7 +86,7 @@ function ExpertiseRow({ item, index, isDark, scrollYProgress }: { item: { area: 
                         whileHover={{
                             scale: 1.02,
                             color: "var(--color-text-primary)",
-                            textShadow: isDark ? "0 0 15px rgba(255,255,255,0.4)" : "0 0 15px rgba(0,0,0,0.2)"
+                            textShadow: "0 0 15px var(--timeline-glow-color)"
                         }}
                         className="text-lg md:text-xl lg:text-2xl font-medium tracking-tight cursor-default transition-all duration-300"
                         style={{ color: "var(--color-text-tertiary)" }}

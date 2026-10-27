@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { certifications, Certification } from "@/lib/data";
 import CertificationCard from "./ui/CertificationCard";
-import CertificateModal from "./ui/CertificateModal";
+
+const CertificateModal = dynamic(() => import("./ui/CertificateModal"), { ssr: false });
 
 
 export default function Certifications() {

@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import ProjectCard from "./ProjectCard";
-import ProjectModal from "./ui/ProjectModal";
 import { featuredProjects, FeaturedProject } from "@/lib/data";
 import { smoothScrollTo, easeInOutCubic } from "@/lib/smoothScroll";
+
+const ProjectModal = dynamic(() => import("./ui/ProjectModal"), { ssr: false });
 
 const BATCH_SIZE = 5;
 

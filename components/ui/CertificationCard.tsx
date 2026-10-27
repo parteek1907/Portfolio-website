@@ -52,6 +52,7 @@ export default function CertificationCard({ certificate, index, onViewClick }: C
                                 className="w-full h-full object-top"
                                 style={{ border: 'none' }}
                                 tabIndex={-1}
+                                loading="lazy"
                             />
                         </div>
                     </>

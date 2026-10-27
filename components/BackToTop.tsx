@@ -9,22 +9,11 @@ import { useWindows } from "@/components/windows/WindowsContext";
 export default function BackToTop() {
     const { isWindowsMode } = useWindows();
     const [isVisible, setIsVisible] = useState(false);
-    const [isDark, setIsDark] = useState(false);
     const { scrollY } = useScroll();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         setIsVisible(latest > 400);
     });
-
-    useEffect(() => {
-        const checkTheme = () => {
-            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-        };
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-        return () => observer.disconnect();
-    }, []);
 
     const scrollToTop = () => {
         smoothScrollTo(0, 1400);
@@ -55,9 +44,9 @@ export default function BackToTop() {
                         }
                     `}
                     style={{
-                        background: isDark ? "#1E1E1E" : "#FAF7F4",
-                        border: isDark ? "1px solid var(--color-border)" : "1px solid rgba(0, 0, 0, 0.12)",
-                        color: isDark ? "var(--color-text-secondary)" : "#6B6560",
+                        background: "var(--color-surface)",
+                        border: "1px solid var(--color-border)",
+                        color: "var(--color-text-secondary)",
                     }}
                 >
                     <ArrowUp size={18} />

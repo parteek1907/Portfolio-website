@@ -14,21 +14,11 @@ export default function Hero() {
     const [skipIntroState] = useState(hasPlayedIntro);
     
     const isLoaded = skipIntroState ? true : !isLoading;
-    const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
         // Mark the intro as played in the global context for future navigations
         setHasPlayedIntro(true);
-        
-        const checkTheme = () => {
-            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-        };
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-        
-        return () => observer.disconnect();
-    }, []);
+    }, [setHasPlayedIntro]);
 
     return (
         <section

@@ -6,6 +6,8 @@ import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+import dynamic from "next/dynamic";
+
 const LEGAL_PAGES = [
     { id: 'privacy', label: 'Privacy Policy' },
     { id: 'terms', label: 'Terms of Use' },
@@ -13,30 +15,18 @@ const LEGAL_PAGES = [
     { id: 'credits', label: 'Credits' },
     { id: 'changelog', label: 'Changelog' },
 ];
-import {
-    PrivacyContent,
-    TermsContent,
-    CookiesContent,
-    CreditsContent,
-    ChangelogContent,
-    SitemapContent
-} from "./legal/LegalContent";
+
+const PrivacyContent = dynamic(() => import("./legal/LegalContent").then(m => m.PrivacyContent), { ssr: false });
+const TermsContent = dynamic(() => import("./legal/LegalContent").then(m => m.TermsContent), { ssr: false });
+const CookiesContent = dynamic(() => import("./legal/LegalContent").then(m => m.CookiesContent), { ssr: false });
+const CreditsContent = dynamic(() => import("./legal/LegalContent").then(m => m.CreditsContent), { ssr: false });
+const ChangelogContent = dynamic(() => import("./legal/LegalContent").then(m => m.ChangelogContent), { ssr: false });
+const SitemapContent = dynamic(() => import("./legal/LegalContent").then(m => m.SitemapContent), { ssr: false });
 
 function LegalModalInner() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const modalType = searchParams.get("modal"); // 'privacy', 'terms', etc.
-    
-    const [isDark, setIsDark] = useState(true);
-
-    useEffect(() => {
-        const html = document.documentElement;
-        const updateTheme = () => setIsDark(html.getAttribute("data-theme") === "dark");
-        updateTheme();
-        const observer = new MutationObserver(updateTheme);
-        observer.observe(html, { attributes: true, attributeFilter: ["data-theme"] });
-        return () => observer.disconnect();
-    }, []);
 
     useEffect(() => {
         if (modalType) {
@@ -101,7 +91,7 @@ function LegalModalInner() {
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
                         className="relative w-full max-w-4xl mx-auto h-[85vh] md:h-[80vh] rounded-t-3xl shadow-2xl pointer-events-auto flex flex-col overflow-hidden"
                         style={{
-                            background: isDark ? "var(--color-bg-primary)" : "#FAF7F4",
+                            background: "var(--color-bg-primary)",
                             borderTop: "1px solid var(--color-border)",
                             borderLeft: "1px solid var(--color-border)",
                             borderRight: "1px solid var(--color-border)"

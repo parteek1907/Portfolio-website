@@ -34,9 +34,44 @@ export default function CursorEffect() {
         setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
     }, []);
 
-    // Mouse move + visibility
+    // Mouse move + visibility + rAF loop that sleeps when mouse is idle
     useEffect(() => {
-        if (isTouchDevice || isTouchDevice === null) return;
+        if (isTouchDevice || isTouchDevice === null || isWindowsMode) return;
+
+        let isAnimating = false;
+        let idleCount = 0;
+
+        const animate = () => {
+            const dx = mouse.current.x - outerPos.current.x;
+            const dy = mouse.current.y - outerPos.current.y;
+
+            if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+                outerPos.current.x += dx * 0.10;
+                outerPos.current.y += dy * 0.10;
+
+                if (outerRef.current) {
+                    outerRef.current.style.transform = `translate(${outerPos.current.x}px, ${outerPos.current.y}px) translate(-50%, -50%)`;
+                }
+                idleCount = 0;
+            } else {
+                idleCount++;
+            }
+
+            // Sleep after 25 stationary frames to save CPU
+            if (idleCount < 25) {
+                rafRef.current = requestAnimationFrame(animate);
+            } else {
+                isAnimating = false;
+            }
+        };
+
+        const wakeLoop = () => {
+            if (!isAnimating) {
+                isAnimating = true;
+                idleCount = 0;
+                rafRef.current = requestAnimationFrame(animate);
+            }
+        };
 
         const onMove = (e: MouseEvent) => {
             mouse.current = { x: e.clientX, y: e.clientY };
@@ -54,11 +89,14 @@ export default function CursorEffect() {
                 outerPos.current = { x: e.clientX, y: e.clientY };
                 setOpacity(1);
             }
+
+            wakeLoop();
         };
 
         const onDocEnter = () => {
             visible.current = true;
             setOpacity(1);
+            wakeLoop();
         };
 
         const onDocLeave = () => {
@@ -72,82 +110,50 @@ export default function CursorEffect() {
             if (linesRef.current) linesRef.current.style.opacity = String(v);
         }
 
-        window.addEventListener("mousemove", onMove);
-        document.addEventListener("mouseleave", onDocLeave);
-        document.addEventListener("mouseenter", onDocEnter);
+        window.addEventListener("mousemove", onMove, { passive: true });
+        document.addEventListener("mouseleave", onDocLeave, { passive: true });
+        document.addEventListener("mouseenter", onDocEnter, { passive: true });
+
+        // Initial burst
+        wakeLoop();
 
         return () => {
             window.removeEventListener("mousemove", onMove);
             document.removeEventListener("mouseleave", onDocLeave);
             document.removeEventListener("mouseenter", onDocEnter);
+            cancelAnimationFrame(rafRef.current);
         };
-    }, [isTouchDevice]);
+    }, [isTouchDevice, isWindowsMode]);
 
-    // Outer ring lerp via rAF
+    // Lightweight event-delegation hover detection (zero DOM mutation observers)
     useEffect(() => {
-        if (isTouchDevice || isTouchDevice === null) return;
-
-        const animate = () => {
-            outerPos.current.x += (mouse.current.x - outerPos.current.x) * 0.10;
-            outerPos.current.y += (mouse.current.y - outerPos.current.y) * 0.10;
-
-            if (outerRef.current) {
-                outerRef.current.style.transform = `translate(${outerPos.current.x}px, ${outerPos.current.y}px) translate(-50%, -50%)`;
-            }
-
-            rafRef.current = requestAnimationFrame(animate);
-        };
-
-        rafRef.current = requestAnimationFrame(animate);
-        return () => cancelAnimationFrame(rafRef.current);
-    }, [isTouchDevice]);
-
-    // Hover detection on interactive elements
-    useEffect(() => {
-        if (isTouchDevice || isTouchDevice === null) return;
+        if (isTouchDevice || isTouchDevice === null || isWindowsMode) return;
 
         const SELECTOR = 'a, button, [role="button"], input, textarea, select';
 
-        const enter = () => setIsHovering(true);
-        const leave = () => setIsHovering(false);
-
-        const attach = (el: Element) => {
-            el.addEventListener("mouseenter", enter);
-            el.addEventListener("mouseleave", leave);
-        };
-        const detach = (el: Element) => {
-            el.removeEventListener("mouseenter", enter);
-            el.removeEventListener("mouseleave", leave);
-        };
-
-        // Attach to existing elements
-        document.querySelectorAll(SELECTOR).forEach(attach);
-
-        // Watch for dynamically added elements
-        const observer = new MutationObserver((mutations) => {
-            for (const m of mutations) {
-                m.addedNodes.forEach((node) => {
-                    if (node instanceof HTMLElement) {
-                        if (node.matches(SELECTOR)) attach(node);
-                        node.querySelectorAll(SELECTOR).forEach(attach);
-                    }
-                });
-                m.removedNodes.forEach((node) => {
-                    if (node instanceof HTMLElement) {
-                        if (node.matches(SELECTOR)) detach(node);
-                        node.querySelectorAll(SELECTOR).forEach(detach);
-                    }
-                });
+        const onMouseOver = (e: MouseEvent) => {
+            const target = e.target as Element | null;
+            if (target && target.closest(SELECTOR)) {
+                setIsHovering(true);
             }
-        });
+        };
 
-        observer.observe(document.body, { childList: true, subtree: true });
+        const onMouseOut = (e: MouseEvent) => {
+            const target = e.target as Element | null;
+            const related = e.relatedTarget as Element | null;
+            if (target && target.closest(SELECTOR) && (!related || !related.closest(SELECTOR))) {
+                setIsHovering(false);
+            }
+        };
+
+        document.addEventListener("mouseover", onMouseOver, { passive: true });
+        document.addEventListener("mouseout", onMouseOut, { passive: true });
 
         return () => {
-            observer.disconnect();
-            document.querySelectorAll(SELECTOR).forEach(detach);
+            document.removeEventListener("mouseover", onMouseOver);
+            document.removeEventListener("mouseout", onMouseOut);
         };
-    }, [isTouchDevice]);
+    }, [isTouchDevice, isWindowsMode]);
 
     // Don't render on touch devices, during SSR detection, or in Windows Mode
     if (isTouchDevice || isTouchDevice === null || isWindowsMode) return null;

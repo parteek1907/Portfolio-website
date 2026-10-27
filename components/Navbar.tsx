@@ -24,7 +24,6 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("");
-    const [isDark, setIsDark] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
 
@@ -32,18 +31,8 @@ export default function Navbar() {
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    useEffect(() => {
-        const checkTheme = () => {
-            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-        };
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-        return () => observer.disconnect();
     }, []);
 
     useEffect(() => {
@@ -65,16 +54,11 @@ export default function Navbar() {
 
         // Initial observation
         observeSections();
-
-        // Watch for dynamically loaded sections
-        const mutationObserver = new MutationObserver(() => {
-            observeSections();
-        });
-        mutationObserver.observe(document.body, { childList: true, subtree: true });
+        const timer = setTimeout(observeSections, 600);
 
         return () => {
             observer.disconnect();
-            mutationObserver.disconnect();
+            clearTimeout(timer);
         };
     }, []);
 

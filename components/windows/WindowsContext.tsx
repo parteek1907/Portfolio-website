@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { AppId, WindowState, DesktopAppDef, ErrorType } from "./types";
 import { useSystemEnvironment, SystemEnvironment } from "./useSystemEnvironment";
 
@@ -140,8 +140,8 @@ interface WindowsContextValue {
 const WindowsContext = createContext<WindowsContextValue | null>(null);
 
 export function WindowsProvider({ children }: { children: React.ReactNode }) {
-  const env = useSystemEnvironment();
   const [isWindowsMode, setIsWindowsMode] = useState(false);
+  const env = useSystemEnvironment(isWindowsMode);
   const [isStartOpen, setStartOpen] = useState(false);
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [isQuickSettingsOpen, setQuickSettingsOpen] = useState(false);
@@ -413,39 +413,68 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     setBluescreen(false);
   }, []);
 
+  const value = useMemo<WindowsContextValue>(() => ({
+    isWindowsMode,
+    windows,
+    activeAppId,
+    isStartOpen,
+    isCalendarOpen,
+    isQuickSettingsOpen,
+    isNightLight,
+    env,
+    errors,
+    bluescreen,
+    enterWindowsMode,
+    exitWindowsMode,
+    openApp,
+    closeApp,
+    minimizeApp,
+    maximizeApp,
+    restoreApp,
+    bringToFront,
+    toggleApp,
+    updatePosition,
+    setStartOpen,
+    setCalendarOpen,
+    setQuickSettingsOpen,
+    setIsNightLight,
+    triggerError,
+    dismissError,
+    triggerBluescreen,
+    dismissBluescreen,
+  }), [
+    isWindowsMode,
+    windows,
+    activeAppId,
+    isStartOpen,
+    isCalendarOpen,
+    isQuickSettingsOpen,
+    isNightLight,
+    env,
+    errors,
+    bluescreen,
+    enterWindowsMode,
+    exitWindowsMode,
+    openApp,
+    closeApp,
+    minimizeApp,
+    maximizeApp,
+    restoreApp,
+    bringToFront,
+    toggleApp,
+    updatePosition,
+    setStartOpen,
+    setCalendarOpen,
+    setQuickSettingsOpen,
+    setIsNightLight,
+    triggerError,
+    dismissError,
+    triggerBluescreen,
+    dismissBluescreen,
+  ]);
+
   return (
-    <WindowsContext.Provider
-      value={{
-        isWindowsMode,
-        windows,
-        activeAppId,
-        isStartOpen,
-        isCalendarOpen,
-        isQuickSettingsOpen,
-        isNightLight,
-        env,
-        errors,
-        bluescreen,
-        enterWindowsMode,
-        exitWindowsMode,
-        openApp,
-        closeApp,
-        minimizeApp,
-        maximizeApp,
-        restoreApp,
-        bringToFront,
-        toggleApp,
-        updatePosition,
-        setStartOpen,
-        setCalendarOpen,
-        setQuickSettingsOpen,
-        setIsNightLight,
-        triggerError,
-        dismissError,
-        triggerBluescreen,
-        dismissBluescreen,
-      }}
-    >
+    <WindowsContext.Provider value={value}>
       {children}
     </WindowsContext.Provider>
   );

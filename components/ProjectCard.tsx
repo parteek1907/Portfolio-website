@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ArrowUpRight, Calendar, Clock, CheckCircle2, Trophy, Globe, Github } from "lucide-react";
 import Image from "next/image";
 import { FeaturedProject } from "@/lib/data";
@@ -15,15 +15,17 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, index, onClick }: ProjectCardProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const cardRef = useRef<HTMLDivElement>(null);
+    const isInView = useInView(cardRef, { margin: "150px" });
     const images = project.screenshots && project.screenshots.length > 0 ? project.screenshots : [project.heroImage || ""];
 
     useEffect(() => {
-        if (images.length <= 1) return;
+        if (!isInView || images.length <= 1) return;
         const interval = setInterval(() => {
             setCurrentImageIndex((prev) => (prev + 1) % images.length);
         }, 3500 + (index * 500)); // Stagger animations across cards
         return () => clearInterval(interval);
-    }, [images.length, index]);
+    }, [isInView, images.length, index]);
 
     // Parse the tags string properly for rendering
     let tagsDisplay = "";
@@ -36,6 +38,7 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
 
     return (
         <motion.div
+            ref={cardRef}
             id={`project-card-${index}`}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -64,6 +67,8 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
                                         key={idx}
                                         src={img} 
                                         alt={`${project.title} screenshot ${idx + 1}`} 
+                                        loading={idx === 0 && index === 0 ? "eager" : "lazy"}
+                                        decoding="async"
                                         initial={false}
                                         animate={{ 
                                             opacity: idx === currentImageIndex ? 1 : 0,

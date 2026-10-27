@@ -1,22 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function Footer() {
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        const checkTheme = () => {
-            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-        };
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-        return () => observer.disconnect();
-    }, []);
-
     const currentYear = new Date().getFullYear();
     const buildVersion = "v1.6.0"; // Updated October 2026
     const lastUpdated = "October 2026";
@@ -36,7 +23,7 @@ export default function Footer() {
     );
 
     return (
-        <footer className="relative pt-24 pb-8" style={{ backgroundColor: isDark ? "var(--color-bg-primary)" : "#E8E2DA", borderTop: "1px solid var(--color-border)" }}>
+        <footer className="relative pt-24 pb-8 bg-[#E8E2DA] dark:bg-[var(--color-bg-primary)] border-t border-[var(--color-border)]">
             <div className="max-w-7xl mx-auto px-6">
 
                 {/* Centered Minimal Identity */}
@@ -52,7 +39,7 @@ export default function Footer() {
                         <img
                             src="/Parteek%20Garg%20(480%20x%20120%20px).svg"
                             alt="Parteek Garg Signature"
-                            className={`w-full h-auto object-contain drop-shadow-sm opacity-90 transition-colors duration-500 ${isDark ? 'invert' : ''}`}
+                            className="w-full h-auto object-contain drop-shadow-sm opacity-90 transition-colors duration-500 dark:invert"
                         />
                     </motion.div>
                     <p className="text-sm md:text-base font-medium mb-10" style={{ color: "var(--color-text-secondary)" }}>Building Practical Systems</p>

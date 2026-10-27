@@ -84,9 +84,65 @@ function getLanguageBadge(locale: string): string {
   return map[lang] || lang.slice(0, 3).toUpperCase();
 }
 
-export function useSystemEnvironment(): SystemEnvironment {
+/**
+ * Isolated live clock hook for the Windows Taskbar.
+ * Prevents re-rendering the entire OS/website every second.
+ */
+export function useTaskbarClock(active: boolean = true, locale?: string, timeZone?: string) {
+  const [clockDate, setClockDate] = useState<Date>(() => new Date());
+
+  useEffect(() => {
+    if (!active) return;
+    const interval = setInterval(() => {
+      setClockDate(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [active]);
+
+  const loc = locale || "en-US";
+
+  const timeStr = useMemo(() => {
+    try {
+      return clockDate.toLocaleTimeString(loc, {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch {
+      return clockDate.toLocaleTimeString();
+    }
+  }, [clockDate, loc]);
+
+  const dateStr = useMemo(() => {
+    try {
+      return clockDate.toLocaleDateString(loc, {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+      });
+    } catch {
+      return clockDate.toLocaleDateString();
+    }
+  }, [clockDate, loc]);
+
+  const fullDateStr = useMemo(() => {
+    try {
+      return clockDate.toLocaleDateString(loc, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    } catch {
+      return clockDate.toLocaleDateString();
+    }
+  }, [clockDate, loc]);
+
+  return { clockDate, timeStr, dateStr, fullDateStr };
+}
+
+export function useSystemEnvironment(active: boolean = false): SystemEnvironment {
   const [mounted, setMounted] = useState(false);
-  const [now, setNow] = useState<Date>(() => new Date());
+  const [now] = useState<Date>(() => new Date());
 
   // Display & Viewport
   const [viewport, setViewport] = useState({ width: 1200, height: 800 });
@@ -96,7 +152,7 @@ export function useSystemEnvironment(): SystemEnvironment {
 
   // Platform
   const [platform, setPlatform] = useState<PlatformType>("Windows");
-  const [platformDetail, setPlatformDetail] = useState("Windows");
+  const [platformDetail, setPlatformDetail] = useState("Windows PC");
 
   // Preferences
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -129,18 +185,13 @@ export function useSystemEnvironment(): SystemEnvironment {
     setIsMuted((prev) => !prev);
   }, []);
 
-  // 1. Live Clock: Ticking every second
   useEffect(() => {
     setMounted(true);
-    const interval = setInterval(() => {
-      setNow(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
   }, []);
 
-  // 2. Viewport, DPR, Orientation & Touch Detection
+  // 1. Viewport, DPR, Orientation & Touch Detection (Only when Windows Mode is active)
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !active) return;
 
     const updateDisplayMetrics = () => {
       const width = window.innerWidth;
@@ -163,7 +214,6 @@ export function useSystemEnvironment(): SystemEnvironment {
     window.addEventListener("resize", updateDisplayMetrics, { passive: true });
     window.addEventListener("orientationchange", updateDisplayMetrics, { passive: true });
 
-    // Listen for orientation media query changes
     let orientationMql: MediaQueryList | null = null;
     try {
       orientationMql = window.matchMedia("(orientation: portrait)");
@@ -177,11 +227,11 @@ export function useSystemEnvironment(): SystemEnvironment {
         orientationMql.removeEventListener("change", updateDisplayMetrics);
       }
     };
-  }, []);
+  }, [active]);
 
-  // 3. Platform Detection via User-Agent Client Hints and fallback User-Agent
+  // 2. Platform Detection (Only when Windows Mode is active)
   useEffect(() => {
-    if (typeof navigator === "undefined") return;
+    if (typeof navigator === "undefined" || !active) return;
 
     let detected: PlatformType = "Windows";
     let detail = "Windows PC";
@@ -235,11 +285,11 @@ export function useSystemEnvironment(): SystemEnvironment {
 
     setPlatform(detected);
     setPlatformDetail(detail);
-  }, []);
+  }, [active]);
 
-  // 4. System Preferences: Reduced Motion & Color Scheme
+  // 3. System Preferences: Reduced Motion & Color Scheme
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !active) return;
 
     let motionMql: MediaQueryList | null = null;
     let colorMql: MediaQueryList | null = null;
@@ -260,11 +310,11 @@ export function useSystemEnvironment(): SystemEnvironment {
         colorMql?.removeEventListener("change", handleColor);
       };
     } catch {}
-  }, []);
+  }, [active]);
 
-  // 5. Battery Status API (with safe fallback for unsupported browsers)
+  // 4. Battery Status API (Only when Windows Mode is active)
   useEffect(() => {
-    if (typeof navigator === "undefined") return;
+    if (typeof navigator === "undefined" || !active) return;
 
     let batteryManager: any = null;
     let isCancelled = false;
@@ -292,7 +342,6 @@ export function useSystemEnvironment(): SystemEnvironment {
             b.addEventListener("chargingchange", syncBattery);
           })
           .catch(() => {
-            // Permission denied or blocked - fallback safely to AC power
             setBattery({
               isSupported: false,
               level: 100,
@@ -308,14 +357,6 @@ export function useSystemEnvironment(): SystemEnvironment {
           isRealData: false,
         });
       }
-    } else {
-      // Browser does not expose Battery Status API (Safari, Firefox, etc.)
-      setBattery({
-        isSupported: false,
-        level: 100,
-        charging: true,
-        isRealData: false,
-      });
     }
 
     return () => {
@@ -327,11 +368,11 @@ export function useSystemEnvironment(): SystemEnvironment {
         } catch {}
       }
     };
-  }, []);
+  }, [active]);
 
-  // 6. Network Status (Online / Offline Browser Events)
+  // 5. Network Status (Only when Windows Mode is active)
   useEffect(() => {
-    if (typeof window === "undefined" || typeof navigator === "undefined") return;
+    if (typeof window === "undefined" || typeof navigator === "undefined" || !active) return;
 
     setIsOnline(navigator.onLine);
 
@@ -371,7 +412,7 @@ export function useSystemEnvironment(): SystemEnvironment {
         conn.removeEventListener("change", updateNetwork);
       }
     };
-  }, []);
+  }, [active]);
 
   // Locale & TimeZone determination
   const { locale, timeZone, languageBadge } = useMemo(() => {
@@ -392,7 +433,6 @@ export function useSystemEnvironment(): SystemEnvironment {
     };
   }, []);
 
-  // Formatted strings using visitor's local system time, date & locale
   const timeStr = useMemo(() => {
     if (!mounted) return "12:00 PM";
     try {

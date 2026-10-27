@@ -5,6 +5,15 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "react-icons",
+      "framer-motion",
+      "@react-three/fiber",
+      "three",
+    ],
+  },
   async redirects() {
     return [
       {

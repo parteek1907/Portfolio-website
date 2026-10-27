@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CheckCircle, AlertCircle, ArrowUpRight } from "lucide-react";
-import emailjs from '@emailjs/browser';
 
 export default function Contact() {
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -13,7 +12,6 @@ export default function Contact() {
         from_email: '',
         message: ''
     });
-    const [isDark, setIsDark] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,16 +36,6 @@ export default function Contact() {
         };
     }, [status]);
 
-    useEffect(() => {
-        const checkTheme = () => {
-            setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
-        };
-        checkTheme();
-        const observer = new MutationObserver(checkTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-        return () => observer.disconnect();
-    }, []);
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -65,6 +53,7 @@ export default function Contact() {
 
         setStatus('sending');
         try {
+            const emailjs = (await import('@emailjs/browser')).default;
             await emailjs.send(
                 'service_n54nlri',
                 'template_wi3gthl',
@@ -153,14 +142,14 @@ export default function Contact() {
                                         required
                                         className="w-full bg-transparent py-2 transition-colors outline-none text-[15px]"
                                         style={{
-                                            borderBottom: isDark ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
+                                            borderBottom: "1px solid var(--color-border)",
                                             color: "var(--color-text-primary)",
                                         }}
                                         onFocus={(e) => {
                                             e.currentTarget.style.borderBottomColor = "var(--color-text-primary)";
                                         }}
                                         onBlur={(e) => {
-                                            e.currentTarget.style.borderBottomColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
+                                            e.currentTarget.style.borderBottomColor = "var(--color-border)";
                                         }}
                                         placeholder="Your name"
                                     />
@@ -176,14 +165,14 @@ export default function Contact() {
                                         required
                                         className="w-full bg-transparent py-2 transition-colors outline-none text-[15px]"
                                         style={{
-                                            borderBottom: isDark ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
+                                            borderBottom: "1px solid var(--color-border)",
                                             color: "var(--color-text-primary)",
                                         }}
                                         onFocus={(e) => {
                                             e.currentTarget.style.borderBottomColor = "var(--color-text-primary)";
                                         }}
                                         onBlur={(e) => {
-                                            e.currentTarget.style.borderBottomColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
+                                            e.currentTarget.style.borderBottomColor = "var(--color-border)";
                                         }}
                                         placeholder="Your email"
                                     />
@@ -201,14 +190,14 @@ export default function Contact() {
                                         rows={1}
                                         className="w-full bg-transparent py-2 transition-colors resize-none outline-none text-[15px] overflow-hidden"
                                         style={{
-                                            borderBottom: isDark ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,0,0,0.15)",
+                                            borderBottom: "1px solid var(--color-border)",
                                             color: "var(--color-text-primary)",
                                         }}
                                         onFocus={(e) => {
                                             e.currentTarget.style.borderBottomColor = "var(--color-text-primary)";
                                         }}
                                         onBlur={(e) => {
-                                            e.currentTarget.style.borderBottomColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
+                                            e.currentTarget.style.borderBottomColor = "var(--color-border)";
                                         }}
                                         placeholder="Tell me about your project or inquiry..."
                                     ></textarea>
