@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import { smoothScrollTo } from "@/lib/smoothScroll";
+import { useWindows } from "@/components/windows/WindowsContext";
 
 export default function BackToTop() {
+    const { isWindowsMode } = useWindows();
     const [isVisible, setIsVisible] = useState(false);
     const [isDark, setIsDark] = useState(false);
     const { scrollY } = useScroll();
@@ -27,6 +29,8 @@ export default function BackToTop() {
     const scrollToTop = () => {
         smoothScrollTo(0, 1400);
     };
+
+    if (isWindowsMode) return null;
 
     return (
         <AnimatePresence>

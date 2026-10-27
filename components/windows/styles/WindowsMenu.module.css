@@ -1,0 +1,310 @@
+.overflow {
+	position: fixed;
+	right: 0;
+	bottom: 50px;
+	left: 0;
+	z-index: 997;
+	overflow: hidden;
+	width: 35rem;
+	max-width: calc(100vw - 20px);
+	height: 35rem;
+	max-height: calc(100vh - 70px);
+	margin: auto;
+	pointer-events: none;
+}
+
+.winMenu {
+	position: absolute;
+	width: 100%;
+	height: calc(100% - 10px);
+	transition: all 0.4s ease-in-out;
+	pointer-events: auto;
+}
+
+.winMenuContainer {
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	padding: 24px;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.winMenuBg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border: 1px solid rgb(128 128 128 / 27.5%);
+	border-radius: 15px;
+	background-color: #212121;
+	background-image: url('/images/darknoice.png');
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+	opacity: 0.98;
+}
+
+.winMenuSearch {
+	width: 100%;
+}
+
+.winMenuSearch input[type='text'] {
+	box-sizing: border-box;
+	width: 100%;
+	margin: 4px 0 12px 0;
+	padding: 8px 12px 8px 40px;
+	border: 1px solid rgb(128 128 128 / 17.2%);
+	border-bottom: 2px solid #4cc2ff;
+	border-radius: 4px;
+	background-color: #1a1a1a;
+	color: #c6c6c6;
+	outline: none;
+	font-size: 0.8rem;
+}
+
+.winMenuSearch .inputWithIcon {
+	position: relative;
+	color: #c6c6c6;
+}
+
+.winMenuSearch .inputWithIcon svg {
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	transform: translateY(-50%);
+	font-size: 1.1rem;
+	color: #888;
+}
+
+.winMenuPinned {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	gap: 16px;
+	height: calc(100% - 95px);
+	overflow-y: auto;
+}
+
+.winMenuPinnedTop {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 6px;
+	margin-bottom: 8px;
+}
+
+.winMenuPinnedTop p {
+	font-size: 0.65rem;
+	color: #fff;
+	margin: 0;
+}
+
+.winMenuPinnedTop h2 {
+	color: #fff;
+	font-size: 0.85rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.winMenuPinnedTop div:nth-child(2) {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	justify-content: center;
+	height: 24px;
+	padding: 0 8px;
+	border-radius: 4px;
+	background-color: #353636;
+	color: #fff;
+	font-size: 0.75rem;
+	cursor: pointer;
+}
+
+.winMenuPinnedBottom {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 8px;
+	text-align: center;
+}
+
+.pinnedTile {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	align-items: center;
+	justify-content: center;
+	height: 72px;
+	padding: 6px;
+	border-radius: 6px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.15s ease-in-out;
+}
+
+.pinnedTile:hover {
+	background-color: #353636;
+}
+
+.pinnedTile p {
+	color: #fff;
+	font-size: 0.68rem;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+}
+
+.winMenuPinnedContainer {
+	padding: 0 10px;
+}
+
+.winMenuRecommendedBottom {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+.winMenuRecommendedItem {
+	display: flex;
+	gap: 8px;
+	width: 100%;
+}
+
+.recommendedTile {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	width: 50%;
+	padding: 6px 10px;
+	border-radius: 6px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.15s ease-in-out;
+}
+
+.recommendedTile:hover {
+	background-color: #2e2e2e;
+}
+
+.recommendedTile p {
+	color: #fff;
+	font-size: 0.72rem;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.recommendedTile span {
+	font-size: 0.62rem;
+	color: #888;
+}
+
+.winMenuFooter {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 3;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 48px;
+	padding: 0 20px;
+	border-top: 1px solid rgb(128 128 128 / 27.5%);
+	border-radius: 0 0 15px 15px;
+	background-color: rgb(0 0 0 / 25%);
+	color: #fff;
+	font-size: 1.1rem;
+	box-sizing: border-box;
+}
+
+.winMenuFooter p {
+	font-size: 0.8rem;
+	margin: 0;
+	color: #fff;
+}
+
+.winMenuFooter div {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.winMenuFooter img {
+	border-radius: 50%;
+}
+
+.powerBtn {
+	padding: 8px;
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.15s ease;
+}
+
+.powerBtn:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.powerDropdown {
+	position: absolute;
+	bottom: 50px;
+	right: 15px;
+	width: 160px;
+	background-color: #2b2b2b;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+	padding: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	z-index: 50;
+}
+
+.powerDropdown button {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	padding: 8px 10px;
+	background: transparent;
+	border: none;
+	border-radius: 4px;
+	color: #e0e0e0;
+	font-size: 0.75rem;
+	cursor: pointer;
+	text-align: left;
+}
+
+.powerDropdown button:hover {
+	background-color: #3b3b3b;
+	color: #fff;
+}
+
+@media (max-width: 600px) {
+	.overflow {
+		width: 100vw;
+		height: calc(100vh - 50px);
+		bottom: 50px;
+		border-radius: 0;
+	}
+
+	.winMenuPinnedBottom {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.winMenuRecommendedItem {
+		flex-direction: column;
+	}
+
+	.recommendedTile {
+		width: 100%;
+	}
+}

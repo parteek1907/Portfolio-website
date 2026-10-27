@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowLeft } from "lucide-react";
 import { useLoading } from "@/components/LoadingContext";
 import { smoothScrollToElement } from "@/lib/smoothScroll";
+import { useWindows } from "@/components/windows/WindowsContext";
 
 const navLinks = [
     { name: "About", href: "#about" },
@@ -19,6 +20,7 @@ const navLinks = [
 
 export default function Navbar() {
     const { isLoading } = useLoading();
+    const { enterWindowsMode } = useWindows();
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("");
@@ -102,52 +104,99 @@ export default function Navbar() {
                 </div>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-8">
-                    {navLinks.map((link) => {
-                        const isActive = `#${activeSection}` === link.href || (activeSection === "" && link.href === "#about");
-                        return (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    
-                                    if (pathname !== "/") {
-                                        router.push("/" + link.href);
-                                        return;
-                                    }
+                <div className="hidden md:flex items-center gap-7">
+                    <nav className="flex items-center gap-7">
+                        {navLinks.map((link) => {
+                            const isActive = `#${activeSection}` === link.href || (activeSection === "" && link.href === "#about");
+                            return (
+                                <a
+                                    key={link.name}
+                                    href={link.href}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        
+                                        if (pathname !== "/") {
+                                            router.push("/" + link.href);
+                                            return;
+                                        }
 
-                                    const targetId = link.href.replace(/.*\#/, "");
-                                    smoothScrollToElement(targetId);
-                                    window.history.pushState(null, "", link.href);
-                                }}
-                                className="text-sm nav-link-ui transition-colors relative cursor-pointer"
-                                style={{
-                                    color: isActive ? "var(--color-text-primary)" : "var(--color-text-secondary)",
-                                }}
-                            >
-                                {link.name}
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="activeNavSection"
-                                        className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
-                                        style={{ background: "var(--color-text-primary)" }}
-                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                    />
-                                )}
-                            </a>
-                        );
-                    })}
-                </nav>
+                                        const targetId = link.href.replace(/.*\#/, "");
+                                        smoothScrollToElement(targetId);
+                                        window.history.pushState(null, "", link.href);
+                                    }}
+                                    className="text-sm nav-link-ui transition-colors relative cursor-pointer"
+                                    style={{
+                                        color: isActive ? "var(--color-text-primary)" : "var(--color-text-secondary)",
+                                    }}
+                                >
+                                    {link.name}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activeNavSection"
+                                            className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full"
+                                            style={{ background: "var(--color-text-primary)" }}
+                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                        />
+                                    )}
+                                </a>
+                            );
+                        })}
+                    </nav>
 
-                {/* Mobile Menu Button */}
-                <button
-                    className="md:hidden transition-colors"
-                    style={{ color: "var(--color-text-secondary)" }}
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                    {/* Windows Experience Action Button */}
+                    <button
+                        type="button"
+                        onClick={() => enterWindowsMode()}
+                        className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 border shadow-sm group hover:scale-[1.03] active:scale-[0.98] cursor-pointer"
+                        style={{
+                            background: isDark ? "rgba(0, 120, 212, 0.15)" : "rgba(0, 120, 212, 0.08)",
+                            borderColor: isDark ? "rgba(0, 120, 212, 0.35)" : "rgba(0, 120, 212, 0.22)",
+                            color: isDark ? "#60cdff" : "#0067b8",
+                        }}
+                        title="Switch to interactive Windows 11 desktop experience (Parteek OS)"
+                        aria-label="Switch to Windows Experience"
+                    >
+                        <div className="grid grid-cols-2 gap-[2px] w-3.5 h-3.5 group-hover:rotate-6 transition-transform">
+                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                            <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                        </div>
+                        <span>Windows Experience</span>
+                    </button>
+                </div>
+
+                {/* Mobile Right Controls: Quick Windows Button + Hamburger */}
+                <div className="md:hidden flex items-center gap-2.5">
+                    <button
+                        type="button"
+                        onClick={() => enterWindowsMode()}
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border cursor-pointer"
+                        style={{
+                            background: isDark ? "rgba(0, 120, 212, 0.15)" : "rgba(0, 120, 212, 0.08)",
+                            borderColor: isDark ? "rgba(0, 120, 212, 0.35)" : "rgba(0, 120, 212, 0.22)",
+                            color: isDark ? "#60cdff" : "#0067b8",
+                        }}
+                        aria-label="Switch to Windows Experience"
+                    >
+                        <div className="grid grid-cols-2 gap-[2px] w-3 h-3">
+                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
+                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
+                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
+                            <span className="bg-[#0078D4] rounded-[1px] w-1 h-1" />
+                        </div>
+                        <span>Windows OS</span>
+                    </button>
+
+                    <button
+                        className="transition-colors p-1"
+                        style={{ color: "var(--color-text-secondary)" }}
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle navigation menu"
+                    >
+                        {isOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Nav */}
@@ -191,6 +240,30 @@ export default function Navbar() {
                                 </a>
                             )
                         })}
+
+                        <div className="pt-2 border-t border-[var(--color-border)]">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    enterWindowsMode();
+                                }}
+                                className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wide transition-all border cursor-pointer"
+                                style={{
+                                    background: isDark ? "rgba(0, 120, 212, 0.16)" : "rgba(0, 120, 212, 0.09)",
+                                    borderColor: isDark ? "rgba(0, 120, 212, 0.35)" : "rgba(0, 120, 212, 0.22)",
+                                    color: isDark ? "#60cdff" : "#0067b8",
+                                }}
+                            >
+                                <div className="grid grid-cols-2 gap-[2px] w-3.5 h-3.5">
+                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                                    <span className="bg-[#0078D4] rounded-[1px] w-1.5 h-1.5" />
+                                </div>
+                                <span>Launch Windows Experience</span>
+                            </button>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

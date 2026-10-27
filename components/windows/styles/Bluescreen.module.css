@@ -1,0 +1,96 @@
+.container {
+	position: fixed;
+	inset: 0;
+	z-index: 999999;
+	width: 100vw;
+	height: 100vh;
+	background: #1168ba;
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.container p,
+.container h1,
+.container h2 {
+	color: #fefeff;
+	margin: 0;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	justify-content: center;
+	width: 55rem;
+	max-width: 90%;
+	margin: auto;
+}
+
+.wrapper h1 {
+	margin-bottom: 24px;
+	font-weight: 300;
+	font-size: 7.5em;
+	line-height: 80%;
+}
+
+.wrapper h2 {
+	font-weight: 400;
+	font-size: 1.25em;
+	line-height: 1.4;
+}
+
+.progressText {
+	font-size: 1.4em !important;
+	font-weight: 500 !important;
+}
+
+.aboutIssue {
+	display: flex;
+	gap: 24px;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.aboutIssue div:last-child {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.aboutIssue div:last-child h2 {
+	font-size: 0.95em;
+	opacity: 0.9;
+}
+
+.exitBtn {
+	margin-top: 16px;
+	align-self: flex-start;
+	padding: 8px 18px;
+	background: rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	color: #fff;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.85rem;
+}
+
+.exitBtn:hover {
+	background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+	.wrapper h1 {
+		font-size: 5em;
+	}
+
+	.wrapper h2 {
+		font-size: 1em;
+	}
+
+	.aboutIssue {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}

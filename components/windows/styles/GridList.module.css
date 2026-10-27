@@ -1,0 +1,95 @@
+.dropdownNav {
+	display: flex;
+	align-items: center;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+.dropdownNav h2 {
+	margin: 0 10px 0 0;
+	color: #fff;
+	font-weight: 400;
+	font-size: 0.9rem;
+	white-space: nowrap;
+}
+
+.dropdownNav svg {
+	color: #888;
+	font-size: 1.2rem;
+	cursor: pointer;
+}
+
+.dropdownNav div {
+	flex: 1;
+	height: 1px;
+	background-color: #323232;
+}
+
+.wrapper {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 12px;
+	padding: 5px;
+}
+
+.item {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	padding: 8px 10px;
+	border-radius: 6px;
+	cursor: pointer;
+	border: 1px solid transparent;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+	text-decoration: none;
+	color: #fff;
+}
+
+.item:hover {
+	background-color: #2e2e2e;
+	border-color: rgba(255, 255, 255, 0.1);
+}
+
+.item p {
+	margin: 0;
+	font-size: 0.75rem;
+	color: #fff;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.item span {
+	font-size: 0.65rem;
+	color: #888;
+}
+
+.detailsList {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.detailsHeader {
+	display: flex;
+	padding: 6px 10px;
+	border-bottom: 1px solid #323232;
+	color: #888;
+	font-size: 0.72rem;
+	font-weight: 500;
+}
+
+.detailsRow {
+	display: flex;
+	align-items: center;
+	padding: 6px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	color: #fff;
+	font-size: 0.74rem;
+	transition: background-color 0.12s ease;
+}
+
+.detailsRow:hover {
+	background-color: #2e2e2e;
+}

@@ -1,0 +1,172 @@
+.container {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 998;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 50px;
+	border-top: 1px solid #3f3f3f;
+	background-color: #212121;
+	background-image: url('/images/darknoice.png');
+	user-select: none;
+}
+
+.leftContainer {
+	position: absolute;
+	left: 12px;
+	display: flex;
+	align-items: center;
+}
+
+.portfolioBtn {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	border-radius: 6px;
+	background-color: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	color: #e0e0e0;
+	font-size: 0.75rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.15s ease-in-out;
+}
+
+.portfolioBtn:hover {
+	background-color: rgba(255, 255, 255, 0.14);
+	color: #fff;
+}
+
+.iconContainer {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+}
+
+.icon,
+.dateIcons,
+.language {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	justify-content: center;
+	padding: 8px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.15s ease-in-out;
+	position: relative;
+}
+
+.icon {
+	width: 40px;
+	height: 40px;
+}
+
+.activeIcon {
+	background-color: rgba(255, 255, 255, 0.12);
+}
+
+.activeIndicator {
+	position: absolute;
+	bottom: 2px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 16px;
+	height: 3px;
+	border-radius: 2px;
+	background-color: #4cc2ff;
+}
+
+.openIndicator {
+	position: absolute;
+	bottom: 2px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 6px;
+	height: 3px;
+	border-radius: 2px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dateIcons {
+	flex-direction: column;
+	align-items: flex-end;
+	font-size: 0.65rem;
+	padding: 4px 8px;
+}
+
+.dateIcons p {
+	font-weight: 600;
+	font-size: 0.7rem;
+	color: #f9f9f9;
+	margin: 0;
+	line-height: 1.2;
+}
+
+.language p {
+	padding-right: 3px;
+	padding-left: 3px;
+	font-weight: 400;
+	font-size: 0.65rem;
+	color: #f9f9f9;
+	margin: 0;
+}
+
+.icon:not(:active) img {
+	transition: all 0.1s ease-in-out;
+}
+
+.icon:hover,
+.dateIcons:hover,
+.language:hover {
+	background-color: #2e2e2e;
+}
+
+.icon:active img {
+	transform: scale(0.85);
+}
+
+.toolbarContainer {
+	position: absolute;
+	right: 0;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	height: 41px;
+	margin-right: 8px;
+	color: #f9f9f9;
+	font-size: 1.1rem;
+}
+
+.showDesktop {
+	width: 6px;
+	height: 34px;
+	border-left: 1px solid rgba(255, 255, 255, 0.15);
+	cursor: pointer;
+	margin-left: 4px;
+}
+
+.showDesktop:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+	.toolbarContainer .language,
+	.toolbarContainer .icon:first-of-type {
+		display: none;
+	}
+
+	.leftContainer span {
+		display: none;
+	}
+
+	.iconContainer {
+		max-width: calc(100vw - 120px);
+		overflow-x: auto;
+	}
+}

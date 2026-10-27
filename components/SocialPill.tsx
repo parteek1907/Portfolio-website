@@ -6,8 +6,10 @@ import { socialLinks } from "@/lib/data";
 import { useState, useEffect } from "react";
 import { SiLeetcode } from "react-icons/si";
 import { Theme } from "@/components/ui/theme";
+import { useWindows } from "@/components/windows/WindowsContext";
 
 export default function SocialPill() {
+    const { isWindowsMode } = useWindows();
     const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
     const [isVisible, setIsVisible] = useState(false);
     const [isDark, setIsDark] = useState(true);
@@ -49,6 +51,8 @@ export default function SocialPill() {
         { name: "Instagram", icon: Instagram, href: socialLinks.instagram },
         { name: "LeetCode", icon: SiLeetcode, href: socialLinks.leetcode },
     ];
+
+    if (isWindowsMode) return null;
 
     return (
         <AnimatePresence>

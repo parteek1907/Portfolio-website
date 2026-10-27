@@ -11,6 +11,8 @@ import { Providers } from "@/components/Providers";
 import DynamicTitle from "@/components/DynamicTitle";
 import LegalModal from "@/components/LegalModal";
 import SmoothScrolling from "@/components/SmoothScrolling";
+import { WindowsProvider } from "@/components/windows/WindowsContext";
+import WindowsDesktop from "@/components/windows/WindowsDesktop";
 
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-ui", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -92,18 +94,21 @@ export default function RootLayout({
       </head>
       <body className={`${oswald.variable} ${inter.variable} font-sans antialiased`} suppressHydrationWarning>
         <Providers>
-          <LoadingProvider>
-            <DynamicTitle />
-            <LegalModal />
-            <ScrollProgressBar />
-            <ScrollLock />
-            <CursorEffect />
-            <SmoothScrolling>
-              {children}
-            </SmoothScrolling>
-            <SocialPill />
-            <BackToTop />
-          </LoadingProvider>
+          <WindowsProvider>
+            <LoadingProvider>
+              <DynamicTitle />
+              <LegalModal />
+              <ScrollProgressBar />
+              <ScrollLock />
+              <CursorEffect />
+              <SmoothScrolling>
+                {children}
+              </SmoothScrolling>
+              <SocialPill />
+              <BackToTop />
+              <WindowsDesktop />
+            </LoadingProvider>
+          </WindowsProvider>
         </Providers>
       </body>
     </html>

@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useMotionValueEvent } from "framer-motion";
+import { useWindows } from "@/components/windows/WindowsContext";
 
 export default function ScrollProgressBar() {
+    const { isWindowsMode } = useWindows();
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
     const [theme, setTheme] = useState("dark");
@@ -19,6 +21,8 @@ export default function ScrollProgressBar() {
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
         return () => observer.disconnect();
     }, []);
+
+    if (isWindowsMode) return null;
 
     return (
         <motion.div

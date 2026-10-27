@@ -1,0 +1,414 @@
+"use client";
+
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { AppId, WindowState, DesktopAppDef, ErrorType } from "./types";
+
+export const APP_REGISTRY: DesktopAppDef[] = [
+  {
+    id: "about",
+    title: "About Me",
+    description: "Bio, education at NMIMS Chandigarh, focus & goals",
+    iconPath: "/icons/notes/notes.png",
+    iconBg: "bg-sky-500",
+    category: "Profile",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    defaultSize: { width: 780, height: 560 },
+  },
+  {
+    id: "projects",
+    title: "Projects",
+    description: "File Explorer with KIN, CrossCheck, Ziro, Sanket, FinWise & more",
+    iconPath: "/icons/folder/folder.png",
+    iconBg: "bg-indigo-500",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Development",
+    defaultSize: { width: 940, height: 600 },
+  },
+  {
+    id: "skills",
+    title: "Skills",
+    description: "Languages, frontend, backend, databases, and AI stack",
+    iconPath: "/icons/vscode/vscode.png",
+    iconBg: "bg-emerald-500",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Development",
+    defaultSize: { width: 780, height: 540 },
+  },
+  {
+    id: "hackathons",
+    title: "Hackathons",
+    description: "Victories, milestones, roles & team leadership",
+    iconPath: "/icons/links/links.png",
+    iconBg: "bg-amber-500",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Credentials",
+    defaultSize: { width: 840, height: 580 },
+  },
+  {
+    id: "certifications",
+    title: "Certifications",
+    description: "Cisco, IBM, Oracle & industry credentials with verification",
+    iconPath: "/icons/documents/documents.png",
+    iconBg: "bg-violet-500",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Credentials",
+    defaultSize: { width: 800, height: 560 },
+  },
+  {
+    id: "github",
+    title: "GitHub",
+    description: "Public commit activity, stats & repositories",
+    iconPath: "/icons/githubdesktop/githubdesktop.png",
+    iconBg: "bg-neutral-800",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Development",
+    defaultSize: { width: 840, height: 560 },
+  },
+  {
+    id: "resume",
+    title: "Resume",
+    description: "ParteekGarg_Resume.pdf preview & download",
+    iconPath: "/icons/documents/documents.png",
+    iconBg: "bg-rose-500",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Profile",
+    defaultSize: { width: 820, height: 620 },
+  },
+  {
+    id: "contact",
+    title: "Contact",
+    description: "Interactive email client & professional links",
+    iconPath: "/icons/links/links.png",
+    iconBg: "bg-blue-600",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Communication",
+    defaultSize: { width: 780, height: 520 },
+  },
+  {
+    id: "terminal",
+    title: "Terminal",
+    description: "MINGW64 / PowerShell command prompt",
+    iconPath: "/icons/terminal/terminal.png",
+    iconBg: "bg-neutral-900",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Tools",
+    defaultSize: { width: 740, height: 480 },
+  },
+];
+
+interface WindowsContextValue {
+  isWindowsMode: boolean;
+  windows: Record<AppId, WindowState>;
+  activeAppId: AppId | null;
+  isStartOpen: boolean;
+  errors: ErrorType[];
+  bluescreen: boolean;
+  enterWindowsMode: () => void;
+  exitWindowsMode: () => void;
+  openApp: (id: AppId) => void;
+  closeApp: (id: AppId) => void;
+  minimizeApp: (id: AppId) => void;
+  maximizeApp: (id: AppId) => void;
+  restoreApp: (id: AppId) => void;
+  bringToFront: (id: AppId) => void;
+  toggleApp: (id: AppId) => void;
+  updatePosition: (id: AppId, pos: { x: number; y: number }) => void;
+  setStartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  triggerError: (appName: string) => void;
+  dismissError: (index: number) => void;
+  triggerBluescreen: () => void;
+  dismissBluescreen: () => void;
+}
+
+const WindowsContext = createContext<WindowsContextValue | null>(null);
+
+export function WindowsProvider({ children }: { children: React.ReactNode }) {
+  const [isWindowsMode, setIsWindowsMode] = useState(false);
+  const [isStartOpen, setStartOpen] = useState(false);
+  const [activeAppId, setActiveAppId] = useState<AppId | null>(null);
+  const [topZIndex, setTopZIndex] = useState(100);
+  const [errors, setErrors] = useState<ErrorType[]>([]);
+  const [bluescreen, setBluescreen] = useState(false);
+
+  // Initialize all windows state
+  const [windows, setWindows] = useState<Record<AppId, WindowState>>(() => {
+    const initial: Partial<Record<AppId, WindowState>> = {};
+    APP_REGISTRY.forEach((app, idx) => {
+      initial[app.id] = {
+        id: app.id,
+        title: app.title,
+        iconPath: app.iconPath,
+        isOpen: false,
+        isMinimized: false,
+        isMaximized: false,
+        position: { x: 70 + idx * 28, y: 50 + idx * 24 },
+        size: app.defaultSize,
+        zIndex: 10 + idx,
+      };
+    });
+    return initial as Record<AppId, WindowState>;
+  });
+
+  // Check URL query on mount (?view=windows or #windows)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("view") === "windows" || window.location.hash === "#windows") {
+        setIsWindowsMode(true);
+      }
+    }
+  }, []);
+
+  // Sync body scroll locking when in Windows Mode
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      if (isWindowsMode) {
+        document.body.style.overflow = "hidden";
+        document.body.classList.add("windows-mode-active");
+      } else {
+        document.body.style.overflow = "";
+        document.body.classList.remove("windows-mode-active");
+      }
+    }
+  }, [isWindowsMode]);
+
+  const enterWindowsMode = useCallback(() => {
+    setIsWindowsMode(true);
+    setStartOpen(false);
+    // If no app is open, automatically open About Me to welcome the user
+    setWindows((prev) => {
+      const anyOpen = Object.values(prev).some((w) => w.isOpen);
+      if (!anyOpen) {
+        const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
+        return {
+          ...prev,
+          about: {
+            ...prev.about,
+            isOpen: true,
+            isMinimized: false,
+            zIndex: 101,
+            position: { x: Math.max(20, (screenW - 780) / 2), y: 50 },
+          },
+        };
+      }
+      return prev;
+    });
+    setActiveAppId("about");
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", "?view=windows");
+    }
+  }, []);
+
+  const exitWindowsMode = useCallback(() => {
+    setIsWindowsMode(false);
+    setStartOpen(false);
+    setBluescreen(false);
+    if (typeof window !== "undefined") {
+      const url = window.location.pathname;
+      window.history.pushState(null, "", url);
+    }
+  }, []);
+
+  const bringToFront = useCallback((id: AppId) => {
+    setTopZIndex((current) => {
+      const nextZ = current + 1;
+      setWindows((prev) => {
+        if (!prev[id]) return prev;
+        return {
+          ...prev,
+          [id]: {
+            ...prev[id],
+            zIndex: nextZ,
+            isMinimized: false,
+          },
+        };
+      });
+      setActiveAppId(id);
+      return nextZ;
+    });
+  }, []);
+
+  const openApp = useCallback((id: AppId) => {
+    setStartOpen(false);
+    setTopZIndex((current) => {
+      const nextZ = current + 1;
+      setWindows((prev) => {
+        const target = prev[id];
+        if (!target) return prev;
+
+        const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
+        const screenH = typeof window !== "undefined" ? window.innerHeight : 800;
+        const initialX = Math.max(16, (screenW - target.size.width) / 2 + (Math.random() * 40 - 20));
+        const initialY = Math.max(20, (screenH - target.size.height) / 2 - 20 + (Math.random() * 30 - 15));
+
+        return {
+          ...prev,
+          [id]: {
+            ...target,
+            isOpen: true,
+            isMinimized: false,
+            zIndex: nextZ,
+            position: target.isOpen ? target.position : { x: initialX, y: initialY },
+          },
+        };
+      });
+      setActiveAppId(id);
+      return nextZ;
+    });
+  }, []);
+
+  const closeApp = useCallback((id: AppId) => {
+    setWindows((prev) => {
+      if (!prev[id]) return prev;
+      return {
+        ...prev,
+        [id]: {
+          ...prev[id],
+          isOpen: false,
+          isMinimized: false,
+          isMaximized: false,
+        },
+      };
+    });
+    setActiveAppId((curr) => (curr === id ? null : curr));
+  }, []);
+
+  const minimizeApp = useCallback((id: AppId) => {
+    setWindows((prev) => {
+      if (!prev[id]) return prev;
+      return {
+        ...prev,
+        [id]: {
+          ...prev[id],
+          isMinimized: true,
+        },
+      };
+    });
+    setActiveAppId((curr) => (curr === id ? null : curr));
+  }, []);
+
+  const maximizeApp = useCallback((id: AppId) => {
+    setWindows((prev) => {
+      if (!prev[id]) return prev;
+      return {
+        ...prev,
+        [id]: {
+          ...prev[id],
+          isMaximized: true,
+          isMinimized: false,
+        },
+      };
+    });
+    bringToFront(id);
+  }, [bringToFront]);
+
+  const restoreApp = useCallback((id: AppId) => {
+    setWindows((prev) => {
+      if (!prev[id]) return prev;
+      return {
+        ...prev,
+        [id]: {
+          ...prev[id],
+          isMaximized: false,
+          isMinimized: false,
+        },
+      };
+    });
+    bringToFront(id);
+  }, [bringToFront]);
+
+  const toggleApp = useCallback((id: AppId) => {
+    const target = windows[id];
+    if (!target) return;
+
+    if (!target.isOpen) {
+      openApp(id);
+    } else if (target.isMinimized) {
+      bringToFront(id);
+    } else if (activeAppId === id) {
+      minimizeApp(id);
+    } else {
+      bringToFront(id);
+    }
+  }, [windows, activeAppId, openApp, bringToFront, minimizeApp]);
+
+  const updatePosition = useCallback((id: AppId, pos: { x: number; y: number }) => {
+    setWindows((prev) => {
+      if (!prev[id]) return prev;
+      return {
+        ...prev,
+        [id]: {
+          ...prev[id],
+          position: pos,
+        },
+      };
+    });
+  }, []);
+
+  const triggerError = useCallback((appName: string) => {
+    try {
+      const audio = new Audio("/sounds/error.mp3");
+      audio.play().catch(() => {});
+    } catch {}
+    setErrors((prev) => [...prev, { error: appName, index: Date.now() + Math.random() }]);
+  }, []);
+
+  const dismissError = useCallback((index: number) => {
+    setErrors((prev) => prev.filter((e) => e.index !== index));
+  }, []);
+
+  const triggerBluescreen = useCallback(() => {
+    setBluescreen(true);
+  }, []);
+
+  const dismissBluescreen = useCallback(() => {
+    setBluescreen(false);
+  }, []);
+
+  return (
+    <WindowsContext.Provider
+      value={{
+        isWindowsMode,
+        windows,
+        activeAppId,
+        isStartOpen,
+        errors,
+        bluescreen,
+        enterWindowsMode,
+        exitWindowsMode,
+        openApp,
+        closeApp,
+        minimizeApp,
+        maximizeApp,
+        restoreApp,
+        bringToFront,
+        toggleApp,
+        updatePosition,
+        setStartOpen,
+        triggerError,
+        dismissError,
+        triggerBluescreen,
+        dismissBluescreen,
+      }}
+    >
+      {children}
+    </WindowsContext.Provider>
+  );
+}
+
+export function useWindows() {
+  const context = useContext(WindowsContext);
+  if (!context) {
+    throw new Error("useWindows must be used within a WindowsProvider");
+  }
+  return context;
+}

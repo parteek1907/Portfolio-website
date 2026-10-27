@@ -1,0 +1,87 @@
+.errorContainer {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: 99999;
+	width: 25rem;
+	max-width: 90vw;
+	padding: 10px;
+	border: 1px solid rgba(128, 128, 128, 0.55);
+	border-radius: 8px;
+	background-color: #f0f0f0;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+	transform: translate(-50%, -50%);
+	user-select: none;
+}
+
+.errorContainer p {
+	color: #000;
+	margin: 0;
+	font-size: 0.78rem;
+}
+
+.errorTop {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.errorTop div:first-child {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+
+.errorTop div:first-child p {
+	font-weight: 500;
+}
+
+.errorTop div:nth-child(2) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3px 8px;
+	cursor: pointer;
+	border-radius: 4px;
+	color: #333;
+}
+
+.errorTop div:nth-child(2):hover {
+	background-color: #e81123;
+	color: #fff;
+}
+
+.errorContent {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 10px;
+	padding: 14px;
+	border: 1px solid rgba(128, 128, 128, 0.5);
+	background-color: #fff;
+	align-items: flex-start;
+}
+
+.errorContent p {
+	line-height: 1.45;
+}
+
+.errorBottom {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.errorBottom button {
+	padding: 4px 28px;
+	border: 2px solid #207ec8;
+	background-color: #e1e1e1;
+	color: #000;
+	font-size: 0.78rem;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.errorBottom button:hover {
+	background-color: #e5f1fb;
+	border-color: #0078d7;
+}
