@@ -9,8 +9,33 @@
 .wrapper {
 	display: grid;
 	grid-auto-flow: column;
-	grid-template-rows: repeat(7, 85px);
+	grid-template-rows: repeat(auto-fill, 82px);
+	max-height: calc(100vh - 70px);
 	gap: 6px;
+}
+
+@media (max-width: 640px) {
+	.container {
+		top: 8px;
+		left: 8px;
+		right: 8px;
+	}
+
+	.wrapper {
+		grid-auto-flow: row;
+		grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+		grid-template-rows: auto;
+		max-height: calc(100vh - 65px);
+		overflow-y: auto;
+		gap: 6px;
+	}
+
+	.item {
+		width: 100%;
+		max-width: 76px;
+		height: 72px;
+		margin: 0 auto;
+	}
 }
 
 .item {

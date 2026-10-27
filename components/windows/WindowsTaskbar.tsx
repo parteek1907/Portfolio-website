@@ -1,11 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { 
   IoWifi, 
+  IoGlobeOutline,
   IoVolumeHigh, 
+  IoVolumeMute,
   IoBatteryCharging,
+  IoBatteryFull,
+  IoBatteryHalf,
+  IoBatteryDead,
   IoChevronUp 
 } from "react-icons/io5";
 import { 
@@ -58,41 +63,17 @@ export default function WindowsTaskbar() {
     setStartOpen, 
     isCalendarOpen, 
     setCalendarOpen,
+    isQuickSettingsOpen,
+    setQuickSettingsOpen,
+    env,
     windows,
     minimizeApp
   } = useWindows();
 
-  const [hourStr, setHourStr] = useState("00:00 PM");
-  const [dateStr, setDateStr] = useState("1/1/1970");
-  const [fullDateTitle, setFullDateTitle] = useState("");
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setHourStr(
-        now.toLocaleTimeString(undefined, {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      );
-      setDateStr(now.toLocaleDateString(undefined));
-      setFullDateTitle(
-        now.toLocaleDateString(undefined, {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleToggleStart = () => {
     if (!isStartOpen) {
       setCalendarOpen(false);
+      setQuickSettingsOpen(false);
     }
     setStartOpen(!isStartOpen);
   };
@@ -100,8 +81,17 @@ export default function WindowsTaskbar() {
   const handleToggleCalendar = () => {
     if (!isCalendarOpen) {
       setStartOpen(false);
+      setQuickSettingsOpen(false);
     }
     setCalendarOpen(!isCalendarOpen);
+  };
+
+  const handleToggleQuickSettings = () => {
+    if (!isQuickSettingsOpen) {
+      setStartOpen(false);
+      setCalendarOpen(false);
+    }
+    setQuickSettingsOpen(!isQuickSettingsOpen);
   };
 
   const handleShowDesktop = () => {
@@ -111,6 +101,26 @@ export default function WindowsTaskbar() {
       }
     });
   };
+
+  // Dynamic Battery icon selection
+  const BatteryIcon = env.battery.charging
+    ? IoBatteryCharging
+    : env.battery.level > 70
+    ? IoBatteryFull
+    : env.battery.level > 25
+    ? IoBatteryHalf
+    : IoBatteryDead;
+
+  // Dynamic Audio icon
+  const AudioIcon = env.isMuted || env.audioVolume === 0 ? IoVolumeMute : IoVolumeHigh;
+
+  const clusterTitle = `Network: ${
+    env.network.isOnline ? "Connected (Online, Real data)" : "Offline (No connection, Real data)"
+  } · Audio: ${env.isMuted ? "Muted" : env.audioVolume + "% (Simulated)"} · Battery: ${
+    env.battery.level
+  }% (${env.battery.charging ? "Charging" : "Discharging"}, ${
+    env.battery.isRealData ? "Real device data" : "Simulated AC"
+  }) - Click for Quick Settings`;
 
   return (
     <div className={styles.container}>
@@ -132,7 +142,7 @@ export default function WindowsTaskbar() {
         </div>
 
         {/* Divider */}
-        <div className="w-px h-6 bg-white/10 mx-1" />
+        <div className="w-px h-6 bg-white/10 mx-1 hidden sm:block" />
 
         {/* Only Social Links in Taskbar */}
         {taskbarSocials.map((social) => {
@@ -153,43 +163,59 @@ export default function WindowsTaskbar() {
         })}
       </section>
 
-      {/* Right Toolbar: System Tray with Properly Sized Icons & Interactive Calendar */}
+      {/* Right Toolbar: System Tray with Interactive Real Indicators */}
       <section className={styles.toolbarContainer}>
         {/* Hidden Icons Caret */}
         <div className={styles.hiddenIcons} title="Show hidden icons">
           <IoChevronUp size={14} />
         </div>
 
-        {/* Language Badge */}
-        <div className={styles.language} title="Keyboard layout: English (United States)">
-          <p>ENG</p>
-        </div>
-
-        {/* Quick Settings System Cluster: WiFi, Volume, Battery */}
+        {/* Localized Language Badge */}
         <div
-          className={styles.systemCluster}
-          title="Internet: Connected &middot; Speakers: 100% &middot; Battery: 100% (Plugged in)"
+          className={styles.language}
+          title={`Detected visitor locale: ${env.locale} (${env.timeZone})`}
         >
-          <div className={styles.trayIcon}>
-            <IoWifi size={18} />
+          <p>{env.languageBadge}</p>
+        </div>
+
+        {/* Interactive Quick Settings System Cluster: WiFi, Volume, Battery */}
+        <div
+          className={`${styles.systemCluster} ${isQuickSettingsOpen ? styles.activeCluster : ""}`}
+          title={clusterTitle}
+          onClick={handleToggleQuickSettings}
+          data-tray-cluster="true"
+        >
+          <div
+            className={styles.trayIcon}
+            title={env.network.isOnline ? "Internet: Online (Real device status)" : "Internet: Offline (Real device status)"}
+          >
+            {env.network.isOnline ? <IoWifi size={18} /> : <IoGlobeOutline size={18} className="text-red-400" />}
           </div>
-          <div className={styles.trayIcon}>
-            <IoVolumeHigh size={18} />
+          <div
+            className={styles.trayIcon}
+            title={`Portfolio Audio: ${env.isMuted ? "Muted" : env.audioVolume + "%"} (Simulated)`}
+          >
+            <AudioIcon size={18} />
           </div>
-          <div className={styles.trayIcon}>
-            <IoBatteryCharging size={20} />
+          <div
+            className={styles.trayIcon}
+            title={`Battery: ${env.battery.level}% (${env.battery.charging ? "Plugged in" : "Battery power"}, ${
+              env.battery.isRealData ? "Real device status" : "Simulated AC Power"
+            })`}
+          >
+            <BatteryIcon size={20} />
           </div>
         </div>
 
-        {/* Live Date & Time Button (Click opens real Windows 11 Calendar) */}
+        {/* Live Date & Time Button (Formatted via locale & timeZone) */}
         <div
           className={`${styles.dateTimeCluster} ${isCalendarOpen ? styles.activeCluster : ""}`}
-          title={`${fullDateTitle} - Click to open Calendar`}
+          title={`${env.fullDateStr} (${env.timeZone}) - Click to open Calendar`}
           onClick={handleToggleCalendar}
           data-calendar-toggle="true"
         >
-          <p className={styles.timeText}>{hourStr}</p>
-          <p className={styles.dateText}>{dateStr}</p>
+          <p className={styles.timeText}>{env.timeStr}</p>
+          <p className={styles.dateText}>{env.dateStr}</p>
         </div>
 
         {/* Show Desktop Sliver */}

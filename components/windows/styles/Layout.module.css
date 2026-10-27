@@ -33,8 +33,4 @@
 	overscroll-behavior: none;
 }
 
-@media (max-width: 767px) {
-	.container {
-		display: none !important;
-	}
-}
+

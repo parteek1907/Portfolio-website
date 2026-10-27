@@ -216,8 +216,27 @@ export default function Navbar() {
                                 >
                                     {link.name}
                                 </a>
-                            )
+                            );
                         })}
+
+                        {/* Windows Mode in Mobile Drawer */}
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setIsOpen(false);
+                                enterWindowsMode();
+                            }}
+                            className="flex items-center gap-2 text-lg nav-link-ui transition-colors cursor-pointer bg-transparent border-none p-0 text-left pt-3 mt-1 border-t border-[var(--color-border)]"
+                            style={{ color: "var(--color-text-secondary)" }}
+                        >
+                            <span className="grid grid-cols-2 gap-[2px] w-[11px] h-[11px] shrink-0 opacity-70">
+                                <span className="bg-current rounded-[0.5px]" />
+                                <span className="bg-current rounded-[0.5px]" />
+                                <span className="bg-current rounded-[0.5px]" />
+                                <span className="bg-current rounded-[0.5px]" />
+                            </span>
+                            <span>Windows Mode</span>
+                        </button>
                     </motion.div>
                 )}
             </AnimatePresence>

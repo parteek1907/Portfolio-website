@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import { AppId, WindowState, DesktopAppDef, ErrorType } from "./types";
+import { useSystemEnvironment, SystemEnvironment } from "./useSystemEnvironment";
 
 export const APP_REGISTRY: DesktopAppDef[] = [
   {
@@ -111,6 +112,9 @@ interface WindowsContextValue {
   activeAppId: AppId | null;
   isStartOpen: boolean;
   isCalendarOpen: boolean;
+  isQuickSettingsOpen: boolean;
+  isNightLight: boolean;
+  env: SystemEnvironment;
   errors: ErrorType[];
   bluescreen: boolean;
   enterWindowsMode: () => void;
@@ -125,6 +129,8 @@ interface WindowsContextValue {
   updatePosition: (id: AppId, pos: { x: number; y: number }) => void;
   setStartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setCalendarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setQuickSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsNightLight: React.Dispatch<React.SetStateAction<boolean>>;
   triggerError: (appName: string) => void;
   dismissError: (index: number) => void;
   triggerBluescreen: () => void;
@@ -134,9 +140,12 @@ interface WindowsContextValue {
 const WindowsContext = createContext<WindowsContextValue | null>(null);
 
 export function WindowsProvider({ children }: { children: React.ReactNode }) {
+  const env = useSystemEnvironment();
   const [isWindowsMode, setIsWindowsMode] = useState(false);
   const [isStartOpen, setStartOpen] = useState(false);
   const [isCalendarOpen, setCalendarOpen] = useState(false);
+  const [isQuickSettingsOpen, setQuickSettingsOpen] = useState(false);
+  const [isNightLight, setIsNightLight] = useState(false);
   const [activeAppId, setActiveAppId] = useState<AppId | null>(null);
   const [topZIndex, setTopZIndex] = useState(100);
   const [errors, setErrors] = useState<ErrorType[]>([]);
@@ -161,28 +170,15 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     return initial as Record<AppId, WindowState>;
   });
 
-  // Check URL query on mount (?view=windows or #windows) - Only allowed on desktop (>= 768px)
+  // Check URL query on mount (?view=windows or #windows)
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (window.innerWidth < 768) return;
       const params = new URLSearchParams(window.location.search);
       if (params.get("view") === "windows" || window.location.hash === "#windows") {
         setIsWindowsMode(true);
       }
     }
   }, []);
-
-  // Automatically exit Windows mode if screen is resized down to mobile (< 768px)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const handleResize = () => {
-      if (window.innerWidth < 768 && isWindowsMode) {
-        setIsWindowsMode(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [isWindowsMode]);
 
   // Sync body and documentElement scroll locking when in Windows Mode
   const scrollPosRef = useRef(0);
@@ -208,26 +204,29 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   }, [isWindowsMode]);
 
   const enterWindowsMode = useCallback(() => {
-    // Windows OS is completely disabled on mobile devices (< 768px)
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      return;
-    }
-
     setIsWindowsMode(true);
     setStartOpen(false);
+    setCalendarOpen(false);
+    setQuickSettingsOpen(false);
     // If no app is open, automatically open About Me to welcome the user
     setWindows((prev) => {
       const anyOpen = Object.values(prev).some((w) => w.isOpen);
       if (!anyOpen) {
         const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
+        const screenH = typeof window !== "undefined" ? window.innerHeight : 800;
+        const isSmall = screenW < 768;
         return {
           ...prev,
           about: {
             ...prev.about,
             isOpen: true,
             isMinimized: false,
+            isMaximized: isSmall,
             zIndex: 101,
-            position: { x: Math.max(20, (screenW - 780) / 2), y: 50 },
+            position: {
+              x: isSmall ? 0 : Math.max(20, (screenW - 780) / 2),
+              y: isSmall ? 0 : Math.max(20, (screenH - 540) / 2),
+            },
           },
         };
       }
@@ -243,6 +242,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     setIsWindowsMode(false);
     setStartOpen(false);
     setCalendarOpen(false);
+    setQuickSettingsOpen(false);
     setBluescreen(false);
     if (typeof window !== "undefined") {
       const url = window.location.pathname;
@@ -272,6 +272,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const openApp = useCallback((id: AppId) => {
     setStartOpen(false);
     setCalendarOpen(false);
+    setQuickSettingsOpen(false);
     setTopZIndex((current) => {
       const nextZ = current + 1;
       setWindows((prev) => {
@@ -280,8 +281,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
 
         const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
         const screenH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const initialX = Math.max(16, (screenW - target.size.width) / 2 + (Math.random() * 40 - 20));
-        const initialY = Math.max(20, (screenH - target.size.height) / 2 - 20 + (Math.random() * 30 - 15));
+        const isSmall = screenW < 768;
+        const initialX = isSmall ? 0 : Math.max(16, (screenW - target.size.width) / 2 + (Math.random() * 40 - 20));
+        const initialY = isSmall ? 0 : Math.max(20, (screenH - target.size.height) / 2 - 20 + (Math.random() * 30 - 15));
 
         return {
           ...prev,
@@ -289,8 +291,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
             ...target,
             isOpen: true,
             isMinimized: false,
+            isMaximized: isSmall ? true : target.isMaximized,
             zIndex: nextZ,
-            position: target.isOpen ? target.position : { x: initialX, y: initialY },
+            position: target.isOpen && !isSmall ? target.position : { x: initialX, y: initialY },
           },
         };
       });
@@ -360,6 +363,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   }, [bringToFront]);
 
   const toggleApp = useCallback((id: AppId) => {
+    setStartOpen(false);
+    setCalendarOpen(false);
+    setQuickSettingsOpen(false);
     const target = windows[id];
     if (!target) return;
 
@@ -415,6 +421,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
         activeAppId,
         isStartOpen,
         isCalendarOpen,
+        isQuickSettingsOpen,
+        isNightLight,
+        env,
         errors,
         bluescreen,
         enterWindowsMode,
@@ -429,6 +438,8 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
         updatePosition,
         setStartOpen,
         setCalendarOpen,
+        setQuickSettingsOpen,
+        setIsNightLight,
         triggerError,
         dismissError,
         triggerBluescreen,

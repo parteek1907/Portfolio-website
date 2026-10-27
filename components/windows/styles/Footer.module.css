@@ -227,7 +227,7 @@
 
 @media (max-width: 768px) {
 	.toolbarContainer .language,
-	.toolbarContainer .icon:first-of-type {
+	.hiddenIcons {
 		display: none;
 	}
 
@@ -236,7 +236,52 @@
 	}
 
 	.iconContainer {
-		max-width: calc(100vw - 120px);
-		overflow-x: auto;
+		gap: 2px;
+	}
+
+	.icon {
+		width: 36px;
+		height: 36px;
+		padding: 6px;
+	}
+
+	.systemCluster {
+		padding: 0 6px;
+		gap: 6px;
+	}
+
+	.dateTimeCluster {
+		padding: 2px 6px;
+	}
+
+	.dateText {
+		display: none;
+	}
+}
+
+@media (max-width: 480px) {
+	.container {
+		justify-content: flex-start;
+		padding-left: 6px;
+	}
+
+	.iconContainer {
+		position: static;
+		gap: 1px;
+	}
+
+	.icon {
+		width: 32px;
+		height: 32px;
+		padding: 5px;
+	}
+
+	.toolbarContainer {
+		right: 4px;
+		gap: 2px;
+	}
+
+	.timeText {
+		font-size: 0.70rem;
 	}
 }

@@ -1,0 +1,215 @@
+.flyout {
+	position: fixed;
+	bottom: 58px;
+	right: 12px;
+	z-index: 99995;
+	width: 360px;
+	max-width: calc(100vw - 24px);
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	background-color: #212121;
+	background-image: url('/images/darknoice.png');
+	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(24px);
+	color: #ffffff;
+	user-select: none;
+	overflow: hidden;
+	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+	padding: 16px;
+	box-sizing: border-box;
+}
+
+.flyout :is(h1, h2, h3, h4, h5, h6, p, span, button, div, label) {
+	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.topStatus {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: 14px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	margin-bottom: 14px;
+}
+
+.statusItem {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.statusIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background: rgba(255, 255, 255, 0.06);
+	color: #0078D4;
+}
+
+.statusIconOffline {
+	color: #ff5555 !important;
+	background: rgba(255, 85, 85, 0.15) !important;
+}
+
+.statusText {
+	display: flex;
+	flex-direction: column;
+}
+
+.statusTitle {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: #ffffff;
+	margin: 0;
+	line-height: 1.2;
+}
+
+.statusSub {
+	font-size: 0.68rem;
+	color: #999999;
+	margin: 0;
+	line-height: 1.2;
+}
+
+/* 3x2 Quick Action Tiles */
+.tilesGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.tile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 12px 6px;
+	border-radius: 8px;
+	background: #2b2b2b;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	color: #cccccc;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	text-align: center;
+	outline: none;
+}
+
+.tile:hover {
+	background: #363636;
+	color: #ffffff;
+	border-color: rgba(255, 255, 255, 0.14);
+}
+
+.tileActive {
+	background: #0078D4 !important;
+	border-color: #0086ee !important;
+	color: #ffffff !important;
+}
+
+.tileActive:hover {
+	background: #106ebe !important;
+}
+
+.tileIcon {
+	font-size: 1.25rem;
+}
+
+.tileLabel {
+	font-size: 0.72rem;
+	font-weight: 500;
+	margin: 0;
+	line-height: 1.2;
+}
+
+/* Volume Slider Section */
+.sliderSection {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 14px;
+	padding: 10px 12px;
+	background: rgba(0, 0, 0, 0.25);
+	border-radius: 8px;
+	border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sliderRow {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.sliderIconBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background: transparent;
+	border: none;
+	color: #ffffff;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+	outline: none;
+}
+
+.sliderIconBtn:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.rangeInput {
+	flex: 1;
+	height: 4px;
+	accent-color: #0078D4;
+	cursor: pointer;
+}
+
+.sliderNotice {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 0.68rem;
+	color: #888888;
+	margin: 0;
+}
+
+.simBadge {
+	font-size: 0.62rem;
+	padding: 1px 6px;
+	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.08);
+	color: #aaaaaa;
+	letter-spacing: 0.02em;
+}
+
+.realBadge {
+	font-size: 0.62rem;
+	padding: 1px 6px;
+	border-radius: 4px;
+	background: rgba(0, 120, 212, 0.2);
+	color: #60cdff;
+	border: 1px solid rgba(0, 120, 212, 0.35);
+}
+
+/* Footer Specs */
+.footerInfo {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 10px;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	font-size: 0.7rem;
+	color: #777777;
+}
+
+.deviceSpec {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}

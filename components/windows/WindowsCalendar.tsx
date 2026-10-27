@@ -24,22 +24,15 @@ interface CalendarDay {
 }
 
 export default function WindowsCalendar() {
-  const { isCalendarOpen, setCalendarOpen } = useWindows();
+  const { isCalendarOpen, setCalendarOpen, env } = useWindows();
   const calendarRef = useRef<HTMLDivElement>(null);
 
-  const [now, setNow] = useState<Date>(new Date());
-  const [viewDate, setViewDate] = useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [viewDate, setViewDate] = useState<Date>(() => new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [isFocusRunning, setIsFocusRunning] = useState(false);
   const [focusSecondsLeft, setFocusSecondsLeft] = useState(25 * 60);
 
-  // Live ticking clock
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setNow(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const now = env.now;
 
   // Focus timer countdown
   useEffect(() => {
@@ -79,7 +72,7 @@ export default function WindowsCalendar() {
   const currentYear = viewDate.getFullYear();
   const currentMonth = viewDate.getMonth();
 
-  const monthName = viewDate.toLocaleString("default", { month: "long" });
+  const monthName = viewDate.toLocaleString(env.locale || "default", { month: "long" });
 
   const isViewingCurrentMonth = 
     viewDate.getFullYear() === now.getFullYear() &&
@@ -201,7 +194,10 @@ export default function WindowsCalendar() {
           initial={{ opacity: 0, y: 18, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 14, scale: 0.96 }}
-          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            duration: env.prefersReducedMotion ? 0.05 : 0.18,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           className={styles.calendarFlyout}
           data-lenis-prevent="true"
         >
@@ -209,7 +205,7 @@ export default function WindowsCalendar() {
           <div className={styles.topSection}>
             <div>
               <h2>
-                {now.toLocaleDateString(undefined, {
+                {now.toLocaleDateString(env.locale, {
                   weekday: "long",
                   day: "numeric",
                   month: "long",
@@ -217,7 +213,7 @@ export default function WindowsCalendar() {
                 })}
               </h2>
               <div className={styles.liveTime}>
-                {now.toLocaleTimeString(undefined, {
+                {now.toLocaleTimeString(env.locale, {
                   hour: "2-digit",
                   minute: "2-digit",
                   second: "2-digit",

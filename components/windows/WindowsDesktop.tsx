@@ -11,6 +11,8 @@ import dynamic from "next/dynamic";
 import WindowsError from "./WindowsError";
 import WindowsBluescreen from "./WindowsBluescreen";
 import WindowsBootScreen from "./WindowsBootScreen";
+import WindowsQuickSettings from "./WindowsQuickSettings";
+import { IoGlobeOutline } from "react-icons/io5";
 import layoutStyles from "./styles/Layout.module.css";
 import iconStyles from "./styles/Icons.module.css";
 
@@ -35,21 +37,16 @@ export default function WindowsDesktop() {
     dismissError,
     bluescreen,
     dismissBluescreen,
+    isQuickSettingsOpen,
+    setQuickSettingsOpen,
+    isNightLight,
+    setIsNightLight,
+    env,
   } = useWindows();
 
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const [recycleDeleted, setRecycleDeleted] = useState(false);
   const [isBooting, setIsBooting] = useState(true);
-  const [isMobileScreen, setIsMobileScreen] = useState(false);
-
-  React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobileScreen(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   React.useEffect(() => {
     if (isWindowsMode) {
@@ -57,7 +54,7 @@ export default function WindowsDesktop() {
     }
   }, [isWindowsMode]);
 
-  if (!isWindowsMode || isMobileScreen) return null;
+  if (!isWindowsMode) return null;
 
   return (
     <>
@@ -92,7 +89,7 @@ export default function WindowsDesktop() {
                   className={`${iconStyles.item} ${isSelected ? iconStyles.selected : ""}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (selectedIcon === app.id || (typeof window !== "undefined" && window.innerWidth < 768)) {
+                    if (selectedIcon === app.id || env.isTouch || env.isMobile) {
                       openApp(app.id);
                       setSelectedIcon(null);
                     } else {
@@ -103,7 +100,7 @@ export default function WindowsDesktop() {
                     e.stopPropagation();
                     openApp(app.id);
                   }}
-                  title={`Double click to open ${app.title}`}
+                  title={env.isTouch ? `Tap to open ${app.title}` : `Double click to open ${app.title}`}
                 >
                   <Image
                     src={app.iconPath}
@@ -123,13 +120,18 @@ export default function WindowsDesktop() {
               className={`${iconStyles.item} ${selectedIcon === "trash" ? iconStyles.selected : ""}`}
               onClick={(e) => {
                 e.stopPropagation();
-                setSelectedIcon("trash");
+                if (selectedIcon === "trash" || env.isTouch || env.isMobile) {
+                  setRecycleDeleted(!recycleDeleted);
+                  setSelectedIcon(null);
+                } else {
+                  setSelectedIcon("trash");
+                }
               }}
               onDoubleClick={(e) => {
                 e.stopPropagation();
                 setRecycleDeleted(!recycleDeleted);
               }}
-              title="Recycle Bin (Double click to empty/restore)"
+              title={env.isTouch ? "Recycle Bin (Tap to empty/restore)" : "Recycle Bin (Double click to empty/restore)"}
             >
               <Image
                 src={recycleDeleted ? "/icons/trash/trash_full.png" : "/icons/trash/trash_empty.png"}
@@ -218,8 +220,36 @@ export default function WindowsDesktop() {
       {/* Windows 11 Real Calendar Flyout */}
       <WindowsCalendar />
 
+      {/* Windows 11 Quick Settings Flyout */}
+      <WindowsQuickSettings
+        isOpen={isQuickSettingsOpen}
+        onClose={() => setQuickSettingsOpen(false)}
+        env={env}
+        isNightLight={isNightLight}
+        onToggleNightLight={() => setIsNightLight(!isNightLight)}
+      />
+
       {/* Centered Windows 11 Taskbar */}
       <WindowsTaskbar />
+
+      {/* Simulated Night Light Filter */}
+      {isNightLight && (
+        <div
+          className="fixed inset-0 pointer-events-none z-[999990] bg-[#ff9900]/10 mix-blend-multiply transition-opacity duration-300"
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Real-time Network Offline Toast */}
+      {!env.network.isOnline && (
+        <div className="fixed top-4 right-4 z-[999992] bg-[#212121]/95 border border-red-500/40 text-white px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 backdrop-blur-md text-xs select-none">
+          <IoGlobeOutline size={18} className="text-red-400 shrink-0" />
+          <div>
+            <div className="font-semibold text-neutral-100">You are currently offline</div>
+            <div className="text-neutral-400 text-[11px]">Local system features & portfolio apps remain accessible.</div>
+          </div>
+        </div>
+      )}
     </div>
     </>
   );
