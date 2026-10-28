@@ -41,7 +41,11 @@ export default function WindowsDesktop() {
     isQuickSettingsOpen,
     setQuickSettingsOpen,
     isNightLight,
-    setIsNightLight,
+    toggleNightLight,
+    brightness,
+    setBrightness,
+    isBatterySaver,
+    toggleBatterySaver,
     windowsTheme,
     toggleWindowsTheme,
     env,
@@ -235,8 +239,12 @@ export default function WindowsDesktop() {
         isOpen={isQuickSettingsOpen}
         onClose={() => setQuickSettingsOpen(false)}
         env={env}
+        brightness={brightness}
+        setBrightness={setBrightness}
+        isBatterySaver={isBatterySaver}
+        onToggleBatterySaver={toggleBatterySaver}
         isNightLight={isNightLight}
-        onToggleNightLight={() => setIsNightLight(!isNightLight)}
+        onToggleNightLight={toggleNightLight}
         windowsTheme={windowsTheme}
         onToggleTheme={toggleWindowsTheme}
       />
@@ -244,10 +252,26 @@ export default function WindowsDesktop() {
       {/* Centered Windows 11 Taskbar */}
       <WindowsTaskbar />
 
-      {/* Simulated Night Light Filter */}
+      {/* Real-time Screen Brightness Dimming Overlay */}
+      {brightness < 100 && (
+        <div
+          className="fixed inset-0 pointer-events-none z-[999980] bg-black transition-opacity duration-150"
+          style={{
+            opacity: Math.max(0, Math.min(0.85, (100 - brightness) * 0.0075)),
+          }}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Windows 11 Night Light Warm Filter */}
       {isNightLight && (
         <div
-          className="fixed inset-0 pointer-events-none z-[999990] bg-[#ff9900]/10 mix-blend-multiply transition-opacity duration-300"
+          className="fixed inset-0 pointer-events-none z-[999990] transition-opacity duration-300"
+          style={{
+            backgroundColor: "rgba(255, 145, 20, 0.12)",
+            backdropFilter: "sepia(28%) saturate(110%)",
+            WebkitBackdropFilter: "sepia(28%) saturate(110%)",
+          }}
           aria-hidden="true"
         />
       )}

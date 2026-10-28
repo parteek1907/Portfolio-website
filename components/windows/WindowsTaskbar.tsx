@@ -67,6 +67,7 @@ export default function WindowsTaskbar() {
     setCalendarOpen,
     isQuickSettingsOpen,
     setQuickSettingsOpen,
+    isBatterySaver,
     env,
     windows,
     minimizeApp
@@ -201,12 +202,25 @@ export default function WindowsTaskbar() {
             <AudioIcon size={18} />
           </div>
           <div
-            className={styles.trayIcon}
-            title={`Battery: ${env.battery.level}% (${env.battery.charging ? "Plugged in" : "Battery power"}, ${
-              env.battery.isRealData ? "Real device status" : "Simulated AC Power"
-            })`}
+            className={`${styles.trayIcon} relative`}
+            title={`Battery: ${env.battery.level}% (${
+              isBatterySaver
+                ? "Battery Saver Active"
+                : env.battery.charging
+                ? "Plugged in"
+                : "Battery power"
+            }, ${env.battery.isRealData ? "Real device status" : "Simulated AC Power"})`}
           >
             <BatteryIcon size={20} />
+            {isBatterySaver && (
+              <span
+                className="absolute -top-1 -right-1 text-[11px] leading-none select-none drop-shadow-sm"
+                title="Battery Saver Active"
+                aria-label="Battery Saver active"
+              >
+                🍃
+              </span>
+            )}
           </div>
         </div>
 

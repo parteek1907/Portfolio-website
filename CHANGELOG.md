@@ -28,9 +28,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
     - Curated Social Links in Recommended section: direct navigation to GitHub, LinkedIn, Twitter/X, and Email.
     - User account footer with avatar, name, and power options (Shut Down / Exit OS, Restart, Lock).
   - **Windows Quick Settings Action Center (`WindowsQuickSettings.tsx`):**
-    - Toggle tiles for Wi-Fi, Bluetooth, Dark Mode, Focus Session, Airplane Mode, and Night Light.
-    - Real-time interactive sliders for Display Brightness (controls desktop overlay lighting) and Audio Volume with sound feedback.
-    - Network status, battery health indicators, and direct shortcut to Settings app.
+    - Toggle tiles for Wi-Fi, Bluetooth, Dark Mode, Night Light, Battery Saver, and Airplane Mode.
+    - **Functional Screen Brightness Control:** Real-time dimming overlay adjusting desktop and window luminosity from 10% to 100%, with interactive sun icon button to cycle levels (100% / 50% / 20%) and `localStorage` persistence.
+    - **Functional Battery Saver Mode:** Automatically dims brightness to 50% to conserve simulated battery power, displays vibrant green leaf telemetry badges in the system tray and Quick Settings footer, and restores previous brightness when turned off.
+    - **Authentic Windows 11 Night Light:** Warm amber blue-light reduction filter (`sepia(28%) saturate(110%)` with `rgba(255, 145, 20, 0.12)`) shifting screen temperature across all active windows and desktop surfaces with persistence.
+    - Audio Volume slider with sound feedback and mute toggles.
   - **Live Calendar & Clock Flyout (`WindowsCalendar.tsx`):**
     - Isolated 1-second interval ticking digital clock displaying hours, minutes, seconds, and date.
     - Full monthly calendar grid with month traversal, "Go to today" jump, and selected date tracking.

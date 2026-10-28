@@ -20,6 +20,10 @@ interface WindowsQuickSettingsProps {
   isOpen: boolean;
   onClose: () => void;
   env: SystemEnvironment;
+  brightness: number;
+  setBrightness: React.Dispatch<React.SetStateAction<number>>;
+  isBatterySaver: boolean;
+  onToggleBatterySaver: () => void;
   isNightLight: boolean;
   onToggleNightLight: () => void;
   windowsTheme: "dark" | "light";
@@ -49,6 +53,10 @@ export default function WindowsQuickSettings({
   isOpen,
   onClose,
   env,
+  brightness,
+  setBrightness,
+  isBatterySaver,
+  onToggleBatterySaver,
   isNightLight,
   onToggleNightLight,
   windowsTheme,
@@ -60,8 +68,14 @@ export default function WindowsQuickSettings({
   const [wifiManualOverride, setWifiManualOverride] = useState<boolean | null>(null);
   const [isBluetoothOn, setIsBluetoothOn] = useState(false);
   const [isFlightMode, setIsFlightMode] = useState(false);
-  const [isBatterySaver, setIsBatterySaver] = useState(false);
-  const [brightness, setBrightness] = useState(100);
+
+  const handleCycleBrightness = () => {
+    setBrightness((prev) => {
+      if (prev > 75) return 50;
+      if (prev > 35) return 20;
+      return 100;
+    });
+  };
 
   const isWifiOn = isFlightMode ? false : wifiManualOverride !== null ? wifiManualOverride : env.network.isOnline;
 
@@ -170,9 +184,9 @@ export default function WindowsQuickSettings({
             <div className={styles.tileCol}>
               <button
                 type="button"
-                onClick={() => setIsBatterySaver(!isBatterySaver)}
+                onClick={onToggleBatterySaver}
                 className={`${styles.tileBtn} ${isBatterySaver ? styles.tileBtnActive : ""}`}
-                title={`Battery Saver: ${isBatterySaver ? "On" : "Off"}`}
+                title={`Battery Saver: ${isBatterySaver ? "On (Conserving power, screen dimmed)" : "Off"}`}
                 aria-label="Battery Saver"
               >
                 <IoLeafOutline size={19} />
@@ -200,7 +214,7 @@ export default function WindowsQuickSettings({
                 type="button"
                 onClick={onToggleNightLight}
                 className={`${styles.tileBtn} ${isNightLight ? styles.tileBtnActive : ""}`}
-                title={`Night Light: ${isNightLight ? "On" : "Off"}`}
+                title={`Night Light: ${isNightLight ? "On (Warm screen filter active)" : "Off"}`}
                 aria-label="Night Light"
               >
                 <BsSun size={19} />
@@ -211,11 +225,17 @@ export default function WindowsQuickSettings({
 
           {/* Sliders Container: Brightness & Volume */}
           <div className={styles.slidersContainer}>
-            {/* Brightness Slider */}
+            {/* Brightness Slider with Interactive Icon Button */}
             <div className={styles.sliderRow}>
-              <div className={styles.sliderIcon} title="Screen Brightness">
+              <button
+                type="button"
+                onClick={handleCycleBrightness}
+                className={`${styles.sliderIcon} hover:opacity-80 transition-opacity cursor-pointer border-none bg-transparent p-0 outline-none flex items-center justify-center`}
+                title={`Screen Brightness: ${brightness}% (Click to cycle 100% / 50% / 20%)`}
+                aria-label="Cycle screen brightness level"
+              >
                 <IoSunnyOutline size={18} />
-              </div>
+              </button>
               <input
                 type="range"
                 min="10"
@@ -261,11 +281,22 @@ export default function WindowsQuickSettings({
             </div>
           </div>
 
-          {/* Bottom Bar: Battery Status (Exact matching Image 1) */}
+          {/* Bottom Bar: Battery Status */}
           <div className={styles.footerBar}>
             <div className={styles.batteryStatus}>
-              <BatteryFooterIcon size={18} />
-              <span>{env.battery.level > 0 ? env.battery.level : 74}%</span>
+              {isBatterySaver ? (
+                <IoLeafOutline size={18} className="text-emerald-400" />
+              ) : (
+                <BatteryFooterIcon size={18} />
+              )}
+              <span className="flex items-center gap-1.5">
+                <span>{env.battery.level > 0 ? env.battery.level : 74}%</span>
+                {isBatterySaver && (
+                  <span className="text-[11px] text-emerald-400 font-medium">
+                    • Battery Saver on
+                  </span>
+                )}
+              </span>
             </div>
           </div>
         </motion.div>

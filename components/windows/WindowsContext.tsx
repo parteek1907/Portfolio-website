@@ -157,6 +157,12 @@ export interface WindowsContextValue {
   isCalendarOpen: boolean;
   isQuickSettingsOpen: boolean;
   isNightLight: boolean;
+  toggleNightLight: () => void;
+  brightness: number;
+  setBrightness: React.Dispatch<React.SetStateAction<number>>;
+  isBatterySaver: boolean;
+  setIsBatterySaver: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleBatterySaver: () => void;
   windowsTheme: WindowsTheme;
   setWindowsTheme: (theme: WindowsTheme) => void;
   toggleWindowsTheme: () => void;
@@ -201,7 +207,10 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const [isStartOpen, setStartOpen] = useState(false);
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [isQuickSettingsOpen, setQuickSettingsOpen] = useState(false);
-  const [isNightLight, setIsNightLight] = useState(false);
+  const [isNightLight, setIsNightLightState] = useState(false);
+  const [brightness, setBrightnessState] = useState(100);
+  const [isBatterySaver, setIsBatterySaverState] = useState(false);
+  const prevBrightnessRef = useRef<number>(100);
   const [activeAppId, setActiveAppId] = useState<AppId | null>(null);
   const [, setTopZIndex] = useState(100);
   const [errors, setErrors] = useState<ErrorType[]>([]);
@@ -250,6 +259,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
 
     if (isOs || hasOsQuery) {
       if (isDesktopSupported()) {
+        try {
+          sessionStorage.setItem("parteek_os_entered_session", "true");
+        } catch {}
         setIsWindowsMode(true);
         // If entering direct OS view, auto-open About Me if no other window is open
         setWindows((prev) => {
@@ -290,6 +302,22 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
       if (savedTheme === "light" || savedTheme === "dark") {
         setWindowsThemeState(savedTheme);
       }
+      const savedBrightness = localStorage.getItem("parteek_os_brightness");
+      if (savedBrightness) {
+        const parsed = parseInt(savedBrightness, 10);
+        if (!isNaN(parsed) && parsed >= 10 && parsed <= 100) {
+          setBrightnessState(parsed);
+          prevBrightnessRef.current = parsed;
+        }
+      }
+      const savedBatterySaver = localStorage.getItem("parteek_os_battery_saver");
+      if (savedBatterySaver === "true") {
+        setIsBatterySaverState(true);
+      }
+      const savedNightLight = localStorage.getItem("parteek_os_night_light");
+      if (savedNightLight === "true") {
+        setIsNightLightState(true);
+      }
     } catch {}
   }, []);
 
@@ -307,6 +335,77 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem("parteek_os_theme", nextTheme);
       } catch {}
       return nextTheme;
+    });
+  }, []);
+
+  const setBrightness = useCallback((action: React.SetStateAction<number>) => {
+    setBrightnessState((prev) => {
+      const next = typeof action === "function" ? action(prev) : action;
+      const clamped = Math.max(10, Math.min(100, Math.round(next)));
+      try {
+        localStorage.setItem("parteek_os_brightness", String(clamped));
+      } catch {}
+      return clamped;
+    });
+  }, []);
+
+  const toggleBatterySaver = useCallback(() => {
+    setIsBatterySaverState((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("parteek_os_battery_saver", String(next));
+      } catch {}
+      if (next) {
+        // Battery saver turns on: save current brightness, drop to 50% if higher
+        setBrightnessState((current) => {
+          prevBrightnessRef.current = current;
+          const dimmed = Math.min(current, 50);
+          try {
+            localStorage.setItem("parteek_os_brightness", String(dimmed));
+          } catch {}
+          return dimmed;
+        });
+      } else {
+        // Battery saver turns off: restore previous brightness
+        setBrightnessState(() => {
+          const restored = prevBrightnessRef.current || 100;
+          try {
+            localStorage.setItem("parteek_os_brightness", String(restored));
+          } catch {}
+          return restored;
+        });
+      }
+      return next;
+    });
+  }, []);
+
+  const setIsBatterySaver = useCallback((action: React.SetStateAction<boolean>) => {
+    setIsBatterySaverState((prev) => {
+      const next = typeof action === "function" ? action(prev) : action;
+      try {
+        localStorage.setItem("parteek_os_battery_saver", String(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
+  const setIsNightLight = useCallback((action: React.SetStateAction<boolean>) => {
+    setIsNightLightState((prev) => {
+      const next = typeof action === "function" ? action(prev) : action;
+      try {
+        localStorage.setItem("parteek_os_night_light", String(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
+  const toggleNightLight = useCallback(() => {
+    setIsNightLightState((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("parteek_os_night_light", String(next));
+      } catch {}
+      return next;
     });
   }, []);
 
@@ -334,6 +433,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   }, [isWindowsMode]);
 
   const enterWindowsMode = useCallback(() => {
+    try {
+      sessionStorage.setItem("parteek_os_entered_session", "true");
+    } catch {}
     if (!isDesktopSupported()) {
       setIsDesktopRequiredModalOpen(true);
       return;
@@ -584,6 +686,12 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     isCalendarOpen,
     isQuickSettingsOpen,
     isNightLight,
+    toggleNightLight,
+    brightness,
+    setBrightness,
+    isBatterySaver,
+    setIsBatterySaver,
+    toggleBatterySaver,
     windowsTheme,
     setWindowsTheme,
     toggleWindowsTheme,
@@ -620,6 +728,12 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     isCalendarOpen,
     isQuickSettingsOpen,
     isNightLight,
+    toggleNightLight,
+    brightness,
+    setBrightness,
+    isBatterySaver,
+    setIsBatterySaver,
+    toggleBatterySaver,
     windowsTheme,
     setWindowsTheme,
     toggleWindowsTheme,
