@@ -2,6 +2,7 @@
 
 <div align="center">
 
+[![Version](https://img.shields.io/badge/Version-2.0.0-3178C6?style=flat-square)](./CHANGELOG.md)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.6-000000?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.3-61DAFB?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -9,11 +10,11 @@
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.34.3-FF0050?style=flat-square&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![EmailJS](https://img.shields.io/badge/EmailJS-4.4.1-FFA500?style=flat-square)](https://www.emailjs.com/)
-[![Netlify](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://www.netlify.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
 
-**A modern, animated developer portfolio featuring a cinematic 3D particle intro, custom neural-node cursor, scroll-triggered animations, and immersive project detail overlays — all statically exported with Next.js 16.**
+**A dual-experience engineering portfolio serving both a high-end dark editorial showcase with 3D WebGL particle physics and an interactive Windows 11 desktop environment ("Parteek OS") from a single Next.js deployment.**
 
-[How It Works](#-how-it-works) · [Features](#-features) · [Tech Stack](#-tech-stack) · [Getting Started](#-getting-started) · [Deployment](#-deployment)
+[Parteek OS Architecture](#-parteek-os-dual-experience-architecture) · [How It Works](#-how-it-works) · [Features](#-features) · [Tech Stack](#-tech-stack) · [Changelog](./CHANGELOG.md)
 
 </div>
 
@@ -21,9 +22,33 @@
 
 ## 📌 Project Overview
 
-This portfolio is a single-page application with immersive project detail overlays, built around three engineering principles: **visual storytelling** (a cinematic 3D particle intro that transitions from sphere formation to neural network), **performance-aware animation** (Three.js with mobile-optimized particle counts, `useRef`-driven cursor tracking with zero React re-renders, and lazy-loaded below-fold sections), and **static-first architecture** (full `next export` output — no server required, deployable to any CDN).
+This portfolio serves two complementary experiences powered by hostname-based edge routing from a single unified codebase:
 
-The site consists of 7 main sections (Hero, About, Skills, Projects, Contact, Footer, 404) with detailed project case studies loading seamlessly via dynamic modals, all orchestrated through a loading context that coordinates the intro animation sequence before revealing content.
+1. **Editorial Portfolio (`parteekgarg.in` & `www.parteekgarg.in`):** An editorial developer presentation emphasizing **visual storytelling** (cinematic 3D particle intro transitioning from Fibonacci sphere to neural network), **performance-first animation** (Three.js with mobile-optimized particle counts, `useRef`-driven cursor tracking with zero React re-renders, and Lenis smooth scrolling), and deep interactive case studies via dynamic modals.
+2. **Parteek OS (`os.parteekgarg.in` or via "Enter OS"):** A desktop-native simulation of Windows 11 featuring draggable/resizable/snappable windows, centered Fluent taskbar, acrylic Mica Start Menu, live digital clock and agenda calendar, quick-settings control center, functional calculator, MINGW64 command prompt terminal, text editor, and interactive system apps.
+
+---
+
+## 🖥️ Parteek OS & Dual-Experience Architecture
+
+```
+                                  Incoming Request
+                                         │
+                                         ▼
+                             Next.js Edge Middleware
+                                 (middleware.ts)
+                                         │
+                 ┌───────────────────────┴───────────────────────┐
+                 ▼                                               ▼
+       parteekgarg.in / www                            os.parteekgarg.in
+                 │                                               │
+                 ▼                                               ▼
+      Editorial Mode Active                           Direct Boot: Parteek OS
+  - 3D WebGL Intro Canvas                        - Windows 11 Desktop & Taskbar
+  - Lenis Editorial Scroll                       - Floating Draggable Windows
+  - Projects & Timeline                          - Mica Start Menu & Control Center
+  - "Enter OS" Mode Toggle                       - Live Clock, Calc & Terminal
+```
 
 ---
 
@@ -370,6 +395,20 @@ For other providers (Vercel, Cloudflare Pages, GitHub Pages), use the static `ou
 ---
 
 ## 📋 Changelog
+
+*(Full version history and detailed change breakdown available in [CHANGELOG.md](./CHANGELOG.md))*
+
+### v2.0.0 — October 2026 *(The Parteek OS & Dual-Experience Architecture Update)*
+- **Multi-Domain Dual Experience:** Architectural integration enabling `parteekgarg.in` (editorial showcase) and `os.parteekgarg.in` (Parteek OS) to be served seamlessly from a single Vercel deployment with edge rewrite middleware (`middleware.ts`).
+- **Complete Windows 11 Desktop Simulation (`components/windows/`):** Full multi-window desktop with dynamic z-index management, draggable/resizable windows, window snapping, maximize/restore, minimize, and `Alt+F4` shortcuts.
+- **Centered Fluent Taskbar & Acrylic Start Menu:** Windows 11-style taskbar with running app indicators and system tray; Mica-styled Start Menu with real-time app search, curated Pinned Apps, social shortcuts, and user power actions.
+- **Windows Quick Settings Action Center:** Interactive toggles (Wi-Fi, Bluetooth, Dark Mode, Night Light), live brightness and audio volume sliders, battery health status, and direct Settings link.
+- **Live Digital Clock & Agenda Flyout:** Isolated 1-second interval live digital clock and monthly calendar with instant focus sync and visibility protection.
+- **Full Windows 11 Standard Calculator:** Built-in standard calculator featuring slate grey casing, bright cyan LCD display, deep blue action button, memory/percentage functions, and physical keyboard support.
+- **Windows Command Prompt Terminal:** Interactive command prompt with `C:\Users\ParteekOS>` prompt, MINGW64 environment banner, and utility commands (`help`, `dir`, `ver`, `cls`, `whoami`, `about`, `projects`, `skills`, `hackathons`, `certifications`, `resume`, `contact`).
+- **Desktop Applications Suite:** File Explorer with breadcrumbs, Notepad text editor with line/col stats, interactive Hackathon Tracker with filterable victories, verified Certifications Browser, formatted Resume App, and EmailJS Contact App.
+- **Desktop Experience Guardrail:** Editorial modal (`DesktopRequiredModal.tsx`) gently directing mobile screen visitors ($< 1024\text{px}$) to experience Parteek OS on laptop or desktop screens with smart return navigation.
+- **Dynamic Tab Title:** Automatic tab title update to `Parteek Garg | OS` while in OS mode with zero title flash during page load.
 
 ### v1.6.0 — October 2026 *(The Editorial Architecture & Experience Polish Update)*
 - **Editorial Hero Section Redesign:** Re-architected the hero into a clean, single-viewport editorial composition with serif headline typography (`"I build things that solve real problems."`), letter-spaced `PARTEEK GARG` eyebrow, and underline action links with diagonal arrow accents.

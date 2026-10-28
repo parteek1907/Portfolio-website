@@ -1,0 +1,365 @@
+.calcContainer {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #202020;
+	color: #ffffff;
+	user-select: none;
+	font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.calcHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 6px 14px 2px 14px;
+	height: 34px;
+	flex-shrink: 0;
+}
+
+.modeTitle {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: #ffffff;
+	margin: 0;
+}
+
+.headerIconBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 4px;
+	background: transparent;
+	border: none;
+	color: #cccccc;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.headerIconBtn:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+	color: #ffffff;
+}
+
+.headerIconBtnActive {
+	background-color: rgba(255, 255, 255, 0.12) !important;
+	color: #4cc2ff !important;
+}
+
+/* Display Area */
+.displayArea {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-end;
+	padding: 4px 18px 10px 18px;
+	min-height: 72px;
+	flex-shrink: 0;
+}
+
+.expression {
+	font-size: 12px;
+	color: #888888;
+	min-height: 16px;
+	margin-bottom: 2px;
+	font-weight: 400;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	text-align: right;
+}
+
+.mainNumber {
+	font-size: 40px;
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	text-align: right;
+}
+
+.mainNumberSmall {
+	font-size: 28px;
+}
+
+/* Memory Row */
+.memoryRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 10px 4px 10px;
+	flex-shrink: 0;
+}
+
+.memBtn {
+	font-size: 11px;
+	font-weight: 500;
+	background: transparent;
+	border: none;
+	color: #777777;
+	padding: 3px 7px;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: all 0.12s ease;
+}
+
+.memBtn:hover:not(:disabled) {
+	background: rgba(255, 255, 255, 0.06);
+	color: #ffffff;
+}
+
+.memBtnActive {
+	color: #ffffff !important;
+}
+
+.memBtn:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+/* Keypad Grid */
+.keypad {
+	flex: 1;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 2px;
+	padding: 4px 6px 6px 6px;
+	box-sizing: border-box;
+}
+
+.key {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	font-size: 14.5px;
+	font-weight: 400;
+	border: 1px solid rgba(255, 255, 255, 0.04);
+	cursor: pointer;
+	transition: background-color 0.1s ease, transform 0.05s ease;
+	outline: none;
+	user-select: none;
+	box-sizing: border-box;
+}
+
+.key:active {
+	transform: scale(0.97);
+}
+
+/* Number Key Style */
+.keyNumber {
+	background-color: #3b3b3b;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.keyNumber:hover {
+	background-color: #323232;
+}
+
+/* Function & Operator Key Style */
+.keyOperator {
+	background-color: #323232;
+	color: #e5e5e5;
+	font-size: 14px;
+}
+
+.keyOperator:hover {
+	background-color: #3e3e3e;
+	color: #ffffff;
+}
+
+/* Equals Key Style (Accent) */
+.keyEquals {
+	background-color: #4cc2ff !important;
+	color: #000000 !important;
+	font-size: 18px !important;
+	font-weight: 600 !important;
+	border: none !important;
+}
+
+.keyEquals:hover {
+	background-color: #60cdff !important;
+}
+
+/* History Drawer */
+.historyDrawer {
+	position: absolute;
+	top: 38px;
+	right: 0;
+	bottom: 0;
+	width: 200px;
+	background: #1c1c1c;
+	border-left: 1px solid rgba(255, 255, 255, 0.08);
+	display: flex;
+	flex-direction: column;
+	z-index: 10;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.historyHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 12px;
+	font-weight: 600;
+	color: #888888;
+	margin-bottom: 8px;
+}
+
+.historyList {
+	flex: 1;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.historyItem {
+	padding: 6px;
+	border-radius: 4px;
+	cursor: pointer;
+	text-align: right;
+	transition: background 0.12s ease;
+}
+
+.historyItem:hover {
+	background: rgba(255, 255, 255, 0.06);
+}
+
+.historyExp {
+	font-size: 11px;
+	color: #888888;
+}
+
+.historyRes {
+	font-size: 16px;
+	font-weight: 600;
+	color: #ffffff;
+}
+
+.clearHistoryBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 6px;
+	border-radius: 4px;
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size: 11.5px;
+	cursor: pointer;
+	margin-top: 6px;
+}
+
+.clearHistoryBtn:hover {
+	background: rgba(255, 255, 255, 0.06);
+	color: #ff5555;
+}
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - CALCULATOR
+   ========================================================= */
+:global([data-win-theme="light"]) .calcContainer {
+	background-color: #f3f3f3;
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .modeTitle {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .headerIconBtn {
+	color: #555555;
+}
+
+:global([data-win-theme="light"]) .headerIconBtn:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .headerIconBtnActive {
+	background-color: rgba(0, 0, 0, 0.1) !important;
+	color: #0067c0 !important;
+}
+
+:global([data-win-theme="light"]) .expression {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .mainNumber {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .memBtn {
+	color: #777777;
+}
+
+:global([data-win-theme="light"]) .memBtn:hover:not(:disabled) {
+	background: rgba(0, 0, 0, 0.05);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .memBtnActive {
+	color: #1c1c1c !important;
+}
+
+:global([data-win-theme="light"]) .keyNumber {
+	background-color: #ffffff;
+	color: #1c1c1c;
+	border-color: rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .keyNumber:hover {
+	background-color: #f5f5f5;
+}
+
+:global([data-win-theme="light"]) .keyOperator {
+	background-color: #f8f8f8;
+	color: #1c1c1c;
+	border-color: rgba(0, 0, 0, 0.05);
+}
+
+:global([data-win-theme="light"]) .keyOperator:hover {
+	background-color: #eeeeee;
+}
+
+:global([data-win-theme="light"]) .keyEquals {
+	background-color: #0067c0 !important;
+	color: #ffffff !important;
+}
+
+:global([data-win-theme="light"]) .keyEquals:hover {
+	background-color: #106ebe !important;
+}
+
+:global([data-win-theme="light"]) .historyDrawer {
+	background: #ffffff;
+	border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+:global([data-win-theme="light"]) .historyExp {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .historyRes {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .historyItem:hover {
+	background: rgba(0, 0, 0, 0.05);
+}

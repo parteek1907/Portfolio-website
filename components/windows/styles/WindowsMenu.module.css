@@ -1,382 +1,396 @@
 .overflow {
 	position: fixed;
 	right: 0;
-	bottom: 50px;
+	bottom: 58px;
 	left: 0;
-	z-index: 997;
-	overflow: hidden;
-	width: 35rem;
-	max-width: calc(100vw - 20px);
-	height: 35rem;
-	max-height: calc(100vh - 70px);
-	margin: auto;
+	z-index: 99995;
+	width: 620px;
+	max-width: calc(100vw - 24px);
+	height: 640px;
+	max-height: calc(100vh - 75px);
+	margin: 0 auto;
 	pointer-events: none;
 }
 
 .winMenu {
-	position: absolute;
-	width: 100%;
-	height: calc(100% - 10px);
-	transition: all 0.4s ease-in-out;
-	pointer-events: auto;
-}
-
-.winMenuContainer {
-	position: absolute;
-	z-index: 2;
-	width: 100%;
-	height: 100%;
-	padding: 24px;
-	border-radius: 15px;
-	display: flex;
-	flex-direction: column;
-	box-sizing: border-box;
-}
-
-.winMenuBg {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	border: 1px solid rgb(128 128 128 / 27.5%);
-	border-radius: 15px;
-	background-color: #212121;
-	background-image: url('/images/darknoice.png');
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
-	opacity: 0.98;
-}
-
-.winMenuSearch {
-	width: 100%;
-}
-
-.winMenuSearch input[type='text'] {
-	box-sizing: border-box;
-	width: 100%;
-	margin: 4px 0 12px 0;
-	padding: 8px 12px 8px 40px;
-	border: 1px solid rgb(128 128 128 / 17.2%);
-	border-bottom: 2px solid #0078D4;
-	border-radius: 4px;
-	background-color: #1a1a1a;
-	color: #c6c6c6;
-	outline: none;
-	font-size: 0.8rem;
-}
-
-.winMenuSearch .inputWithIcon {
 	position: relative;
-	color: #c6c6c6;
-}
-
-.winMenuSearch .inputWithIcon svg {
-	position: absolute;
-	top: 50%;
-	left: 10px;
-	transform: translateY(-50%);
-	font-size: 1.1rem;
-	color: #888;
-}
-
-.winMenuPinned {
+	width: 100%;
+	height: 100%;
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	background-color: rgba(32, 32, 32, 0.88);
+	background-image: url('/images/darknoice.png');
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+	backdrop-filter: blur(40px) saturate(180%);
+	color: #ffffff;
+	user-select: none;
+	overflow: hidden;
+	font-family: 'Segoe UI Custom', 'Segoe UI', system-ui, -apple-system, Tahoma, Geneva, Verdana, sans-serif !important;
+	pointer-events: auto;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
-	gap: 16px;
-	height: calc(100% - 95px);
+	box-sizing: border-box;
+}
+
+.winMenu :is(h1, h2, h3, h4, h5, h6, p, span, button, div, label) {
+	font-family: 'Segoe UI Custom', 'Segoe UI', system-ui, -apple-system, Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.winMenuScrollArea {
+	flex: 1;
+	padding: 32px 32px 16px 32px;
 	overflow-y: auto;
 	overscroll-behavior: contain;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
-.winMenuPinnedTop {
+/* Custom Scrollbar */
+.winMenuScrollArea::-webkit-scrollbar {
+	width: 4px;
+}
+.winMenuScrollArea::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.15);
+	border-radius: 4px;
+}
+
+/* Pinned Header */
+.sectionHeader {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 6px;
-	margin-bottom: 8px;
+	padding: 0 4px;
+	margin-bottom: 4px;
 }
 
-.winMenuPinnedTop p {
-	font-size: 0.65rem;
-	color: #fff;
-	margin: 0;
-}
-
-.winMenuPinnedTop h2 {
-	color: #fff;
-	font-size: 0.85rem;
+.sectionTitle {
+	font-size: 13.5px;
 	font-weight: 600;
+	color: #ffffff;
 	margin: 0;
+	letter-spacing: -0.01em;
 }
 
-.winMenuPinnedTop div:nth-child(2) {
+.allAppsBtn {
 	display: flex;
-	gap: 5px;
 	align-items: center;
-	justify-content: center;
+	gap: 4px;
 	height: 24px;
 	padding: 0 8px;
 	border-radius: 4px;
-	background-color: #353636;
-	color: #fff;
-	font-size: 0.75rem;
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	color: #ffffff;
+	font-size: 11.5px;
+	font-weight: 400;
 	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+	outline: none;
 }
 
-.winMenuPinnedBottom {
+.allAppsBtn:hover {
+	background: rgba(255, 255, 255, 0.12);
+	border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 5 Columns Pinned Apps Grid (10 Real Functional Apps) */
+.pinnedGrid {
 	display: grid;
-	grid-template-columns: repeat(6, 1fr);
-	gap: 8px;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 12px 6px;
 	text-align: center;
 }
 
-.pinnedTile {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	align-items: center;
-	justify-content: center;
-	height: 72px;
-	padding: 6px;
-	border-radius: 6px;
-	cursor: pointer;
-	text-decoration: none;
-	transition: background-color 0.15s ease-in-out;
-}
-
-.pinnedTile:hover {
-	background-color: #353636;
-}
-
-.pinnedTile p {
-	color: #fff;
-	font-size: 0.68rem;
-	margin: 0;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	width: 100%;
-}
-
-.winMenuPinnedContainer {
-	padding: 0 10px;
-}
-
-.winMenuRecommendedBottom {
+.pinnedItem {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
-	margin-top: 6px;
-}
-
-.winMenuRecommendedItem {
-	display: flex;
-	gap: 8px;
-	width: 100%;
-}
-
-.recommendedTile {
-	display: flex;
-	gap: 8px;
 	align-items: center;
-	width: 50%;
-	padding: 6px 10px;
+	justify-content: center;
+	height: 76px;
+	padding: 6px 4px;
 	border-radius: 6px;
 	cursor: pointer;
 	text-decoration: none;
-	transition: background-color 0.15s ease-in-out;
+	transition: background-color 0.15s ease, transform 0.1s ease;
+	border: 1px solid transparent;
+	box-sizing: border-box;
 }
 
-.recommendedTile:hover {
-	background-color: #2e2e2e;
+.pinnedItem:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+	border-color: rgba(255, 255, 255, 0.04);
 }
 
-.recommendedTile p {
-	color: #fff;
-	font-size: 0.72rem;
+.pinnedItem:active {
+	transform: scale(0.96);
+}
+
+.pinnedIconWrap {
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.pinnedLabel {
+	color: #ffffff;
+	font-size: 11px;
+	font-weight: 400;
 	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	line-height: 1.2;
+}
+
+/* Recommended Section */
+.recommendedSection {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.recommendedGrid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 6px 12px;
+}
+
+.recommendedItem {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	padding: 8px 12px;
+	border-radius: 6px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.15s ease, transform 0.1s ease;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+}
+
+.recommendedItem:hover {
+	background-color: rgba(255, 255, 255, 0.07);
+	border-color: rgba(255, 255, 255, 0.04);
+}
+
+.recommendedItem:active {
+	transform: scale(0.98);
+}
+
+.recommendedIconWrap {
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.recommendedTextWrap {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.recommendedTitle {
+	color: #ffffff;
+	font-size: 12px;
+	font-weight: 500;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 1.2;
+}
+
+.recommendedSub {
+	font-size: 10.5px;
+	color: #999999;
+	margin-top: 2px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.recommendedTile span {
-	font-size: 0.62rem;
-	color: #888;
-}
-
+/* Footer Section: User Profile & Power */
 .winMenuFooter {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	z-index: 3;
+	height: 56px;
+	padding: 0 28px;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+	border-radius: 0 0 12px 12px;
+	background-color: rgba(0, 0, 0, 0.28);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 100%;
-	height: 48px;
-	padding: 0 20px;
-	border-top: 1px solid rgb(128 128 128 / 27.5%);
-	border-radius: 0 0 15px 15px;
-	background-color: rgb(0 0 0 / 25%);
-	color: #fff;
-	font-size: 1.1rem;
+	color: #ffffff;
 	box-sizing: border-box;
+	flex-shrink: 0;
 }
 
-.winMenuFooter p {
-	font-size: 0.8rem;
-	margin: 0;
-	color: #fff;
-}
-
-.winMenuFooter div {
+.userChip {
 	display: flex;
-	gap: 10px;
 	align-items: center;
+	gap: 10px;
+	padding: 5px 10px;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+	user-select: none;
 }
 
-.winMenuFooter img {
+.userChip:hover {
+	background-color: rgba(255, 255, 255, 0.07);
+}
+
+.userAvatar {
+	width: 30px;
+	height: 30px;
 	border-radius: 50%;
+	object-fit: cover;
+}
+
+.userName {
+	font-size: 12.5px;
+	font-weight: 500;
+	margin: 0;
+	color: #ffffff;
 }
 
 .powerBtn {
-	padding: 8px;
-	border-radius: 6px;
-	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 6px;
+	cursor: pointer;
+	color: #ffffff;
 	transition: background-color 0.15s ease;
+	outline: none;
 }
 
 .powerBtn:hover {
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.09);
 }
 
+/* Power Flyout Dropdown (Exact Windows 11 matching Screenshot) */
 .powerDropdown {
 	position: absolute;
-	bottom: 50px;
-	right: 15px;
-	width: 160px;
-	background-color: #2b2b2b;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 8px;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-	padding: 6px;
+	right: 18px;
+	bottom: 56px;
+	z-index: 50;
+	width: 150px;
+	border-radius: 10px;
+	background-color: rgba(35, 38, 50, 0.96);
+	background-image: url('/images/darknoice.png');
+	backdrop-filter: blur(28px) saturate(160%);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
+	padding: 5px;
 	display: flex;
 	flex-direction: column;
 	gap: 2px;
-	z-index: 50;
+	box-sizing: border-box;
 }
 
 .powerDropdown button {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 12px;
 	width: 100%;
-	padding: 8px 10px;
+	padding: 8px 12px;
+	border-radius: 6px;
 	background: transparent;
 	border: none;
-	border-radius: 4px;
-	color: #e0e0e0;
-	font-size: 0.75rem;
-	cursor: pointer;
+	color: #ffffff;
+	font-size: 13.5px;
+	font-weight: 400;
 	text-align: left;
+	cursor: pointer;
+	transition: background-color 0.12s ease;
+	outline: none;
 }
 
 .powerDropdown button:hover {
-	background-color: #3b3b3b;
-	color: #fff;
+	background-color: rgba(255, 255, 255, 0.09);
 }
 
-@media (max-width: 600px) {
-	.overflow {
-		width: 100vw;
-		height: calc(100vh - 50px);
-		bottom: 50px;
-		border-radius: 0;
-	}
-
-	.winMenuPinnedBottom {
-		grid-template-columns: repeat(4, 1fr);
-	}
-
-	.winMenuRecommendedItem {
-		flex-direction: column;
-	}
-
-	.recommendedTile {
-		width: 100%;
-	}
+.powerDropdown button:active {
+	background-color: rgba(255, 255, 255, 0.13);
 }
 
 /* =========================================================
    WINDOWS 11 LIGHT THEME - START MENU
    ========================================================= */
-:global([data-win-theme="light"]) .winMenuBg {
+:global([data-win-theme="light"]) .winMenu {
 	border: 1px solid rgba(0, 0, 0, 0.12);
-	background-color: rgba(243, 243, 243, 0.95);
+	background-color: rgba(243, 243, 243, 0.94);
 	background-image: none;
-	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .winMenuSearch input[type='text'] {
-	background-color: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.12);
-	border-bottom: 2px solid #0078D4;
-	color: #1c1c1c;
+:global([data-win-theme="light"]) .sectionTitle {
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .winMenuSearch .inputWithIcon svg {
-	color: #666666;
+:global([data-win-theme="light"]) .allAppsBtn {
+	background: rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .winMenuPinnedTop h2,
-:global([data-win-theme="light"]) .winMenuPinnedTop p {
-	color: #1c1c1c;
+:global([data-win-theme="light"]) .allAppsBtn:hover {
+	background: rgba(0, 0, 0, 0.09);
+	border-color: rgba(0, 0, 0, 0.12);
 }
 
-:global([data-win-theme="light"]) .winMenuPinnedTop div:nth-child(2) {
-	background-color: #e5e5e5;
-	color: #1c1c1c;
+:global([data-win-theme="light"]) .pinnedItem:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	border-color: rgba(0, 0, 0, 0.04);
 }
 
-:global([data-win-theme="light"]) .winMenuPinnedTop div:nth-child(2):hover {
-	background-color: #dbdbdb;
+:global([data-win-theme="light"]) .pinnedLabel {
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .pinnedTile p {
-	color: #1c1c1c;
-}
-
-:global([data-win-theme="light"]) .pinnedTile:hover {
+:global([data-win-theme="light"]) .recommendedItem:hover {
 	background-color: rgba(0, 0, 0, 0.05);
+	border-color: rgba(0, 0, 0, 0.04);
 }
 
-:global([data-win-theme="light"]) .recommendedTile p {
-	color: #1c1c1c;
+:global([data-win-theme="light"]) .recommendedTitle {
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .recommendedTile span {
+:global([data-win-theme="light"]) .recommendedSub {
 	color: #666666;
-}
-
-:global([data-win-theme="light"]) .recommendedTile:hover {
-	background-color: rgba(0, 0, 0, 0.05);
 }
 
 :global([data-win-theme="light"]) .winMenuFooter {
-	border-top: 1px solid rgba(0, 0, 0, 0.08);
-	background-color: rgba(235, 235, 235, 0.8);
-	color: #1c1c1c;
+	border-top: 1px solid rgba(0, 0, 0, 0.07);
+	background-color: rgba(0, 0, 0, 0.04);
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .winMenuFooter p {
-	color: #1c1c1c;
+:global([data-win-theme="light"]) .userChip:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .userName {
+	color: #1a1a1a;
 }
 
 :global([data-win-theme="light"]) .powerBtn {
-	color: #1c1c1c;
+	color: #1a1a1a;
 }
 
 :global([data-win-theme="light"]) .powerBtn:hover {
@@ -386,14 +400,13 @@
 :global([data-win-theme="light"]) .powerDropdown {
 	background-color: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.12);
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 :global([data-win-theme="light"]) .powerDropdown button {
-	color: #1c1c1c;
+	color: #1a1a1a;
 }
 
 :global([data-win-theme="light"]) .powerDropdown button:hover {
-	background-color: #f0f0f0;
-	color: #000000;
+	background-color: rgba(0, 0, 0, 0.06);
 }

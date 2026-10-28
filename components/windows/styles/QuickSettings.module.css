@@ -3,262 +3,180 @@
 	bottom: 58px;
 	right: 12px;
 	z-index: 99995;
-	width: 360px;
+	width: 350px;
 	max-width: calc(100vw - 24px);
 	border-radius: 12px;
-	border: 1px solid rgba(255, 255, 255, 0.14);
-	background-color: #212121;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	background-color: rgba(32, 32, 32, 0.92);
 	background-image: url('/images/darknoice.png');
-	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
-	backdrop-filter: blur(24px);
+	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.04);
+	backdrop-filter: blur(30px) saturate(150%);
 	color: #ffffff;
 	user-select: none;
 	overflow: hidden;
-	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-	padding: 16px;
+	font-family: 'Segoe UI Custom', 'Segoe UI', system-ui, -apple-system, Tahoma, Geneva, Verdana, sans-serif !important;
+	padding: 18px 16px 0 16px;
 	box-sizing: border-box;
 }
 
 .flyout :is(h1, h2, h3, h4, h5, h6, p, span, button, div, label) {
-	font-family: 'Segoe UI Custom', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: 'Segoe UI Custom', 'Segoe UI', system-ui, -apple-system, Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.topStatus {
+/* 6 Action Tiles (2 rows x 3 columns) */
+.tilesGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 14px 10px;
+	margin-bottom: 22px;
+}
+
+.tileCol {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	padding-bottom: 14px;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-	margin-bottom: 14px;
+	text-align: center;
 }
 
-.statusItem {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.statusIcon {
+.tileBtn {
+	width: 100%;
+	height: 48px;
+	border-radius: 6px;
+	background: #2b2b2b;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	color: #ffffff;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 28px;
-	height: 28px;
-	border-radius: 6px;
-	background: rgba(255, 255, 255, 0.06);
-	color: #0078D4;
-}
-
-.statusIconOffline {
-	color: #ff5555 !important;
-	background: rgba(255, 85, 85, 0.15) !important;
-}
-
-.statusText {
-	display: flex;
-	flex-direction: column;
-}
-
-.statusTitle {
-	font-size: 0.8rem;
-	font-weight: 600;
-	color: #ffffff;
-	margin: 0;
-	line-height: 1.2;
-}
-
-.statusSub {
-	font-size: 0.68rem;
-	color: #999999;
-	margin: 0;
-	line-height: 1.2;
-}
-
-/* Authentic Windows 11 2x2 Quick Action Tiles */
-.tilesGrid {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 8px;
-	margin-bottom: 16px;
-}
-
-.tile {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	padding: 10px 12px;
-	border-radius: 8px;
-	background: #2b2b2b;
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	color: #cccccc;
 	cursor: pointer;
-	transition: all 0.15s ease;
-	text-align: left;
 	outline: none;
-	width: 100%;
+	transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 	box-sizing: border-box;
 }
 
-.tile:hover {
+.tileBtn:hover {
 	background: #363636;
+	border-color: rgba(255, 255, 255, 0.12);
+}
+
+.tileBtn:active {
+	transform: scale(0.97);
+}
+
+/* Active Quick Action Tile (Authentic Windows 11 Blue) */
+.tileBtnActive {
+	background: #4cc2ff !important;
+	border-color: #4cc2ff !important;
+	color: #000000 !important;
+}
+
+.tileBtnActive:hover {
+	background: #60cdff !important;
+}
+
+.tileText {
+	font-size: 11.5px;
+	font-weight: 400;
 	color: #ffffff;
-	border-color: rgba(255, 255, 255, 0.14);
-}
-
-.tileActive {
-	background: #0078D4 !important;
-	border-color: #0086ee !important;
-	color: #ffffff !important;
-}
-
-.tileActive:hover {
-	background: #106ebe !important;
-}
-
-.tileIcon {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1.15rem;
-	flex-shrink: 0;
-}
-
-.tileTextWrapper {
-	display: flex;
-	flex-direction: column;
-	min-width: 0;
-	overflow: hidden;
-}
-
-.tileLabel {
-	font-size: 0.74rem;
-	font-weight: 600;
-	margin: 0;
+	margin-top: 6px;
 	line-height: 1.2;
+	text-align: center;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	color: #ffffff;
+	width: 100%;
 }
 
-.tileSub {
-	font-size: 0.65rem;
-	color: #999999;
-	margin: 0;
-	line-height: 1.2;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.tileActive .tileSub {
-	color: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Volume Slider Section */
-.sliderSection {
+/* Sliders Section */
+.slidersContainer {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
-	margin-bottom: 14px;
-	padding: 10px 12px;
-	background: rgba(0, 0, 0, 0.25);
-	border-radius: 8px;
-	border: 1px solid rgba(255, 255, 255, 0.05);
+	gap: 16px;
+	margin-bottom: 20px;
+	padding: 0 4px;
 }
 
 .sliderRow {
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 14px;
+	width: 100%;
 }
 
-.sliderIconBtn {
+.sliderIcon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 28px;
-	height: 28px;
-	border-radius: 6px;
-	background: transparent;
-	border: none;
+	width: 20px;
+	height: 20px;
 	color: #ffffff;
-	cursor: pointer;
-	transition: background-color 0.15s ease;
-	outline: none;
-}
-
-.sliderIconBtn:hover {
-	background: rgba(255, 255, 255, 0.1);
+	flex-shrink: 0;
 }
 
 .rangeInput {
 	flex: 1;
 	height: 4px;
-	accent-color: #0078D4;
+	border-radius: 2px;
+	-webkit-appearance: none;
+	appearance: none;
+	outline: none;
 	cursor: pointer;
+	transition: background 0.1s ease;
 }
 
-.volumeValue {
-	font-size: 11px;
-	font-family: Consolas, "Cascadia Code", monospace;
-	color: #d4d4d4;
-	width: 32px;
-	text-align: right;
-	font-variant-numeric: tabular-nums;
+.rangeInput::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #4cc2ff;
+	border: 3px solid #202020;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.45);
+	cursor: pointer;
+	transition: transform 0.1s ease, background-color 0.15s ease;
 }
 
-.sliderNotice {
+.rangeInput::-webkit-slider-thumb:hover {
+	transform: scale(1.15);
+	background: #60cdff;
+}
+
+.rangeInput::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #4cc2ff;
+	border: 3px solid #202020;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.45);
+	cursor: pointer;
+	transition: transform 0.1s ease, background-color 0.15s ease;
+}
+
+.rangeInput::-moz-range-thumb:hover {
+	transform: scale(1.15);
+	background: #60cdff;
+}
+
+/* Footer Section */
+.footerBar {
+	margin: 16px -16px 0 -16px;
+	padding: 12px 18px;
+	background: rgba(0, 0, 0, 0.32);
+	border-top: 1px solid rgba(255, 255, 255, 0.06);
+	border-radius: 0 0 12px 12px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	font-size: 0.68rem;
-	color: #888888;
-	margin: 0;
+	color: #ffffff;
 }
 
-.simBadge {
-	font-size: 0.62rem;
-	padding: 1px 6px;
-	border-radius: 4px;
-	background: rgba(255, 255, 255, 0.08);
-	color: #aaaaaa;
-	letter-spacing: 0.02em;
-}
-
-.realBadge {
-	font-size: 0.62rem;
-	padding: 1px 6px;
-	border-radius: 4px;
-	background: rgba(0, 120, 212, 0.2);
-	color: #60cdff;
-	border: 1px solid rgba(0, 120, 212, 0.35);
-}
-
-/* Footer Specs */
-.footerInfo {
+.batteryStatus {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding-top: 10px;
-	border-top: 1px solid rgba(255, 255, 255, 0.08);
-	font-size: 0.7rem;
-	color: #777777;
-}
-
-.deviceSpec {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-}
-
-.platformDetail {
-	font-size: 11px;
-	color: #888888;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 140px;
+	gap: 8px;
+	font-size: 13px;
+	font-weight: 500;
 }
 
 /* =========================================================
@@ -266,100 +184,63 @@
    ========================================================= */
 :global([data-win-theme="light"]) .flyout {
 	border: 1px solid rgba(0, 0, 0, 0.12);
-	background-color: rgba(243, 243, 243, 0.95);
+	background-color: rgba(243, 243, 243, 0.94);
 	background-image: none;
 	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
-	color: #1c1c1c;
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .topStatus {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-:global([data-win-theme="light"]) .statusIcon {
-	background: rgba(0, 120, 212, 0.1);
-	color: #0078D4;
-}
-
-:global([data-win-theme="light"]) .statusTitle {
-	color: #1c1c1c;
-}
-
-:global([data-win-theme="light"]) .statusSub {
-	color: #666666;
-}
-
-:global([data-win-theme="light"]) .tile {
+:global([data-win-theme="light"]) .tileBtn {
 	background: #e5e5e5;
 	border: 1px solid rgba(0, 0, 0, 0.06);
-	color: #1c1c1c;
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .tileLabel {
-	color: #1c1c1c;
-}
-
-:global([data-win-theme="light"]) .tileSub {
-	color: #666666;
-}
-
-:global([data-win-theme="light"]) .tile:hover {
-	background: #dbdbdb;
-	color: #000000;
+:global([data-win-theme="light"]) .tileBtn:hover {
+	background: #dadada;
 	border-color: rgba(0, 0, 0, 0.12);
 }
 
-:global([data-win-theme="light"]) .tileActive {
-	background: #0078D4 !important;
+:global([data-win-theme="light"]) .tileBtnActive {
+	background: #0067c0 !important;
 	border-color: #0067c0 !important;
 	color: #ffffff !important;
 }
 
-:global([data-win-theme="light"]) .tileActive .tileLabel {
-	color: #ffffff !important;
-}
-
-:global([data-win-theme="light"]) .tileActive:hover {
+:global([data-win-theme="light"]) .tileBtnActive:hover {
 	background: #106ebe !important;
 }
 
-:global([data-win-theme="light"]) .sliderSection {
-	background: rgba(255, 255, 255, 0.7);
-	border: 1px solid rgba(0, 0, 0, 0.06);
+:global([data-win-theme="light"]) .tileText {
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .sliderIconBtn {
-	color: #1c1c1c;
+:global([data-win-theme="light"]) .sliderIcon {
+	color: #1a1a1a;
 }
 
-:global([data-win-theme="light"]) .sliderIconBtn:hover {
-	background: rgba(0, 0, 0, 0.06);
+:global([data-win-theme="light"]) .rangeInput::-webkit-slider-thumb {
+	background: #0067c0;
+	border: 3px solid #f3f3f3;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 }
 
-:global([data-win-theme="light"]) .volumeValue {
-	color: #1c1c1c;
+:global([data-win-theme="light"]) .rangeInput::-webkit-slider-thumb:hover {
+	background: #106ebe;
 }
 
-:global([data-win-theme="light"]) .sliderNotice {
-	color: #666666;
+:global([data-win-theme="light"]) .rangeInput::-moz-range-thumb {
+	background: #0067c0;
+	border: 3px solid #f3f3f3;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 }
 
-:global([data-win-theme="light"]) .simBadge {
-	background: rgba(0, 0, 0, 0.06);
-	color: #666666;
+:global([data-win-theme="light"]) .rangeInput::-moz-range-thumb:hover {
+	background: #106ebe;
 }
 
-:global([data-win-theme="light"]) .realBadge {
-	background: rgba(0, 120, 212, 0.12);
-	color: #0078D4;
-	border-color: rgba(0, 120, 212, 0.3);
-}
-
-:global([data-win-theme="light"]) .footerInfo {
-	border-top: 1px solid rgba(0, 0, 0, 0.08);
-	color: #666666;
-}
-
-:global([data-win-theme="light"]) .platformDetail {
-	color: #666666;
+:global([data-win-theme="light"]) .footerBar {
+	background: rgba(0, 0, 0, 0.04);
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+	color: #1a1a1a;
 }

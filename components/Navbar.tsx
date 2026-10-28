@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowLeft } from "lucide-react";
+import { Menu, X, ArrowLeft, ArrowUpRight } from "lucide-react";
 import { useLoading } from "@/components/LoadingContext";
 import { smoothScrollToElement } from "@/lib/smoothScroll";
 import { useWindows } from "@/components/windows/WindowsContext";
@@ -20,7 +20,7 @@ const navLinks = [
 
 export default function Navbar() {
     const { isLoading } = useLoading();
-    const { enterWindowsMode } = useWindows();
+    const { isWindowsMode, enterWindowsMode } = useWindows();
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("");
@@ -62,7 +62,7 @@ export default function Navbar() {
         };
     }, []);
 
-    if (isLoading) return null;
+    if (isLoading || isWindowsMode) return null;
 
     return (
         <header
@@ -73,12 +73,12 @@ export default function Navbar() {
                 backdropFilter: scrolled ? "blur(12px)" : "none",
             }}
         >
-            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div className="w-full px-6 sm:px-8 md:px-10 lg:px-12 h-20 flex items-center justify-between">
                 <div>
                     {pathname !== "/" && (
                         <Link 
                             href="/" 
-                            className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
+                            className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
                             style={{ color: "var(--color-text-primary)" }}
                         >
                             <ArrowLeft size={16} />
@@ -88,8 +88,8 @@ export default function Navbar() {
                 </div>
 
                 {/* Desktop Nav */}
-                <div className="hidden md:flex items-center">
-                    <nav className="flex items-center gap-6 lg:gap-7">
+                <div className="hidden md:flex items-center ml-auto">
+                    <nav className="flex items-center gap-6 lg:gap-8">
                         {navLinks.map((link) => {
                             const isActive = `#${activeSection}` === link.href || (activeSection === "" && link.href === "#about");
                             return (
@@ -108,7 +108,7 @@ export default function Navbar() {
                                         smoothScrollToElement(targetId);
                                         window.history.pushState(null, "", link.href);
                                     }}
-                                    className="text-sm nav-link-ui transition-colors relative cursor-pointer"
+                                    className="inline-flex items-center text-sm nav-link-ui transition-colors relative cursor-pointer"
                                     style={{
                                         color: isActive ? "var(--color-text-primary)" : "var(--color-text-secondary)",
                                     }}
@@ -126,30 +126,28 @@ export default function Navbar() {
                             );
                         })}
 
-                        {/* Subtle Windows Mode Nav Link */}
+                        {/* Enter OS Nav Link */}
                         <button
                             type="button"
                             onClick={() => enterWindowsMode()}
-                            className="group flex items-center gap-1.5 text-sm nav-link-ui transition-colors cursor-pointer bg-transparent border-none p-0 outline-none"
+                            className="group inline-flex items-center gap-1.5 text-sm nav-link-ui transition-colors cursor-pointer bg-transparent border-none p-0 outline-none"
                             style={{
                                 color: "var(--color-text-secondary)",
                             }}
-                            title="Switch to Windows Mode"
-                            aria-label="Switch to Windows Mode"
+                            title="Enter OS"
+                            aria-label="Enter OS"
                         >
-                            <span className="grid grid-cols-2 gap-[1.5px] w-[9px] h-[9px] shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
-                                <span className="bg-current rounded-[0.5px]" />
-                                <span className="bg-current rounded-[0.5px]" />
-                                <span className="bg-current rounded-[0.5px]" />
-                                <span className="bg-current rounded-[0.5px]" />
-                            </span>
-                            <span>Windows Mode</span>
+                            <span>Enter OS</span>
+                            <ArrowUpRight
+                                size={14}
+                                className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                            />
                         </button>
                     </nav>
                 </div>
 
                 {/* Mobile Right Controls: Hamburger Menu */}
-                <div className="md:hidden flex items-center">
+                <div className="md:hidden flex items-center ml-auto">
                     <button
                         className="transition-colors p-1"
                         style={{ color: "var(--color-text-secondary)" }}
@@ -203,23 +201,23 @@ export default function Navbar() {
                             );
                         })}
 
-                        {/* Windows Mode in Mobile Drawer */}
+                        {/* Enter OS in Mobile Drawer */}
                         <button
                             type="button"
                             onClick={() => {
                                 setIsOpen(false);
                                 enterWindowsMode();
                             }}
-                            className="flex items-center gap-2 text-lg nav-link-ui transition-colors cursor-pointer bg-transparent border-none p-0 text-left pt-3 mt-1 border-t border-[var(--color-border)]"
+                            className="group flex items-center justify-between text-lg nav-link-ui transition-colors cursor-pointer bg-transparent border-none p-0 text-left pt-3 mt-1 border-t border-[var(--color-border)]"
                             style={{ color: "var(--color-text-secondary)" }}
+                            title="Enter OS"
+                            aria-label="Enter OS"
                         >
-                            <span className="grid grid-cols-2 gap-[2px] w-[11px] h-[11px] shrink-0 opacity-70">
-                                <span className="bg-current rounded-[0.5px]" />
-                                <span className="bg-current rounded-[0.5px]" />
-                                <span className="bg-current rounded-[0.5px]" />
-                                <span className="bg-current rounded-[0.5px]" />
-                            </span>
-                            <span>Windows Mode</span>
+                            <span>Enter OS</span>
+                            <ArrowUpRight
+                                size={18}
+                                className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                            />
                         </button>
                     </motion.div>
                 )}

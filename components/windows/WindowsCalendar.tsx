@@ -27,12 +27,44 @@ export default function WindowsCalendar() {
   const { isCalendarOpen, setCalendarOpen, env } = useWindows();
   const calendarRef = useRef<HTMLDivElement>(null);
 
+  // Live ticking clock for calendar flyout header (updates every second while open)
+  const [liveDate, setLiveDate] = useState<Date>(() => new Date());
+
+  useEffect(() => {
+    if (!isCalendarOpen) return;
+    const update = () => setLiveDate(new Date());
+    update();
+    const interval = setInterval(update, 1000);
+
+    const onVisible = () => {
+      if (!document.hidden) update();
+    };
+
+    window.addEventListener("focus", update);
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("focus", update);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [isCalendarOpen]);
+
   const [viewDate, setViewDate] = useState<Date>(() => new Date());
   const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [isFocusRunning, setIsFocusRunning] = useState(false);
   const [focusSecondsLeft, setFocusSecondsLeft] = useState(25 * 60);
 
-  const now = env.now;
+  // Sync viewDate & selectedDate with live date when calendar is opened
+  useEffect(() => {
+    if (isCalendarOpen) {
+      const today = new Date();
+      setViewDate(today);
+      setSelectedDate(today);
+    }
+  }, [isCalendarOpen]);
+
+  const now = liveDate;
 
   // Focus timer countdown
   useEffect(() => {

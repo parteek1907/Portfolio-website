@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <!-- Body: Slate Grey -->
+  <rect x="8" y="4" width="32" height="40" rx="5" fill="#71767C" />
+
+  <!-- Screen: Vivid Cyan Blue Display -->
+  <rect x="12" y="7.5" width="24" height="8.5" rx="1.8" fill="#38BDF8" />
+
+  <!-- Keypad Row 1 -->
+  <rect x="12" y="19" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+  <rect x="20.75" y="19" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+  <rect x="29.5" y="19" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+
+  <!-- Keypad Row 2 -->
+  <rect x="12" y="25" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+  <rect x="20.75" y="25" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+  <rect x="29.5" y="25" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+
+  <!-- Keypad Row 3 -->
+  <rect x="12" y="31" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+  <rect x="20.75" y="31" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+
+  <!-- Keypad Row 4 -->
+  <rect x="12" y="37" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+  <rect x="20.75" y="37" width="6.5" height="4.5" rx="1.2" fill="#E1E4E8" />
+
+  <!-- Tall Blue Equal Button (Spanning Rows 3 and 4) -->
+  <rect x="29.5" y="31" width="6.5" height="10.5" rx="1.5" fill="#005FB8" />
+</svg>

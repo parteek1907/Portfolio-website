@@ -22,6 +22,7 @@ import {
 import { FaLinkedin } from "react-icons/fa";
 import { socialLinks } from "@/lib/data";
 import { useWindows } from "./WindowsContext";
+import { AppId } from "./types";
 import { useTaskbarClock } from "./useSystemEnvironment";
 import styles from "./styles/Footer.module.css";
 
@@ -97,8 +98,8 @@ export default function WindowsTaskbar() {
 
   const handleShowDesktop = () => {
     Object.keys(windows).forEach((id) => {
-      if (windows[id as keyof typeof windows].isOpen && !windows[id as keyof typeof windows].isMinimized) {
-        minimizeApp(id as any);
+      if (windows[id as AppId].isOpen && !windows[id as AppId].isMinimized) {
+        minimizeApp(id as AppId);
       }
     });
   };
@@ -132,6 +133,7 @@ export default function WindowsTaskbar() {
           className={`${styles.icon} ${isStartOpen ? styles.activeIcon : ""}`}
           onClick={handleToggleStart}
           title="Start"
+          data-start-btn="true"
         >
           <Image
             src="/icons/windows/windows.png"

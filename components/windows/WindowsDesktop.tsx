@@ -27,13 +27,13 @@ const GithubApp = dynamic(() => import("./apps/GithubApp"), { ssr: false });
 const ResumeApp = dynamic(() => import("./apps/ResumeApp"), { ssr: false });
 const ContactApp = dynamic(() => import("./apps/ContactApp"), { ssr: false });
 const TerminalApp = dynamic(() => import("./apps/TerminalApp"), { ssr: false });
+const CalculatorApp = dynamic(() => import("./apps/CalculatorApp"), { ssr: false });
 
 export default function WindowsDesktop() {
   const {
     isWindowsMode,
     windows,
     openApp,
-    exitWindowsMode,
     errors,
     dismissError,
     bluescreen,
@@ -202,6 +202,12 @@ export default function WindowsDesktop() {
         {windows.terminal.isOpen && (
           <DraggableWindow id="terminal">
             <TerminalApp />
+          </DraggableWindow>
+        )}
+
+        {windows.calculator?.isOpen && (
+          <DraggableWindow id="calculator">
+            <CalculatorApp />
           </DraggableWindow>
         )}
 

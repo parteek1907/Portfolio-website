@@ -67,7 +67,7 @@ const HACKATHONS: HackathonEvent[] = [
     id: "prayas-2026",
     name: "Prayas – Tech Hackathon",
     date: "September 2026",
-    venue: "UIET, Panjab University, Chandigarh",
+    venue: "Plaksha University, Mohali",
     duration: "36 Hours (Offline)",
     teams: "40+ Teams",
     role: "Team Lead · Full Stack Engineering · System Architecture",

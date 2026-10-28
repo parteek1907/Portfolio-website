@@ -29,47 +29,57 @@
 	color: #cccccc;
 }
 
-.terminalTitle {
-	color: rgb(64, 200, 64) !important;
-	font-weight: 600;
-}
-
-.terminalTitle > span {
-	color: rgb(190, 190, 0);
-}
-
-.terminalTitle > span:first-child {
-	color: rgb(200, 64, 255);
-}
-
 .promt {
 	display: flex;
 	gap: 6px;
 	align-items: center;
-	height: 24px;
+	min-height: 22px;
 	color: #fff;
-	margin-top: 2px;
+	margin: 2px 0;
 }
 
-.promt p {
-	color: #fff;
-	font-weight: bold;
+.promptLabel {
+	color: #ffffff;
+	font-weight: 600;
+	font-family: Consolas, "Cascadia Code", "Courier New", monospace;
+	font-size: 0.85rem;
+	white-space: nowrap;
+	user-select: none;
+}
+
+.historyCommand {
+	color: #ffffff;
+	font-weight: 500;
+	font-family: Consolas, "Cascadia Code", "Courier New", monospace;
+	font-size: 0.85rem;
 }
 
 .promt input {
 	flex: 1;
 	border: none;
 	background-color: transparent;
-	color: #fff;
+	color: #ffffff;
 	outline: none;
 	font-weight: 500;
-	font-family: Consolas, "Courier New", monospace, sans-serif;
+	font-family: Consolas, "Cascadia Code", "Courier New", monospace, sans-serif;
 	font-size: 0.85rem;
+	padding: 0;
+	margin: 0;
+	caret-color: #ffffff;
+}
+
+.response {
+	white-space: pre-wrap;
+	font-family: Consolas, "Cascadia Code", "Courier New", monospace;
+	font-size: 0.82rem;
+	line-height: 1.5;
+	margin: 4px 0 8px 0;
+	color: #d4d4d4;
 }
 
 .historyItem {
-	padding-top: 4px;
-	padding-bottom: 4px;
+	padding-top: 1px;
+	padding-bottom: 2px;
 }
 
 /* =========================================================
@@ -84,26 +94,23 @@
 	color: #1c1c1c;
 }
 
+:global([data-win-theme="light"]) .promptLabel {
+	color: #1a1a1a;
+}
+
+:global([data-win-theme="light"]) .historyCommand {
+	color: #000000;
+}
+
 :global([data-win-theme="light"]) .promt {
 	color: #1c1c1c;
 }
 
-:global([data-win-theme="light"]) .promt p {
-	color: #1c1c1c;
-}
-
 :global([data-win-theme="light"]) .promt input {
-	color: #1c1c1c;
+	color: #000000;
+	caret-color: #000000;
 }
 
-:global([data-win-theme="light"]) .terminalTitle {
-	color: #0b820b !important;
-}
-
-:global([data-win-theme="light"]) .terminalTitle > span {
-	color: #9c6e00;
-}
-
-:global([data-win-theme="light"]) .terminalTitle > span:first-child {
-	color: #8a14b5;
+:global([data-win-theme="light"]) .response {
+	color: #2b2b2b;
 }

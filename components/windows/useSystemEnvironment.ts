@@ -93,10 +93,22 @@ export function useTaskbarClock(active: boolean = true, locale?: string, timeZon
 
   useEffect(() => {
     if (!active) return;
-    const interval = setInterval(() => {
-      setClockDate(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
+    const update = () => setClockDate(new Date());
+    update();
+    const interval = setInterval(update, 1000);
+
+    const onVisible = () => {
+      if (!document.hidden) update();
+    };
+
+    window.addEventListener("focus", update);
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("focus", update);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, [active]);
 
   const loc = locale || "en-US";

@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { featuredProjects, expertise, certifications, aboutMe, socialLinks } from "@/lib/data";
+import { featuredProjects, socialLinks } from "@/lib/data";
 import { useWindows } from "../WindowsContext";
+import { AppId } from "../types";
 import styles from "../styles/Terminal.module.css";
 
 interface HistoryItem {
@@ -56,9 +57,10 @@ export default function TerminalApp() {
   resume         : Preview & download ParteekGarg_Resume.pdf
   contact        : View email, GitHub, and LinkedIn links
   whoami         : Display current user credentials
-  ls             : List directories and files
+  ver            : Display OS version
+  dir / ls       : List directories and files
   open <app>     : Open desktop application (about, projects, skills, resume, etc.)
-  clear          : Clear the terminal screen
+  cls / clear    : Clear the terminal screen
   bsod           : Trigger Blue Screen of Death easter egg
   exit           : Return to standard portfolio website`,
             },
@@ -167,18 +169,29 @@ Creator of Veralon, Campus Care, and DNA Encoding.`,
             ...prev,
             {
               input: trimmed,
-              response: `parteek (NMIMS Chandigarh B.Tech CSE '29)`,
+              response: `ParteekOS\\Parteek (NMIMS Chandigarh B.Tech CSE '29)`,
             },
           ]);
           break;
 
+        case "ver":
+        case "version":
+          setHistory((prev) => [
+            ...prev,
+            {
+              input: trimmed,
+              response: `OS [Version 10.0.22000.51] (Parteek OS v2.0.0)`,
+            },
+          ]);
+          break;
+
+        case "dir":
         case "ls":
           setHistory((prev) => [
             ...prev,
             {
               input: trimmed,
-              response: `about.txt      projects/      skills.json    hackathons/
-certifications/ resume.pdf     contact.vcf    github/`,
+              response: ` Directory of C:\\Users\\ParteekOS\n\n10/28/2026  04:30 PM    <DIR>          .\n10/28/2026  04:30 PM    <DIR>          ..\n10/28/2026  04:30 PM               420 about.txt\n10/28/2026  04:30 PM    <DIR>          projects\n10/28/2026  04:30 PM               850 skills.json\n10/28/2026  04:30 PM    <DIR>          hackathons\n10/28/2026  04:30 PM    <DIR>          certifications\n10/28/2026  04:30 PM           145,200 resume.pdf\n10/28/2026  04:30 PM               310 contact.vcf`,
             },
           ]);
           break;
@@ -187,7 +200,7 @@ certifications/ resume.pdf     contact.vcf    github/`,
           if (arg) {
             const valid = ["about", "projects", "skills", "hackathons", "certifications", "github", "resume", "contact", "terminal"];
             if (valid.includes(arg)) {
-              openApp(arg as any);
+              openApp(arg as AppId);
               setHistory((prev) => [
                 ...prev,
                 { input: trimmed, response: `Launched application: ${arg}` },
@@ -206,6 +219,7 @@ certifications/ resume.pdf     contact.vcf    github/`,
           }
           break;
 
+        case "cls":
         case "clear":
           setHistory([]);
           break;
@@ -225,7 +239,7 @@ certifications/ resume.pdf     contact.vcf    github/`,
             ...prev,
             {
               input: trimmed,
-              response: `bash: ${cmd}: command not found. Type 'help' for available commands.`,
+              response: `'${cmd}' is not recognized as an internal or external command, operable program or batch file. Type 'help' for available commands.`,
             },
           ]);
           break;
@@ -273,28 +287,23 @@ certifications/ resume.pdf     contact.vcf    github/`,
         {history.map((item, idx) => (
           <div key={idx} className={styles.historyItem}>
             {item.input && (
-              <>
-                <p className={styles.terminalTitle}>
-                  parteek@NMIMS <span>MINGW64</span> <span>~</span>
-                </p>
-                <p>$ {item.input}</p>
-              </>
+              <div className={styles.promt}>
+                <span className={styles.promptLabel}>C:\Users\ParteekOS&gt;</span>
+                <span className={styles.historyCommand}>{item.input}</span>
+              </div>
             )}
             {item.response && (
-              <pre className="whitespace-pre-wrap font-inherit text-neutral-300 text-xs leading-relaxed my-1">
+              <pre className={styles.response}>
                 {item.response}
               </pre>
             )}
           </div>
         ))}
 
-        {/* Current Prompt */}
+        {/* Current Prompt where user writes code */}
         <div className={styles.historyItem}>
-          <p className={styles.terminalTitle}>
-            parteek@NMIMS <span>MINGW64</span> <span>~</span>
-          </p>
           <div className={styles.promt}>
-            <p>$</p>
+            <span className={styles.promptLabel}>C:\Users\ParteekOS&gt;</span>
             <input
               ref={inputRef}
               type="text"

@@ -52,12 +52,20 @@ export const viewport = {
   initialScale: 1,
 };
 
-// Scroll restoration script (theme flash handled by next-themes)
+// Scroll restoration & early OS mode initialization to eliminate layout flashes
 const scrollScript = `
 (function() {
   if (typeof window !== 'undefined') {
     window.history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
+    var host = (window.location.hostname || '').toLowerCase();
+    var params = new URLSearchParams(window.location.search);
+    var isOs = host === 'os.parteekgarg.in' || host === 'os.localhost' || host.startsWith('os.') || host.startsWith('os-') || params.get('subdomain') === 'os' || params.get('view') === 'windows' || params.get('os') === 'true' || window.location.hash === '#windows';
+    var isDesktop = window.innerWidth >= 1024 && window.innerHeight >= 500;
+    if (isOs && isDesktop) {
+      document.documentElement.classList.add('windows-mode-active');
+      document.title = 'Parteek Garg | OS';
+      window.scrollTo(0, 0);
+    }
   }
 })();
 `;

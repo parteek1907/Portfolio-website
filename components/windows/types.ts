@@ -9,7 +9,8 @@ export type AppId =
   | "github"
   | "resume"
   | "contact"
-  | "terminal";
+  | "terminal"
+  | "calculator";
 
 export interface ErrorType {
   error: string;

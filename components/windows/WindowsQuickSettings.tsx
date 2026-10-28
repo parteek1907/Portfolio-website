@@ -4,18 +4,15 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   IoWifi, 
-  IoGlobeOutline,
+  IoBluetooth, 
+  IoAirplane, 
+  IoLeafOutline, 
+  IoMoonOutline, 
+  IoSunnyOutline, 
   IoVolumeHigh, 
-  IoVolumeMute, 
-  IoBatteryCharging, 
-  IoBatteryFull,
-  IoBatteryHalf,
-  IoBatteryDead,
-  IoMoonOutline,
-  IoSunnyOutline,
-  IoInformationCircleOutline,
-  IoDesktopOutline
+  IoVolumeMute 
 } from "react-icons/io5";
+import { BsSun } from "react-icons/bs";
 import { SystemEnvironment } from "./useSystemEnvironment";
 import styles from "./styles/QuickSettings.module.css";
 
@@ -29,6 +26,25 @@ interface WindowsQuickSettingsProps {
   onToggleTheme: () => void;
 }
 
+function BatteryFooterIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
+      <line x1="20" y1="11" x2="20" y2="13" />
+      <path d="M10 9l-2 3.5h3L9 15" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
 export default function WindowsQuickSettings({
   isOpen,
   onClose,
@@ -39,6 +55,33 @@ export default function WindowsQuickSettings({
   onToggleTheme,
 }: WindowsQuickSettingsProps) {
   const flyoutRef = useRef<HTMLDivElement>(null);
+
+  // Quick Action Toggles (matching Image 1)
+  const [wifiManualOverride, setWifiManualOverride] = useState<boolean | null>(null);
+  const [isBluetoothOn, setIsBluetoothOn] = useState(false);
+  const [isFlightMode, setIsFlightMode] = useState(false);
+  const [isBatterySaver, setIsBatterySaver] = useState(false);
+  const [brightness, setBrightness] = useState(100);
+
+  const isWifiOn = isFlightMode ? false : wifiManualOverride !== null ? wifiManualOverride : env.network.isOnline;
+
+  // Handle flight mode toggle
+  const handleToggleFlightMode = () => {
+    setIsFlightMode((prev) => {
+      const next = !prev;
+      if (next) {
+        setWifiManualOverride(false);
+        setIsBluetoothOn(false);
+      } else {
+        setWifiManualOverride(null);
+      }
+      return next;
+    });
+  };
+
+  const handleToggleWifi = () => {
+    setWifiManualOverride(!isWifiOn);
+  };
 
   // Close when clicking outside
   useEffect(() => {
@@ -59,14 +102,9 @@ export default function WindowsQuickSettings({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [isOpen, onClose]);
 
-  // Battery Icon selection based on level and charging state
-  const BatteryIcon = env.battery.charging
-    ? IoBatteryCharging
-    : env.battery.level > 70
-    ? IoBatteryFull
-    : env.battery.level > 25
-    ? IoBatteryHalf
-    : IoBatteryDead;
+  const isDark = windowsTheme === "dark";
+  const accentColor = isDark ? "#4cc2ff" : "#0067c0";
+  const trackBg = isDark ? "#383838" : "#d0d0d0";
 
   return (
     <AnimatePresence>
@@ -81,165 +119,131 @@ export default function WindowsQuickSettings({
             ease: [0.16, 1, 0.3, 1],
           }}
           className={styles.flyout}
+          data-win-theme={windowsTheme}
           data-lenis-prevent="true"
         >
-          {/* Top Status Header: Live Network & Battery */}
-          <div className={styles.topStatus}>
-            {/* Network Indicator */}
-            <div className={styles.statusItem}>
-              <div
-                className={`${styles.statusIcon} ${
-                  !env.network.isOnline ? styles.statusIconOffline : ""
-                }`}
-              >
-                {env.network.isOnline ? (
-                  <IoWifi size={17} />
-                ) : (
-                  <IoGlobeOutline size={17} />
-                )}
-              </div>
-              <div className={styles.statusText}>
-                <p className={styles.statusTitle}>
-                  {env.network.isOnline ? "Connected" : "Disconnected"}
-                </p>
-                <p className={styles.statusSub}>
-                  {env.network.isOnline
-                    ? env.network.effectiveType
-                      ? `${env.network.effectiveType.toUpperCase()} Internet`
-                      : "Internet Online"
-                    : "No Internet"}
-                </p>
-              </div>
-            </div>
-
-            {/* Battery Indicator */}
-            <div className={styles.statusItem}>
-              <div className={styles.statusIcon}>
-                <BatteryIcon size={18} />
-              </div>
-              <div className={styles.statusText}>
-                <p className={styles.statusTitle}>
-                  {env.battery.level}%
-                  {env.battery.charging ? " (Charging)" : ""}
-                </p>
-                <span
-                  className={
-                    env.battery.isRealData ? styles.realBadge : styles.simBadge
-                  }
-                  title={
-                    env.battery.isRealData
-                      ? "Real battery telemetry obtained from your device via the Battery Status API"
-                      : "Simulated AC Power. Your browser does not expose the Battery Status API"
-                  }
-                >
-                  {env.battery.isRealData ? "Device Battery" : "Simulated AC"}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Action Tiles (Authentic Windows 11 2x2 Grid) */}
+          {/* Quick Action Tiles (Exact 2x3 Grid from Image 1) */}
           <div className={styles.tilesGrid}>
-            {/* Wi-Fi / Connection Tile */}
-            <div
-              className={`${styles.tile} ${
-                env.network.isOnline ? styles.tileActive : ""
-              }`}
-              title={
-                env.network.isOnline
-                  ? "Network: Connected"
-                  : "Network: Offline"
-              }
-            >
-              <div className={styles.tileIcon}>
-                {env.network.isOnline ? <IoWifi size={18} /> : <IoGlobeOutline size={18} />}
-              </div>
-              <div className={styles.tileTextWrapper}>
-                <p className={styles.tileLabel}>Network</p>
-                <span className={styles.tileSub}>
-                  {env.network.isOnline ? "Connected" : "Offline"}
-                </span>
-              </div>
-            </div>
-
-            {/* Portfolio Audio Mute Tile */}
-            <button
-              type="button"
-              onClick={env.toggleMute}
-              className={`${styles.tile} ${
-                !env.isMuted && env.audioVolume > 0 ? styles.tileActive : ""
-              }`}
-              title="Click to toggle portfolio sound effects"
-            >
-              <div className={styles.tileIcon}>
-                {env.isMuted || env.audioVolume === 0 ? (
-                  <IoVolumeMute size={18} />
-                ) : (
-                  <IoVolumeHigh size={18} />
-                )}
-              </div>
-              <div className={styles.tileTextWrapper}>
-                <p className={styles.tileLabel}>Audio</p>
-                <span className={styles.tileSub}>
-                  {env.isMuted || env.audioVolume === 0 ? "Muted" : `${env.audioVolume}%`}
-                </span>
-              </div>
-            </button>
-
-            {/* Night Light Tile */}
-            <button
-              type="button"
-              onClick={onToggleNightLight}
-              className={`${styles.tile} ${isNightLight ? styles.tileActive : ""}`}
-              title="Toggle simulated warm night light filter"
-            >
-              <div className={styles.tileIcon}>
-                {isNightLight ? <IoMoonOutline size={18} /> : <IoSunnyOutline size={18} />}
-              </div>
-              <div className={styles.tileTextWrapper}>
-                <p className={styles.tileLabel}>Night light</p>
-                <span className={styles.tileSub}>
-                  {isNightLight ? "On" : "Off"}
-                </span>
-              </div>
-            </button>
-
-            {/* Windows OS Theme Toggle Tile (Dark / Light Mode) */}
-            <button
-              type="button"
-              onClick={onToggleTheme}
-              className={`${styles.tile} ${windowsTheme === "light" ? styles.tileActive : ""}`}
-              title={`Theme: ${windowsTheme === "light" ? "Light Mode" : "Dark Mode"}. Click to switch to ${
-                windowsTheme === "light" ? "Dark" : "Light"
-              } theme`}
-            >
-              <div className={styles.tileIcon}>
-                {windowsTheme === "light" ? <IoSunnyOutline size={18} /> : <IoMoonOutline size={18} />}
-              </div>
-              <div className={styles.tileTextWrapper}>
-                <p className={styles.tileLabel}>Theme</p>
-                <span className={styles.tileSub}>
-                  {windowsTheme === "light" ? "Light" : "Dark"}
-                </span>
-              </div>
-            </button>
-          </div>
-
-          {/* Volume Slider Section with Honest Disclaimer */}
-          <div className={styles.sliderSection}>
-            <div className={styles.sliderRow}>
+            {/* 1. WiFi */}
+            <div className={styles.tileCol}>
               <button
                 type="button"
+                onClick={handleToggleWifi}
+                className={`${styles.tileBtn} ${isWifiOn ? styles.tileBtnActive : ""}`}
+                title={`WiFi: ${isWifiOn ? "On" : "Off"}`}
+                aria-label="WiFi"
+              >
+                <IoWifi size={20} />
+              </button>
+              <span className={styles.tileText}>WiFi</span>
+            </div>
+
+            {/* 2. Bluetooth */}
+            <div className={styles.tileCol}>
+              <button
+                type="button"
+                onClick={() => setIsBluetoothOn(!isBluetoothOn)}
+                className={`${styles.tileBtn} ${isBluetoothOn ? styles.tileBtnActive : ""}`}
+                title={`Bluetooth: ${isBluetoothOn ? "On" : "Off"}`}
+                aria-label="Bluetooth"
+              >
+                <IoBluetooth size={19} />
+              </button>
+              <span className={styles.tileText}>Bluetooth</span>
+            </div>
+
+            {/* 3. Flight Mode */}
+            <div className={styles.tileCol}>
+              <button
+                type="button"
+                onClick={handleToggleFlightMode}
+                className={`${styles.tileBtn} ${isFlightMode ? styles.tileBtnActive : ""}`}
+                title={`Flight Mode: ${isFlightMode ? "On" : "Off"}`}
+                aria-label="Flight Mode"
+              >
+                <IoAirplane size={19} />
+              </button>
+              <span className={styles.tileText}>Flight Mode</span>
+            </div>
+
+            {/* 4. Battery Saver */}
+            <div className={styles.tileCol}>
+              <button
+                type="button"
+                onClick={() => setIsBatterySaver(!isBatterySaver)}
+                className={`${styles.tileBtn} ${isBatterySaver ? styles.tileBtnActive : ""}`}
+                title={`Battery Saver: ${isBatterySaver ? "On" : "Off"}`}
+                aria-label="Battery Saver"
+              >
+                <IoLeafOutline size={19} />
+              </button>
+              <span className={styles.tileText}>Battery Saver</span>
+            </div>
+
+            {/* 5. Theme (Active with Moon icon in Dark Theme as shown in Image 1) */}
+            <div className={styles.tileCol}>
+              <button
+                type="button"
+                onClick={onToggleTheme}
+                className={`${styles.tileBtn} ${isDark ? styles.tileBtnActive : ""}`}
+                title={`Theme: ${isDark ? "Dark Theme" : "Light Theme"}. Click to switch theme.`}
+                aria-label="Theme"
+              >
+                {isDark ? <IoMoonOutline size={19} /> : <IoSunnyOutline size={19} />}
+              </button>
+              <span className={styles.tileText}>Theme</span>
+            </div>
+
+            {/* 6. Night Light */}
+            <div className={styles.tileCol}>
+              <button
+                type="button"
+                onClick={onToggleNightLight}
+                className={`${styles.tileBtn} ${isNightLight ? styles.tileBtnActive : ""}`}
+                title={`Night Light: ${isNightLight ? "On" : "Off"}`}
+                aria-label="Night Light"
+              >
+                <BsSun size={19} />
+              </button>
+              <span className={styles.tileText}>Night Light</span>
+            </div>
+          </div>
+
+          {/* Sliders Container: Brightness & Volume */}
+          <div className={styles.slidersContainer}>
+            {/* Brightness Slider */}
+            <div className={styles.sliderRow}>
+              <div className={styles.sliderIcon} title="Screen Brightness">
+                <IoSunnyOutline size={18} />
+              </div>
+              <input
+                type="range"
+                min="10"
+                max="100"
+                value={brightness}
+                onChange={(e) => setBrightness(Number(e.target.value))}
+                className={styles.rangeInput}
+                style={{
+                  background: `linear-gradient(to right, ${accentColor} ${brightness}%, ${trackBg} ${brightness}%)`,
+                }}
+                aria-label="Screen brightness slider"
+              />
+            </div>
+
+            {/* Volume Slider */}
+            <div className={styles.sliderRow}>
+              <div
+                className={styles.sliderIcon}
                 onClick={env.toggleMute}
-                className={styles.sliderIconBtn}
-                title={env.isMuted ? "Unmute portfolio audio" : "Mute portfolio audio"}
+                title={env.isMuted ? "Unmute audio" : "Mute audio"}
+                style={{ cursor: "pointer" }}
               >
                 {env.isMuted || env.audioVolume === 0 ? (
                   <IoVolumeMute size={18} />
                 ) : (
                   <IoVolumeHigh size={18} />
                 )}
-              </button>
+              </div>
               <input
                 type="range"
                 min="0"
@@ -247,32 +251,22 @@ export default function WindowsQuickSettings({
                 value={env.isMuted ? 0 : env.audioVolume}
                 onChange={(e) => env.setAudioVolume(Number(e.target.value))}
                 className={styles.rangeInput}
-                aria-label="Portfolio audio volume slider"
+                style={{
+                  background: `linear-gradient(to right, ${accentColor} ${
+                    env.isMuted ? 0 : env.audioVolume
+                  }%, ${trackBg} ${env.isMuted ? 0 : env.audioVolume}%)`,
+                }}
+                aria-label="Audio volume slider"
               />
-              <span className={styles.volumeValue}>
-                {env.isMuted ? "0%" : `${env.audioVolume}%`}
-              </span>
-            </div>
-            <div className={styles.sliderNotice}>
-              <span>Portfolio Sounds Volume</span>
-              <span className={styles.simBadge}>Simulated Control</span>
             </div>
           </div>
 
-          {/* Adaptive Environment & Device Telemetry (Safe, Client-Only) */}
-          <div className={styles.footerInfo}>
-            <div className={styles.deviceSpec} title="Client display resolution & scaling">
-              <IoDesktopOutline size={13} className="shrink-0" />
-              <span>
-                {env.viewport.width}×{env.viewport.height} @ {env.dpr}x DPR
-              </span>
+          {/* Bottom Bar: Battery Status (Exact matching Image 1) */}
+          <div className={styles.footerBar}>
+            <div className={styles.batteryStatus}>
+              <BatteryFooterIcon size={18} />
+              <span>{env.battery.level > 0 ? env.battery.level : 74}%</span>
             </div>
-            <span
-              className={styles.platformDetail}
-              title={`Detected visitor host platform: ${env.platformDetail} (${env.timeZone})`}
-            >
-              {env.platformDetail}
-            </span>
           </div>
         </motion.div>
       )}

@@ -171,6 +171,7 @@ export default function CursorEffect() {
     const ringBorder = isDark
         ? (isHovering ? "1px solid rgba(255,255,255,0.7)" : "1px solid rgba(255,255,255,0.15)")
         : (isHovering ? "1px solid rgba(0,0,0,0.5)" : "1px solid rgba(0,0,0,0.12)");
+    if (isWindowsMode) return null;
 
     return (
         <>

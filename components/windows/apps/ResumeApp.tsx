@@ -119,7 +119,7 @@ export default function ResumeApp() {
                   <span className="text-[#888888] font-normal">Sep 2026</span>
                 </div>
                 <p className="text-[#cccccc] mt-1">
-                  Team Lead &amp; Architect for Sanket: offline-first emergency disaster relief communications for 40+ competing teams at UIET Panjab University.
+                  Team Lead &amp; Architect for Sanket: offline-first emergency disaster relief communications for 40+ competing teams at Plaksha University, Mohali.
                 </p>
               </div>
 

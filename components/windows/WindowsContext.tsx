@@ -104,6 +104,17 @@ export const APP_REGISTRY: DesktopAppDef[] = [
     category: "Tools",
     defaultSize: { width: 740, height: 480 },
   },
+  {
+    id: "calculator",
+    title: "Calculator",
+    description: "Windows 11 Standard Calculator with keyboard input and history",
+    iconPath: "/icons/calculator.svg",
+    iconBg: "bg-[#2b2b2b]",
+    pinnedToTaskbar: true,
+    pinnedToStart: true,
+    category: "Tools",
+    defaultSize: { width: 340, height: 520 },
+  },
 ];
 
 export function isDesktopSupported(): boolean {
@@ -124,10 +135,22 @@ export function isDesktopSupported(): boolean {
   return true;
 }
 
+export function isOsHost(hostname?: string | null): boolean {
+  if (!hostname) return false;
+  const clean = hostname.toLowerCase().split(":")[0];
+  return (
+    clean === "os.parteekgarg.in" ||
+    clean === "os.localhost" ||
+    clean.startsWith("os.") ||
+    clean.startsWith("os-")
+  );
+}
+
 export type WindowsTheme = "dark" | "light";
 
 export interface WindowsContextValue {
   isWindowsMode: boolean;
+  isOsSubdomain: boolean;
   windows: Record<AppId, WindowState>;
   activeAppId: AppId | null;
   isStartOpen: boolean;
@@ -167,6 +190,12 @@ const WindowsContext = createContext<WindowsContextValue | null>(null);
 
 export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const [isWindowsMode, setIsWindowsMode] = useState(false);
+  const isOsSubdomain = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    const hostname = window.location.hostname.toLowerCase();
+    const params = new URLSearchParams(window.location.search);
+    return isOsHost(hostname) || params.get("subdomain") === "os";
+  }, []);
   const env = useSystemEnvironment(isWindowsMode);
   const [windowsTheme, setWindowsThemeState] = useState<WindowsTheme>("dark");
   const [isStartOpen, setStartOpen] = useState(false);
@@ -174,7 +203,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const [isQuickSettingsOpen, setQuickSettingsOpen] = useState(false);
   const [isNightLight, setIsNightLight] = useState(false);
   const [activeAppId, setActiveAppId] = useState<AppId | null>(null);
-  const [topZIndex, setTopZIndex] = useState(100);
+  const [, setTopZIndex] = useState(100);
   const [errors, setErrors] = useState<ErrorType[]>([]);
   const [bluescreen, setBluescreen] = useState(false);
   const [isDesktopRequiredModalOpen, setIsDesktopRequiredModalOpen] = useState(false);
@@ -206,27 +235,62 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     return initial as Record<AppId, WindowState>;
   });
 
-  // Check URL query on mount (?view=windows or #windows)
+  // Check hostname and URL query on mount (os.parteekgarg.in, ?view=windows, #windows)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("view") === "windows" || window.location.hash === "#windows") {
-        if (isDesktopSupported()) {
-          setIsWindowsMode(true);
-        } else {
-          // On mobile / unsupported screens, do not enter Windows Mode
+    if (typeof window === "undefined") return;
+
+    const hostname = window.location.hostname.toLowerCase();
+    const params = new URLSearchParams(window.location.search);
+    const isOs = isOsHost(hostname) || params.get("subdomain") === "os";
+
+    const hasOsQuery =
+      params.get("view") === "windows" ||
+      params.get("os") === "true" ||
+      window.location.hash === "#windows";
+
+    if (isOs || hasOsQuery) {
+      if (isDesktopSupported()) {
+        setIsWindowsMode(true);
+        // If entering direct OS view, auto-open About Me if no other window is open
+        setWindows((prev) => {
+          const anyOpen = Object.values(prev).some((w) => w.isOpen);
+          if (!anyOpen) {
+            const screenW = window.innerWidth;
+            const screenH = window.innerHeight;
+            return {
+              ...prev,
+              about: {
+                ...prev.about,
+                isOpen: true,
+                isMinimized: false,
+                isMaximized: false,
+                zIndex: 101,
+                position: {
+                  x: Math.max(20, (screenW - 780) / 2),
+                  y: Math.max(20, (screenH - 540) / 2),
+                },
+              },
+            };
+          }
+          return prev;
+        });
+        setActiveAppId("about");
+      } else {
+        // Mobile / unsupported device restriction intact
+        if (hasOsQuery && !isOs) {
           const cleanUrl = window.location.pathname;
           window.history.replaceState(null, "", cleanUrl);
-          setIsDesktopRequiredModalOpen(true);
         }
+        setIsDesktopRequiredModalOpen(true);
       }
-      try {
-        const savedTheme = localStorage.getItem("parteek_os_theme") as WindowsTheme | null;
-        if (savedTheme === "light" || savedTheme === "dark") {
-          setWindowsThemeState(savedTheme);
-        }
-      } catch {}
     }
+
+    try {
+      const savedTheme = localStorage.getItem("parteek_os_theme") as WindowsTheme | null;
+      if (savedTheme === "light" || savedTheme === "dark") {
+        setWindowsThemeState(savedTheme);
+      }
+    } catch {}
   }, []);
 
   const setWindowsTheme = useCallback((theme: WindowsTheme) => {
@@ -303,11 +367,25 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     });
     setActiveAppId("about");
     if (typeof window !== "undefined") {
-      window.history.pushState(null, "", "?view=windows");
+      const hostname = window.location.hostname.toLowerCase();
+      if (!isOsHost(hostname)) {
+        window.history.pushState(null, "", "?view=windows");
+      }
     }
   }, []);
 
   const exitWindowsMode = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname.toLowerCase();
+      // If directly on OS subdomain, shutting down returns to main portfolio domain
+      if (isOsHost(hostname)) {
+        const rootHost = window.location.host.replace(/^os\./i, "").replace(/^os-/i, "");
+        const targetUrl = window.location.protocol + "//" + (rootHost || "parteekgarg.in");
+        window.location.href = targetUrl;
+        return;
+      }
+    }
+
     setIsWindowsMode(false);
     setStartOpen(false);
     setCalendarOpen(false);
@@ -325,13 +403,14 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
 
     const handleResize = () => {
       if (!isDesktopSupported()) {
-        exitWindowsMode();
+        setIsWindowsMode(false);
+        setIsDesktopRequiredModalOpen(true);
       }
     };
 
     window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
-  }, [isWindowsMode, exitWindowsMode]);
+  }, [isWindowsMode]);
 
   const bringToFront = useCallback((id: AppId) => {
     setTopZIndex((current) => {
@@ -498,6 +577,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<WindowsContextValue>(() => ({
     isWindowsMode,
+    isOsSubdomain,
     windows,
     activeAppId,
     isStartOpen,
@@ -533,6 +613,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     dismissBluescreen,
   }), [
     isWindowsMode,
+    isOsSubdomain,
     windows,
     activeAppId,
     isStartOpen,
