@@ -118,6 +118,21 @@ export function ChangelogContent() {
         <div className="space-y-10" style={{ color: "var(--color-text-secondary)" }}>
 
             <section>
+                <H>v2.0.0 — October 2026</H>
+                <Sub>The Parteek OS &amp; Dual-Experience Architecture Update</Sub>
+                <ul className="list-disc pl-5 space-y-1.5">
+                    <li><strong>Multi-Domain Dual Experience:</strong> Unified single-deployment architecture serving <code>parteekgarg.in</code> (editorial showcase) and <code>os.parteekgarg.in</code> (direct Parteek OS desktop) powered by Next.js Edge Middleware without URL redirection.</li>
+                    <li><strong>Full Windows 11 Desktop Simulation:</strong> Built comprehensive desktop workspace featuring draggable, resizable, and snappable windows, dynamic z-index management, minimize to taskbar, and Alt+F4 shortcuts.</li>
+                    <li><strong>Centered Fluent Taskbar &amp; Mica Start Menu:</strong> Windows 11-style taskbar with live running indicators, and acrylic Start Menu featuring real-time app search, curated pinned apps, and direct social links.</li>
+                    <li><strong>Quick Settings Action Center:</strong> Action center flyout with toggles (Wi-Fi, Bluetooth, Dark Mode, Night Light), live brightness and audio volume sliders, and battery health telemetry.</li>
+                    <li><strong>Live Digital Clock &amp; Calendar Flyout:</strong> Built an isolated 1-second interval ticking digital clock and interactive monthly calendar with focus and visibility listeners to prevent freezing.</li>
+                    <li><strong>Built-in Applications Suite:</strong> Windows 11 Calculator with keyboard numpad support, Windows Command Prompt with <code>C:\Users\ParteekOS&gt;</code> prompt and MINGW64 environment, File Explorer with breadcrumb navigation, Notepad text editor, filterable Hackathon Tracker (with updated Plaksha University venue), Certifications Viewer, formatted Resume App, and Contact Mail client.</li>
+                    <li><strong>Responsive Guardrail:</strong> Redesigned mobile desktop notice into a dark editorial modal for screens under 1024px with smart subdomain return routing.</li>
+                    <li><strong>Dynamic Tab Titles:</strong> Automatically sets document title to <code>Parteek Garg | OS</code> in Windows mode, restoring smoothly on exit.</li>
+                </ul>
+            </section>
+
+            <section>
                 <H>v1.6.0 — October 2026</H>
                 <Sub>The Editorial Architecture &amp; Experience Polish Update</Sub>
                 <ul className="list-disc pl-5 space-y-1.5">

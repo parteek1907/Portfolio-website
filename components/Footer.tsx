@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
-    const buildVersion = "v1.6.0"; // Updated October 2026
+    const buildVersion = "v2.0.0"; // Updated October 2026
     const lastUpdated = "October 2026";
 
     const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
