@@ -143,7 +143,7 @@ export default function WindowsTaskbar() {
         </div>
 
         {/* Divider */}
-        <div className="w-px h-6 bg-white/10 mx-1 hidden sm:block" />
+        <div className={`${styles.divider} hidden sm:block`} />
 
         {/* Only Social Links in Taskbar */}
         {taskbarSocials.map((social) => {

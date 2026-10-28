@@ -244,3 +244,113 @@
 .focusBtn:hover {
 	background-color: rgba(255, 255, 255, 0.15);
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - CALENDAR FLYOUT
+   ========================================================= */
+:global([data-win-theme="light"]) .calendarFlyout {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background-color: rgba(243, 243, 243, 0.95);
+	background-image: none;
+	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .topSection {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .topSection h2 {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .topSection .liveTime {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .collapseBtn {
+	color: #555555;
+}
+
+:global([data-win-theme="light"]) .collapseBtn:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .monthTitle span {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .todayBtn {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .todayBtn:hover {
+	background-color: #f0f0f0;
+}
+
+:global([data-win-theme="light"]) .arrowBtn {
+	color: #555555;
+}
+
+:global([data-win-theme="light"]) .arrowBtn:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .weekHeaderCell {
+	color: #777777;
+}
+
+:global([data-win-theme="light"]) .currentMonth {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .otherMonth {
+	color: #aaaaaa;
+}
+
+:global([data-win-theme="light"]) .dayCell:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .selectedCell {
+	border: 2px solid #0078D4 !important;
+	background-color: rgba(0, 120, 212, 0.1) !important;
+}
+
+:global([data-win-theme="light"]) .todayCell {
+	background-color: #0078D4 !important;
+	color: #ffffff !important;
+}
+
+:global([data-win-theme="light"]) .focusSection {
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+	background-color: rgba(255, 255, 255, 0.6);
+}
+
+:global([data-win-theme="light"]) .focusIcon {
+	background-color: #ffffff;
+	color: #1c1c1c;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+:global([data-win-theme="light"]) .focusText h4 {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .focusText p {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .focusBtn {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .focusBtn:hover {
+	background-color: #f0f0f0;
+}

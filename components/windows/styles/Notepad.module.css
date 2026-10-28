@@ -133,3 +133,58 @@
 	padding-left: 12px;
 	border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - NOTEPAD
+   ========================================================= */
+:global([data-win-theme="light"]) .main {
+	background-color: #ffffff;
+}
+
+:global([data-win-theme="light"]) .top {
+	background-color: #f3f3f3;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .navButton:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .navButton p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navButtonsDropdown {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+:global([data-win-theme="light"]) .navButtonsItem:hover {
+	background-color: #f0f0f0;
+}
+
+:global([data-win-theme="light"]) .navButtonsItem p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navButtonsItem p:nth-child(2) {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .textarea textarea {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .footer {
+	background-color: #f3f3f3;
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .footer p {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .footer > div:nth-child(2) p {
+	border-left: 1px solid rgba(0, 0, 0, 0.1);
+}

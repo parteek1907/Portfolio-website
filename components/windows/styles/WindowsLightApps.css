@@ -1,0 +1,131 @@
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - SYSTEM-WIDE APP ADAPTATION
+   ========================================================= */
+
+/* Main App Workspaces */
+[data-win-theme="light"] div[class*="bg-[#191919]"],
+[data-win-theme="light"] div[class*="bg-[#101010]"],
+[data-win-theme="light"] div[class*="bg-[#181818]"],
+[data-win-theme="light"] section[class*="bg-[#191919]"] {
+  background-color: #ffffff !important;
+  color: #1c1c1c !important;
+}
+
+/* App Toolbars, Sidebars and Command Strips */
+[data-win-theme="light"] div[class*="bg-[#202020]"],
+[data-win-theme="light"] div[class*="bg-[#212121]"],
+[data-win-theme="light"] div[class*="bg-[#222222]"],
+[data-win-theme="light"] header[class*="bg-[#202020]"],
+[data-win-theme="light"] header[class*="bg-[#212121]"] {
+  background-color: #f3f3f3 !important;
+  color: #1c1c1c !important;
+}
+
+/* Secondary Panels, Cards & Boxes */
+[data-win-theme="light"] div[class*="bg-[#2b2b2b]"],
+[data-win-theme="light"] div[class*="bg-[#2a2a2a]"],
+[data-win-theme="light"] div[class*="bg-[#2e2e2e]"],
+[data-win-theme="light"] div[class*="bg-[#252525]"],
+[data-win-theme="light"] div[class*="bg-[#303030]"] {
+  background-color: #f8f8f8 !important;
+  color: #1c1c1c !important;
+}
+
+/* Interactive Buttons */
+[data-win-theme="light"] button[class*="bg-[#2b2b2b]"],
+[data-win-theme="light"] button[class*="bg-[#383838]"],
+[data-win-theme="light"] button[class*="bg-[#353535]"],
+[data-win-theme="light"] button[class*="bg-[#2f2f2f]"],
+[data-win-theme="light"] a[class*="bg-[#2b2b2b]"] {
+  background-color: #e5e5e5 !important;
+  color: #1c1c1c !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-win-theme="light"] button[class*="bg-[#2b2b2b]"]:hover,
+[data-win-theme="light"] button[class*="bg-[#383838]"]:hover,
+[data-win-theme="light"] a[class*="bg-[#2b2b2b]"]:hover {
+  background-color: #dbdbdb !important;
+  color: #000000 !important;
+}
+
+/* Active Highlight Buttons (Preserve Windows 11 Blue) */
+[data-win-theme="light"] button[class*="bg-[#0078D4]"],
+[data-win-theme="light"] a[class*="bg-[#0078D4]"] {
+  background-color: #0078D4 !important;
+  color: #ffffff !important;
+}
+
+/* Borders */
+[data-win-theme="light"] *[class*="border-[#323232]"],
+[data-win-theme="light"] *[class*="border-[#383838]"],
+[data-win-theme="light"] *[class*="border-[#404040]"],
+[data-win-theme="light"] *[class*="border-[#484848]"],
+[data-win-theme="light"] *[class*="border-[#2b2b2b]"],
+[data-win-theme="light"] *[class*="border-neutral-800"],
+[data-win-theme="light"] *[class*="border-neutral-700"] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Text Hierarchy */
+[data-win-theme="light"] h1[class*="text-white"],
+[data-win-theme="light"] h2[class*="text-white"],
+[data-win-theme="light"] h3[class*="text-white"],
+[data-win-theme="light"] h4[class*="text-white"],
+[data-win-theme="light"] p[class*="text-white"],
+[data-win-theme="light"] span[class*="text-white"],
+[data-win-theme="light"] div[class*="text-white"] {
+  color: #1c1c1c !important;
+}
+
+[data-win-theme="light"] *[class*="text-[#cccccc]"],
+[data-win-theme="light"] *[class*="text-[#aaaaaa]"],
+[data-win-theme="light"] *[class*="text-neutral-300"],
+[data-win-theme="light"] *[class*="text-neutral-200"] {
+  color: #2b2b2b !important;
+}
+
+[data-win-theme="light"] *[class*="text-[#888888]"],
+[data-win-theme="light"] *[class*="text-neutral-400"],
+[data-win-theme="light"] *[class*="text-neutral-500"] {
+  color: #666666 !important;
+}
+
+/* Form Controls (Inputs, Selects, Textareas) */
+[data-win-theme="light"] input[class*="bg-[#202020]"],
+[data-win-theme="light"] input[class*="bg-[#191919]"],
+[data-win-theme="light"] textarea[class*="bg-[#202020]"],
+[data-win-theme="light"] textarea[class*="bg-[#191919]"],
+[data-win-theme="light"] select[class*="bg-[#202020]"] {
+  background-color: #ffffff !important;
+  color: #1c1c1c !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Badges & Tags */
+[data-win-theme="light"] span[class*="bg-[#2b2b2b]"],
+[data-win-theme="light"] span[class*="bg-[#191919]"],
+[data-win-theme="light"] span[class*="bg-[#222222]"] {
+  background-color: #eaeaea !important;
+  color: #333333 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Light Scrollbars for Windows 11 Light Theme */
+[data-win-theme="light"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-win-theme="light"] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-win-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+[data-win-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
+}

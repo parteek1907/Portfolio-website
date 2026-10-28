@@ -150,3 +150,60 @@
 	position: relative;
 	overscroll-behavior: contain;
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - WINDOW CHROME
+   ========================================================= */
+:global([data-win-theme="light"]) .container {
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background-color: #ffffff;
+	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+:global([data-win-theme="light"]) .main nav {
+	background-color: #f3f3f3;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .topContainer p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .iconContainer {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .top .icon {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .top .icon:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .top .iconClose {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .top .iconClose:hover {
+	background-color: #e81123 !important;
+	color: #ffffff !important;
+}
+
+:global([data-win-theme="light"]) .terminalContainer {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .terminalContainer svg:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .terminalContainer div:first-child {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	border-bottom: none;
+}
+
+:global([data-win-theme="light"]) .terminalContainer div:first-child p {
+	color: #1c1c1c;
+}

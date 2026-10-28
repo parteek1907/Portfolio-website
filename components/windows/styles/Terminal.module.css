@@ -71,3 +71,39 @@
 	padding-top: 4px;
 	padding-bottom: 4px;
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - TERMINAL
+   ========================================================= */
+:global([data-win-theme="light"]) .terminalWrapper {
+	background-color: #fbfbfb;
+	background-image: none;
+}
+
+:global([data-win-theme="light"]) .main p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .promt {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .promt p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .promt input {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .terminalTitle {
+	color: #0b820b !important;
+}
+
+:global([data-win-theme="light"]) .terminalTitle > span {
+	color: #9c6e00;
+}
+
+:global([data-win-theme="light"]) .terminalTitle > span:first-child {
+	color: #8a14b5;
+}

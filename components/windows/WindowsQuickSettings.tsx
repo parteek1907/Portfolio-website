@@ -25,6 +25,8 @@ interface WindowsQuickSettingsProps {
   env: SystemEnvironment;
   isNightLight: boolean;
   onToggleNightLight: () => void;
+  windowsTheme: "dark" | "light";
+  onToggleTheme: () => void;
 }
 
 export default function WindowsQuickSettings({
@@ -33,6 +35,8 @@ export default function WindowsQuickSettings({
   env,
   isNightLight,
   onToggleNightLight,
+  windowsTheme,
+  onToggleTheme,
 }: WindowsQuickSettingsProps) {
   const flyoutRef = useRef<HTMLDivElement>(null);
 
@@ -134,7 +138,7 @@ export default function WindowsQuickSettings({
             </div>
           </div>
 
-          {/* Quick Action Tiles */}
+          {/* Quick Action Tiles (Authentic Windows 11 2x2 Grid) */}
           <div className={styles.tilesGrid}>
             {/* Wi-Fi / Connection Tile */}
             <div
@@ -143,16 +147,19 @@ export default function WindowsQuickSettings({
               }`}
               title={
                 env.network.isOnline
-                  ? "Real connection: Online"
-                  : "Real connection: Offline"
+                  ? "Network: Connected"
+                  : "Network: Offline"
               }
             >
               <div className={styles.tileIcon}>
-                {env.network.isOnline ? <IoWifi /> : <IoGlobeOutline />}
+                {env.network.isOnline ? <IoWifi size={18} /> : <IoGlobeOutline size={18} />}
               </div>
-              <p className={styles.tileLabel}>
-                {env.network.isOnline ? "Network" : "Offline"}
-              </p>
+              <div className={styles.tileTextWrapper}>
+                <p className={styles.tileLabel}>Network</p>
+                <span className={styles.tileSub}>
+                  {env.network.isOnline ? "Connected" : "Offline"}
+                </span>
+              </div>
             </div>
 
             {/* Portfolio Audio Mute Tile */}
@@ -166,14 +173,17 @@ export default function WindowsQuickSettings({
             >
               <div className={styles.tileIcon}>
                 {env.isMuted || env.audioVolume === 0 ? (
-                  <IoVolumeMute />
+                  <IoVolumeMute size={18} />
                 ) : (
-                  <IoVolumeHigh />
+                  <IoVolumeHigh size={18} />
                 )}
               </div>
-              <p className={styles.tileLabel}>
-                {env.isMuted || env.audioVolume === 0 ? "Muted" : "Audio"}
-              </p>
+              <div className={styles.tileTextWrapper}>
+                <p className={styles.tileLabel}>Audio</p>
+                <span className={styles.tileSub}>
+                  {env.isMuted || env.audioVolume === 0 ? "Muted" : `${env.audioVolume}%`}
+                </span>
+              </div>
             </button>
 
             {/* Night Light Tile */}
@@ -184,11 +194,34 @@ export default function WindowsQuickSettings({
               title="Toggle simulated warm night light filter"
             >
               <div className={styles.tileIcon}>
-                {isNightLight ? <IoMoonOutline /> : <IoSunnyOutline />}
+                {isNightLight ? <IoMoonOutline size={18} /> : <IoSunnyOutline size={18} />}
               </div>
-              <p className={styles.tileLabel}>
-                {isNightLight ? "Night On" : "Night Light"}
-              </p>
+              <div className={styles.tileTextWrapper}>
+                <p className={styles.tileLabel}>Night light</p>
+                <span className={styles.tileSub}>
+                  {isNightLight ? "On" : "Off"}
+                </span>
+              </div>
+            </button>
+
+            {/* Windows OS Theme Toggle Tile (Dark / Light Mode) */}
+            <button
+              type="button"
+              onClick={onToggleTheme}
+              className={`${styles.tile} ${windowsTheme === "light" ? styles.tileActive : ""}`}
+              title={`Theme: ${windowsTheme === "light" ? "Light Mode" : "Dark Mode"}. Click to switch to ${
+                windowsTheme === "light" ? "Dark" : "Light"
+              } theme`}
+            >
+              <div className={styles.tileIcon}>
+                {windowsTheme === "light" ? <IoSunnyOutline size={18} /> : <IoMoonOutline size={18} />}
+              </div>
+              <div className={styles.tileTextWrapper}>
+                <p className={styles.tileLabel}>Theme</p>
+                <span className={styles.tileSub}>
+                  {windowsTheme === "light" ? "Light" : "Dark"}
+                </span>
+              </div>
             </button>
           </div>
 
@@ -216,7 +249,7 @@ export default function WindowsQuickSettings({
                 className={styles.rangeInput}
                 aria-label="Portfolio audio volume slider"
               />
-              <span className="text-[11px] font-mono text-neutral-300 w-8 text-right tabular-nums">
+              <span className={styles.volumeValue}>
                 {env.isMuted ? "0%" : `${env.audioVolume}%`}
               </span>
             </div>
@@ -229,13 +262,13 @@ export default function WindowsQuickSettings({
           {/* Adaptive Environment & Device Telemetry (Safe, Client-Only) */}
           <div className={styles.footerInfo}>
             <div className={styles.deviceSpec} title="Client display resolution & scaling">
-              <IoDesktopOutline size={13} className="text-neutral-400" />
+              <IoDesktopOutline size={13} className="shrink-0" />
               <span>
                 {env.viewport.width}×{env.viewport.height} @ {env.dpr}x DPR
               </span>
             </div>
             <span
-              className="text-[11px] text-neutral-400 truncate max-w-[130px]"
+              className={styles.platformDetail}
               title={`Detected visitor host platform: ${env.platformDetail} (${env.timeZone})`}
             >
               {env.platformDetail}

@@ -15,6 +15,7 @@ import WindowsQuickSettings from "./WindowsQuickSettings";
 import { IoGlobeOutline } from "react-icons/io5";
 import layoutStyles from "./styles/Layout.module.css";
 import iconStyles from "./styles/Icons.module.css";
+import "./styles/WindowsLightApps.css";
 
 // Lazy-load applications on demand to keep initial boot and overall website feather-light
 const AboutApp = dynamic(() => import("./apps/AboutApp"), { ssr: false });
@@ -41,6 +42,8 @@ export default function WindowsDesktop() {
     setQuickSettingsOpen,
     isNightLight,
     setIsNightLight,
+    windowsTheme,
+    toggleWindowsTheme,
     env,
   } = useWindows();
 
@@ -65,7 +68,8 @@ export default function WindowsDesktop() {
         />
       )}
       <div 
-        className={layoutStyles.container} 
+        className={layoutStyles.container}
+        data-win-theme={windowsTheme}
         data-lenis-prevent="true"
       >
       {/* Desktop Space (Above Taskbar) */}
@@ -227,6 +231,8 @@ export default function WindowsDesktop() {
         env={env}
         isNightLight={isNightLight}
         onToggleNightLight={() => setIsNightLight(!isNightLight)}
+        windowsTheme={windowsTheme}
+        onToggleTheme={toggleWindowsTheme}
       />
 
       {/* Centered Windows 11 Taskbar */}

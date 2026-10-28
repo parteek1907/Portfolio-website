@@ -309,3 +309,91 @@
 		width: 100%;
 	}
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - START MENU
+   ========================================================= */
+:global([data-win-theme="light"]) .winMenuBg {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background-color: rgba(243, 243, 243, 0.95);
+	background-image: none;
+	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+:global([data-win-theme="light"]) .winMenuSearch input[type='text'] {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-bottom: 2px solid #0078D4;
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .winMenuSearch .inputWithIcon svg {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .winMenuPinnedTop h2,
+:global([data-win-theme="light"]) .winMenuPinnedTop p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .winMenuPinnedTop div:nth-child(2) {
+	background-color: #e5e5e5;
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .winMenuPinnedTop div:nth-child(2):hover {
+	background-color: #dbdbdb;
+}
+
+:global([data-win-theme="light"]) .pinnedTile p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .pinnedTile:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+:global([data-win-theme="light"]) .recommendedTile p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .recommendedTile span {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .recommendedTile:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+:global([data-win-theme="light"]) .winMenuFooter {
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+	background-color: rgba(235, 235, 235, 0.8);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .winMenuFooter p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .powerBtn {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .powerBtn:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .powerDropdown {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+:global([data-win-theme="light"]) .powerDropdown button {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .powerDropdown button:hover {
+	background-color: #f0f0f0;
+	color: #000000;
+}

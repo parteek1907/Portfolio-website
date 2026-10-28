@@ -124,6 +124,8 @@ export function isDesktopSupported(): boolean {
   return true;
 }
 
+export type WindowsTheme = "dark" | "light";
+
 export interface WindowsContextValue {
   isWindowsMode: boolean;
   windows: Record<AppId, WindowState>;
@@ -132,6 +134,9 @@ export interface WindowsContextValue {
   isCalendarOpen: boolean;
   isQuickSettingsOpen: boolean;
   isNightLight: boolean;
+  windowsTheme: WindowsTheme;
+  setWindowsTheme: (theme: WindowsTheme) => void;
+  toggleWindowsTheme: () => void;
   env: SystemEnvironment;
   errors: ErrorType[];
   bluescreen: boolean;
@@ -163,6 +168,7 @@ const WindowsContext = createContext<WindowsContextValue | null>(null);
 export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const [isWindowsMode, setIsWindowsMode] = useState(false);
   const env = useSystemEnvironment(isWindowsMode);
+  const [windowsTheme, setWindowsThemeState] = useState<WindowsTheme>("dark");
   const [isStartOpen, setStartOpen] = useState(false);
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [isQuickSettingsOpen, setQuickSettingsOpen] = useState(false);
@@ -214,7 +220,30 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
           setIsDesktopRequiredModalOpen(true);
         }
       }
+      try {
+        const savedTheme = localStorage.getItem("parteek_os_theme") as WindowsTheme | null;
+        if (savedTheme === "light" || savedTheme === "dark") {
+          setWindowsThemeState(savedTheme);
+        }
+      } catch {}
     }
+  }, []);
+
+  const setWindowsTheme = useCallback((theme: WindowsTheme) => {
+    setWindowsThemeState(theme);
+    try {
+      localStorage.setItem("parteek_os_theme", theme);
+    } catch {}
+  }, []);
+
+  const toggleWindowsTheme = useCallback(() => {
+    setWindowsThemeState((prev) => {
+      const nextTheme: WindowsTheme = prev === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem("parteek_os_theme", nextTheme);
+      } catch {}
+      return nextTheme;
+    });
   }, []);
 
   // Sync body and documentElement scroll locking when in Windows Mode
@@ -475,6 +504,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     isCalendarOpen,
     isQuickSettingsOpen,
     isNightLight,
+    windowsTheme,
+    setWindowsTheme,
+    toggleWindowsTheme,
     env,
     errors,
     bluescreen,
@@ -507,6 +539,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     isCalendarOpen,
     isQuickSettingsOpen,
     isNightLight,
+    windowsTheme,
+    setWindowsTheme,
+    toggleWindowsTheme,
     env,
     errors,
     bluescreen,

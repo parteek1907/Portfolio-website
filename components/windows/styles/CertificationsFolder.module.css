@@ -511,3 +511,138 @@
     display: none;
   }
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - CERTIFICATIONS FOLDER
+   ========================================================= */
+:global([data-win-theme="light"]) .container {
+  background-color: #ffffff;
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .commandBar {
+  background-color: #f3f3f3;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .commandBtn {
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .commandBtn:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .commandIconBtn {
+  color: #444444;
+}
+
+:global([data-win-theme="light"]) .commandIconBtn:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .divider {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+:global([data-win-theme="light"]) .navigateBar {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .breadcrumbContainer {
+  background-color: #f3f3f3;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+:global([data-win-theme="light"]) .breadcrumbItem {
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .searchBar {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+:global([data-win-theme="light"]) .searchInput {
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .tableHeader {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #666666;
+}
+
+:global([data-win-theme="light"]) .fileRow {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .fileRow:hover {
+  background-color: rgba(0, 0, 0, 0.035);
+}
+
+:global([data-win-theme="light"]) .fileRowSelected {
+  background-color: rgba(0, 120, 212, 0.1) !important;
+}
+
+:global([data-win-theme="light"]) .fileName {
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .fileMeta {
+  color: #666666;
+}
+
+:global([data-win-theme="light"]) .statusBar {
+  background-color: #f3f3f3;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  color: #666666;
+}
+
+:global([data-win-theme="light"]) .sidebar {
+  background-color: #f3f3f3;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .sidebarItem {
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .sidebarItem:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .sidebarItemActive {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+:global([data-win-theme="light"]) .propertiesModal {
+  background-color: #ffffff;
+  color: #1c1c1c;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.2);
+}
+
+:global([data-win-theme="light"]) .propertiesHeader {
+  background-color: #f3f3f3;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .propertiesFooter {
+  background-color: #f3f3f3;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .dialogBtn {
+  background-color: #e5e5e5;
+  color: #1c1c1c;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+:global([data-win-theme="light"]) .dialogBtn:hover {
+  background-color: #dbdbdb;
+}

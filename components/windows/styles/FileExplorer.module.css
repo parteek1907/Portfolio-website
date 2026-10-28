@@ -323,3 +323,108 @@
 		height: 2.6rem;
 	}
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - FILE EXPLORER
+   ========================================================= */
+:global([data-win-theme="light"]) .top {
+	background-color: #f3f3f3;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .manage {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .manage .icon p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .manage .icon:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .manageDropdown {
+	background-color: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+:global([data-win-theme="light"]) .manageDropdown div:hover {
+	background-color: #f0f0f0;
+}
+
+:global([data-win-theme="light"]) .manageDropdown p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navigatePath {
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background-color: #ffffff;
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navigatePath input {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navigatePath .left svg {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .navigatePath .right div:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .navigateSearch {
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background-color: #ffffff;
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navigateSearch input {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navigateSearch svg {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .arrows svg {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .arrows svg:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .sidebar {
+	background-color: #f3f3f3;
+	border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .navigationDropdown:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .navigationDropdown a,
+:global([data-win-theme="light"]) .navigationDropdown span {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navigationItem {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .navigationItem:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .activeSidebar {
+	background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+:global([data-win-theme="light"]) .content {
+	background-color: #ffffff;
+}

@@ -48,6 +48,17 @@
 	align-items: center;
 }
 
+.divider {
+	width: 1px;
+	height: 24px;
+	background-color: rgba(255, 255, 255, 0.1);
+	margin: 0 4px;
+}
+
+:global([data-win-theme="light"]) .divider {
+	background-color: rgba(0, 0, 0, 0.12);
+}
+
 .icon,
 .dateIcons,
 .language {
@@ -284,4 +295,88 @@
 	.timeText {
 		font-size: 0.70rem;
 	}
+}
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - TASKBAR & SYSTEM TRAY
+   ========================================================= */
+:global([data-win-theme="light"]) .container {
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+	background-color: rgba(243, 243, 243, 0.85);
+	background-image: none;
+	backdrop-filter: blur(30px);
+}
+
+:global([data-win-theme="light"]) .icon {
+	color: #1f1f1f;
+}
+
+:global([data-win-theme="light"]) .icon:hover,
+:global([data-win-theme="light"]) .activeIcon {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .openIndicator {
+	background-color: rgba(0, 0, 0, 0.35);
+}
+
+:global([data-win-theme="light"]) .activeIndicator {
+	background-color: #0078D4;
+}
+
+:global([data-win-theme="light"]) .toolbarContainer {
+	color: #1f1f1f;
+}
+
+:global([data-win-theme="light"]) .hiddenIcons {
+	color: #555555;
+}
+
+:global([data-win-theme="light"]) .hiddenIcons:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .systemCluster {
+	color: #1f1f1f;
+}
+
+:global([data-win-theme="light"]) .systemCluster:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .activeCluster {
+	background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+:global([data-win-theme="light"]) .dateTimeCluster:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .timeText {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .dateText {
+	color: #555555;
+}
+
+:global([data-win-theme="light"]) .language {
+	color: #1f1f1f;
+}
+
+:global([data-win-theme="light"]) .language p {
+	color: #1f1f1f;
+}
+
+:global([data-win-theme="light"]) .language:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .showDesktop {
+	border-left: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+:global([data-win-theme="light"]) .showDesktop:hover {
+	background-color: rgba(0, 0, 0, 0.1);
 }

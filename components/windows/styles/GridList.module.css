@@ -93,3 +93,44 @@
 .detailsRow:hover {
 	background-color: #2e2e2e;
 }
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - GRID LIST
+   ========================================================= */
+:global([data-win-theme="light"]) .dropdownNav h2 {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .dropdownNav div {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+:global([data-win-theme="light"]) .item {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .item:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+:global([data-win-theme="light"]) .item p {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .item span {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .detailsHeader {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .detailsRow {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .detailsRow:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}

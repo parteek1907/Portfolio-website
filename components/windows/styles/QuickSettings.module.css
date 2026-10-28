@@ -74,29 +74,29 @@
 	line-height: 1.2;
 }
 
-/* 3x2 Quick Action Tiles */
+/* Authentic Windows 11 2x2 Quick Action Tiles */
 .tilesGrid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	gap: 8px;
 	margin-bottom: 16px;
 }
 
 .tile {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	gap: 6px;
-	padding: 12px 6px;
+	gap: 10px;
+	padding: 10px 12px;
 	border-radius: 8px;
 	background: #2b2b2b;
 	border: 1px solid rgba(255, 255, 255, 0.08);
 	color: #cccccc;
 	cursor: pointer;
 	transition: all 0.15s ease;
-	text-align: center;
+	text-align: left;
 	outline: none;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .tile:hover {
@@ -116,14 +116,43 @@
 }
 
 .tileIcon {
-	font-size: 1.25rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.15rem;
+	flex-shrink: 0;
+}
+
+.tileTextWrapper {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
 }
 
 .tileLabel {
-	font-size: 0.72rem;
-	font-weight: 500;
+	font-size: 0.74rem;
+	font-weight: 600;
 	margin: 0;
 	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #ffffff;
+}
+
+.tileSub {
+	font-size: 0.65rem;
+	color: #999999;
+	margin: 0;
+	line-height: 1.2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tileActive .tileSub {
+	color: rgba(255, 255, 255, 0.85) !important;
 }
 
 /* Volume Slider Section */
@@ -170,6 +199,15 @@
 	cursor: pointer;
 }
 
+.volumeValue {
+	font-size: 11px;
+	font-family: Consolas, "Cascadia Code", monospace;
+	color: #d4d4d4;
+	width: 32px;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
 .sliderNotice {
 	display: flex;
 	align-items: center;
@@ -212,4 +250,116 @@
 	display: flex;
 	align-items: center;
 	gap: 6px;
+}
+
+.platformDetail {
+	font-size: 11px;
+	color: #888888;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 140px;
+}
+
+/* =========================================================
+   WINDOWS 11 LIGHT THEME - QUICK SETTINGS
+   ========================================================= */
+:global([data-win-theme="light"]) .flyout {
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background-color: rgba(243, 243, 243, 0.95);
+	background-image: none;
+	box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.04);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .topStatus {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:global([data-win-theme="light"]) .statusIcon {
+	background: rgba(0, 120, 212, 0.1);
+	color: #0078D4;
+}
+
+:global([data-win-theme="light"]) .statusTitle {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .statusSub {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .tile {
+	background: #e5e5e5;
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .tileLabel {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .tileSub {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .tile:hover {
+	background: #dbdbdb;
+	color: #000000;
+	border-color: rgba(0, 0, 0, 0.12);
+}
+
+:global([data-win-theme="light"]) .tileActive {
+	background: #0078D4 !important;
+	border-color: #0067c0 !important;
+	color: #ffffff !important;
+}
+
+:global([data-win-theme="light"]) .tileActive .tileLabel {
+	color: #ffffff !important;
+}
+
+:global([data-win-theme="light"]) .tileActive:hover {
+	background: #106ebe !important;
+}
+
+:global([data-win-theme="light"]) .sliderSection {
+	background: rgba(255, 255, 255, 0.7);
+	border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .sliderIconBtn {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .sliderIconBtn:hover {
+	background: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-win-theme="light"]) .volumeValue {
+	color: #1c1c1c;
+}
+
+:global([data-win-theme="light"]) .sliderNotice {
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .simBadge {
+	background: rgba(0, 0, 0, 0.06);
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .realBadge {
+	background: rgba(0, 120, 212, 0.12);
+	color: #0078D4;
+	border-color: rgba(0, 120, 212, 0.3);
+}
+
+:global([data-win-theme="light"]) .footerInfo {
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+	color: #666666;
+}
+
+:global([data-win-theme="light"]) .platformDetail {
+	color: #666666;
 }

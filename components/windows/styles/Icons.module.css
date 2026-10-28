@@ -83,6 +83,26 @@
 	visibility: hidden;
 }
 
+/* Windows 11 Light Theme Desktop Icons */
+:global([data-win-theme="light"]) .item {
+	color: #1a1a1a;
+}
+
+:global([data-win-theme="light"]) .item p {
+	color: #1a1a1a;
+	text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+:global([data-win-theme="light"]) .item:hover {
+	background-color: rgba(0, 0, 0, 0.06);
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+:global([data-win-theme="light"]) .selected {
+	background-color: rgba(0, 120, 212, 0.15) !important;
+	border-color: rgba(0, 120, 212, 0.4) !important;
+}
+
 @media (max-width: 768px) {
 	.wrapper {
 		grid-template-rows: repeat(5, 80px);
