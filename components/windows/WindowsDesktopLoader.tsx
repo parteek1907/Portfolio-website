@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useWindows } from "@/components/windows/WindowsContext";
+import DesktopRequiredModal from "./DesktopRequiredModal";
 
 // Lazy-load the entire Windows Desktop environment only when Windows Mode is activated
 const WindowsDesktop = dynamic(() => import("./WindowsDesktop"), {
@@ -12,9 +13,10 @@ const WindowsDesktop = dynamic(() => import("./WindowsDesktop"), {
 export default function WindowsDesktopLoader() {
   const { isWindowsMode } = useWindows();
 
-  if (!isWindowsMode) {
-    return null;
-  }
-
-  return <WindowsDesktop />;
+  return (
+    <>
+      <DesktopRequiredModal />
+      {isWindowsMode && <WindowsDesktop />}
+    </>
+  );
 }

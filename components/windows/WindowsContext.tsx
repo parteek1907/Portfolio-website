@@ -106,7 +106,25 @@ export const APP_REGISTRY: DesktopAppDef[] = [
   },
 ];
 
-interface WindowsContextValue {
+export function isDesktopSupported(): boolean {
+  if (typeof window === "undefined") return true;
+
+  // Viewport breakpoint: requires desktop/laptop width (>= 1024px) and height (>= 500px)
+  const isSufficientSize = window.innerWidth >= 1024 && window.innerHeight >= 500;
+  if (!isSufficientSize) return false;
+
+  // Input capability check: purely coarse handheld devices in high-DPI scaling
+  const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+  const hasCoarseOnly = window.matchMedia("(pointer: coarse)").matches && !hasFinePointer;
+
+  if (hasCoarseOnly && window.innerWidth < 1280) {
+    return false;
+  }
+
+  return true;
+}
+
+export interface WindowsContextValue {
   isWindowsMode: boolean;
   windows: Record<AppId, WindowState>;
   activeAppId: AppId | null;
@@ -117,6 +135,9 @@ interface WindowsContextValue {
   env: SystemEnvironment;
   errors: ErrorType[];
   bluescreen: boolean;
+  isDesktopRequiredModalOpen: boolean;
+  openDesktopRequiredModal: () => void;
+  closeDesktopRequiredModal: () => void;
   enterWindowsMode: () => void;
   exitWindowsMode: () => void;
   openApp: (id: AppId) => void;
@@ -150,6 +171,15 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const [topZIndex, setTopZIndex] = useState(100);
   const [errors, setErrors] = useState<ErrorType[]>([]);
   const [bluescreen, setBluescreen] = useState(false);
+  const [isDesktopRequiredModalOpen, setIsDesktopRequiredModalOpen] = useState(false);
+
+  const openDesktopRequiredModal = useCallback(() => {
+    setIsDesktopRequiredModalOpen(true);
+  }, []);
+
+  const closeDesktopRequiredModal = useCallback(() => {
+    setIsDesktopRequiredModalOpen(false);
+  }, []);
 
   // Initialize all windows state
   const [windows, setWindows] = useState<Record<AppId, WindowState>>(() => {
@@ -175,7 +205,14 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       if (params.get("view") === "windows" || window.location.hash === "#windows") {
-        setIsWindowsMode(true);
+        if (isDesktopSupported()) {
+          setIsWindowsMode(true);
+        } else {
+          // On mobile / unsupported screens, do not enter Windows Mode
+          const cleanUrl = window.location.pathname;
+          window.history.replaceState(null, "", cleanUrl);
+          setIsDesktopRequiredModalOpen(true);
+        }
       }
     }
   }, []);
@@ -204,6 +241,10 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   }, [isWindowsMode]);
 
   const enterWindowsMode = useCallback(() => {
+    if (!isDesktopSupported()) {
+      setIsDesktopRequiredModalOpen(true);
+      return;
+    }
     setIsWindowsMode(true);
     setStartOpen(false);
     setCalendarOpen(false);
@@ -214,18 +255,17 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
       if (!anyOpen) {
         const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
         const screenH = typeof window !== "undefined" ? window.innerHeight : 800;
-        const isSmall = screenW < 768;
         return {
           ...prev,
           about: {
             ...prev.about,
             isOpen: true,
             isMinimized: false,
-            isMaximized: isSmall,
+            isMaximized: false,
             zIndex: 101,
             position: {
-              x: isSmall ? 0 : Math.max(20, (screenW - 780) / 2),
-              y: isSmall ? 0 : Math.max(20, (screenH - 540) / 2),
+              x: Math.max(20, (screenW - 780) / 2),
+              y: Math.max(20, (screenH - 540) / 2),
             },
           },
         };
@@ -249,6 +289,20 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
       window.history.pushState(null, "", url);
     }
   }, []);
+
+  // If user resizes below supported desktop breakpoint while in Windows Mode, exit safely
+  useEffect(() => {
+    if (!isWindowsMode) return;
+
+    const handleResize = () => {
+      if (!isDesktopSupported()) {
+        exitWindowsMode();
+      }
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isWindowsMode, exitWindowsMode]);
 
   const bringToFront = useCallback((id: AppId) => {
     setTopZIndex((current) => {
@@ -424,6 +478,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     env,
     errors,
     bluescreen,
+    isDesktopRequiredModalOpen,
+    openDesktopRequiredModal,
+    closeDesktopRequiredModal,
     enterWindowsMode,
     exitWindowsMode,
     openApp,
@@ -453,6 +510,9 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
     env,
     errors,
     bluescreen,
+    isDesktopRequiredModalOpen,
+    openDesktopRequiredModal,
+    closeDesktopRequiredModal,
     enterWindowsMode,
     exitWindowsMode,
     openApp,
