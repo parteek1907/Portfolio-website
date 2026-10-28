@@ -121,7 +121,6 @@
 	appearance: none;
 	outline: none;
 	cursor: pointer;
-	transition: background 0.1s ease;
 }
 
 .rangeInput::-webkit-slider-thumb {

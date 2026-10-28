@@ -263,18 +263,18 @@ export default function WindowsDesktop() {
         />
       )}
 
-      {/* Windows 11 Night Light Warm Filter */}
-      {isNightLight && (
-        <div
-          className="fixed inset-0 pointer-events-none z-[999990] transition-opacity duration-300"
-          style={{
-            backgroundColor: "rgba(255, 145, 20, 0.12)",
-            backdropFilter: "sepia(28%) saturate(110%)",
-            WebkitBackdropFilter: "sepia(28%) saturate(110%)",
-          }}
-          aria-hidden="true"
-        />
-      )}
+      {/* Windows 11 Authentic Night Light (Correlated Color Temperature Shift ~4600K) */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[999990]"
+        style={{
+          backgroundColor: "#FFEAC8",
+          mixBlendMode: "multiply",
+          opacity: isNightLight ? 1 : 0,
+          visibility: isNightLight ? "visible" : "hidden",
+          transition: "opacity 0.4s ease, visibility 0.4s ease",
+        }}
+        aria-hidden="true"
+      />
 
       {/* Real-time Network Offline Toast */}
       {!env.network.isOnline && (

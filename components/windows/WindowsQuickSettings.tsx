@@ -49,6 +49,20 @@ function BatteryFooterIcon({ size = 18 }: { size?: number }) {
   );
 }
 
+function getSliderBackground(
+  value: number,
+  min: number,
+  max: number,
+  accentColor: string,
+  trackBg: string
+): string {
+  const percent = Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
+  // Exact center offset for 16px thumb: calc(p% + (8 - 16 * p / 100)px)
+  // Stops accent fill exactly underneath the thumb circle so it never bleeds past the dot
+  const offset = 8 - (16 * percent) / 100;
+  return `linear-gradient(to right, ${accentColor} 0%, ${accentColor} calc(${percent}% + ${offset}px), ${trackBg} calc(${percent}% + ${offset}px), ${trackBg} 100%)`;
+}
+
 export default function WindowsQuickSettings({
   isOpen,
   onClose,
@@ -238,13 +252,13 @@ export default function WindowsQuickSettings({
               </button>
               <input
                 type="range"
-                min="10"
+                min="0"
                 max="100"
                 value={brightness}
                 onChange={(e) => setBrightness(Number(e.target.value))}
                 className={styles.rangeInput}
                 style={{
-                  background: `linear-gradient(to right, ${accentColor} ${brightness}%, ${trackBg} ${brightness}%)`,
+                  background: getSliderBackground(brightness, 0, 100, accentColor, trackBg),
                 }}
                 aria-label="Screen brightness slider"
               />
@@ -272,9 +286,13 @@ export default function WindowsQuickSettings({
                 onChange={(e) => env.setAudioVolume(Number(e.target.value))}
                 className={styles.rangeInput}
                 style={{
-                  background: `linear-gradient(to right, ${accentColor} ${
-                    env.isMuted ? 0 : env.audioVolume
-                  }%, ${trackBg} ${env.isMuted ? 0 : env.audioVolume}%)`,
+                  background: getSliderBackground(
+                    env.isMuted ? 0 : env.audioVolume,
+                    0,
+                    100,
+                    accentColor,
+                    trackBg
+                  ),
                 }}
                 aria-label="Audio volume slider"
               />

@@ -305,7 +305,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
       const savedBrightness = localStorage.getItem("parteek_os_brightness");
       if (savedBrightness) {
         const parsed = parseInt(savedBrightness, 10);
-        if (!isNaN(parsed) && parsed >= 10 && parsed <= 100) {
+        if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) {
           setBrightnessState(parsed);
           prevBrightnessRef.current = parsed;
         }
@@ -341,7 +341,7 @@ export function WindowsProvider({ children }: { children: React.ReactNode }) {
   const setBrightness = useCallback((action: React.SetStateAction<number>) => {
     setBrightnessState((prev) => {
       const next = typeof action === "function" ? action(prev) : action;
-      const clamped = Math.max(10, Math.min(100, Math.round(next)));
+      const clamped = Math.max(0, Math.min(100, Math.round(next)));
       try {
         localStorage.setItem("parteek_os_brightness", String(clamped));
       } catch {}
