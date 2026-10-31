@@ -455,6 +455,13 @@ export const featuredProjects: FeaturedProject[] = [
                 linkedinUrl: "https://www.linkedin.com/in/darsh-ohri/"
             },
             {
+                name: "Dhruv Goyal",
+                role: "Technical Research",
+                githubUsername: "dhruuvv-git",
+                githubUrl: "https://github.com/dhruuvv-git",
+                linkedinUrl: "https://www.linkedin.com/in/dhruv-goyal-40191b357/"
+            },
+            {
                 name: "Jasmine Rai",
                 role: "Team Lead · Product Presentation",
                 githubUsername: "jasmineraiiii",
